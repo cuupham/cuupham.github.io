@@ -1,24 +1,30 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>My Web Novel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penacony</title>
+    <link rel="icon" type="image/x-icon" href="image/user_secret_icon_198633.ico">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <nav>
-        <a href="../index.html">Home</a>
-        <a href="../game.html">Game</a>
+        <a href="./index.html">Home</a>
+        <a href="./unimplemented.html" target="_blank">Categories</a>
     </nav>
-    <h1>Fantasy</h1>
-    
-    <audio controls loop>
-        <source src="./media/Chàng Trai Bất Tử _ SiNo ft. An Vũ (prod. by MKM)_ SiNo studio MV.mp3" type="audio/mpeg">
+    <h1>Inner Peace</h1>
+
+    <audio id="audioPlayer" controls loop volume="0.6">
+        <source src="media/Time machine - mj apanay.mp3" type="audio/mpeg">
     </audio>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.volume = 0.6; // 80% volume
+        });
+    </script>
 </body>
 
 </html>
