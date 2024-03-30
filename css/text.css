@@ -1,0 +1,21 @@
+.gradient-text {
+    -webkit-text-stroke: 1px #000;
+    /* Tạo viền mỏng ở mỗi chữ cái */
+    color: transparent;
+    /* Đặt màu chữ thành transparent để ẩn văn bản ban đầu */
+    background: linear-gradient(to right, #ff00cc, #3333cc);
+    /* Gradient background */
+    -webkit-background-clip: text;
+    /* Áp dụng gradient cho văn bản */
+    background-clip: text;
+    /* Áp dụng gradient cho văn bản */
+}
+
+#title {
+    text-align: center;
+    /* Canh giữa nội dung theo chiều ngang */
+    display: flex;
+    /* Sử dụng flexbox để căn giữa theo cả hai chiều */
+    justify-content: center;
+    /* Canh giữa theo chiều ngang */
+} 

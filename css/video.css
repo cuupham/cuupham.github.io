@@ -1,0 +1,9 @@
+.video-container {
+    max-width: 100%;
+    height: auto;
+}
+
+.small-video-container {
+    width: 200px;
+    height: auto;
+}
