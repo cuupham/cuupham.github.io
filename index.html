@@ -2,28 +2,32 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penacony</title>
-    <link rel="icon" type="image/x-icon" href="image/favicon.ico">
-    <link rel="stylesheet" href="style.css">
+    <title>Incognito</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <nav>
-        <a href="/index.html">Home</a>
-        <a href="./error.html" target="_blank">Categories</a>
-    </nav>
     <h1>Inner Peace</h1>
 
-    <audio id="audioPlayer" controls loop volume="0.6">
-        <source src="media/Time machine - mj apanay.mp3" type="audio/mpeg">
-    </audio>
+    <h2>1. Thiên lý ơi - Piano</h2>
+    <video id="video_1" autoplay controls loop width="500" class="video-container small-video">
+        <source src="video/434808936_7249470585108564_8633576147200802455_n.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <h2>2. Screwllum Introduces Himself</h2>
+    <video id="video_2" controls loop width="500" class="video-container">
+        <source src="video/Screwllum Introduces Himself in Honkai Star Rail (JP VA)-(720p60).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script src="scripts.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var audioPlayer = document.getElementById('audioPlayer');
-            audioPlayer.volume = 0.6; // 80% volume
-        });
+        setVolume('video_1', 0.8); // Thiết lập âm lượng cho video 1
+        setVolume('video_2', 0.8); // Thiết lập âm lượng cho video 2
     </script>
 </body>
 
