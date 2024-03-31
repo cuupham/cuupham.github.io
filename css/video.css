@@ -3,7 +3,18 @@
     height: auto;
 }
 
-.small-video-container {
+.small-video {
     width: 200px;
     height: auto;
+}
+
+
+.rotate-negative-90 {
+    transform-origin: top right;
+    transform: rotate(-90deg);
+
+}
+
+.video-wrapper {
+    margin-left: -198px;
 }
