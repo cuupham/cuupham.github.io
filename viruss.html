@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Key Page</title>
+</head>
+<body>
+    <h1>Enter any keyword you think possible</h1>
+    <form id="secretForm">
+        <label for="secretKey">Keyword:</label>
+        <input type="password" id="secretKey" name="secretKey" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("secretForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            var secretKey = document.getElementById("secretKey").value.trim();
+
+            // Check if the secret key is correct
+            if (secretKey === "your_secret_key_here") {
+                window.location.href = "page1.html"; // Redirect to page1 if key is correct
+            } else {
+                window.location.href = "page2.html"; // Redirect to page2 if key is incorrect
+            }
+        });
+    </script>
+</body>
+</html>
