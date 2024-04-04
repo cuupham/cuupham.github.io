@@ -2,9 +2,17 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+
+    background-image: url('../img/anime-classroom-with-sunlight-31gmpkkcbtnxjeh4.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    backdrop-filter: blur(10px); 
 }
 
+
 nav {
+    z-index: 1;
     background-color: #333;
     overflow: hidden;
 }
@@ -47,8 +55,10 @@ ul li {
 }
 
 video {
-    display: block; /* Hiển thị dưới dạng block để nó không bị nhảy hàng */
-    margin-left: 20px; /* Khoảng cách dưới của video */
+    display: block;
+    /* Hiển thị dưới dạng block để nó không bị nhảy hàng */
+    margin-left: 20px;
+    /* Khoảng cách dưới của video */
 }
 
 iframe {
