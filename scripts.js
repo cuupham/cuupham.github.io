@@ -1,4 +1,5 @@
 
+/* -- Xử lý Volume và Pause Video -- */
 document.addEventListener('DOMContentLoaded', function () {
     setVolume("low-volume", 0.9);
     setVolume("loud-volume", 0.5);
@@ -32,6 +33,9 @@ function pauseOtherVideos(currentVideo) {
 }
 
 
+
+
+/* -- Xử lý chức năng download -- */
 async function checkTikTokUrl(url) {
     try {
         const response = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`, {
@@ -133,7 +137,7 @@ function processTikTok(url) {
         if (inputElement) {
             // Step 4: Lấy giá trị URL từ input trên page download.html của bạn
             const urlToPaste = document.getElementById('url_tiktok').value;
-
+            console.log(url)
             // Step 5: Gán giá trị URL vào input trên trang snaptik.app
             inputElement.value = urlToPaste;
         } else {

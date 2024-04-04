@@ -1,8 +1,57 @@
 body {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1));
-    /* Gradient màu đen từ độ trong suốt 0.8 đến 1 */
-    color: white; /* Màu chữ trắng */
-    font-family: 'Roboto', sans-serif;
-    font-weight: 100;
-    background-attachment: fixed; /* Tạo nền cố định */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+nav li {
+    display: inline;
+}
+
+nav li a {
+    display: inline-block;
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    background-color: #111;
+}
+
+h1 {
+    text-align: left;
+    margin-left: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    margin-bottom: 20px;
+}
+
+video {
+    display: block; /* Hiển thị dưới dạng block để nó không bị nhảy hàng */
+    margin-left: 20px; /* Khoảng cách dưới của video */
+}
+
+iframe {
+    display: block;
+    margin-left: 20px;
 }
