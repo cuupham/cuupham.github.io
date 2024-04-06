@@ -1,62 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tính Năng Chưa Phát Triển</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Under Construction</title>
+<style>
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
 
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
-        h1, h2 {
-            color: #007bff;
-            margin-bottom: 20px;
-        }
+  .construction-text {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 
-        p {
-            line-height: 1.6;
-        }
+  .construction-text::after {
+    content: '_';
+    animation: blink-caret 0.75s infinite;
+  }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-            text-align: left;
-        }
+  @keyframes blink-caret {
+    50% {
+      opacity: 0;
+    }
+  }
 
-        li {
-            margin-bottom: 10px;
-        }
+  .construction-animation {
+    font-size: 18px;
+    animation: blink 1.5s infinite;
+  }
 
-        li::before {
-            content: "\1F6AB"; /* Emoji bình luận */
-            margin-right: 5px;
-        }
-    </style>
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Tính Năng Chưa Phát Triển</h1>
-        <p>💡 Tính năng chưa được phát triển là một phần của dự án chúng tôi mà chưa hoàn thiện đầy đủ. Dưới đây là một số lý do vì sao:</p>
-        <ul>
-            <li>Thiếu tài nguyên: Dự án không có đủ nguồn lực để triển khai tính năng này.</li>
-            <li>Ưu tiên khác: Các tính năng khác được ưu tiên hơn.</li>
-            <li>Phản hồi người dùng: Cần thêm phản hồi hoặc phân tích trước khi triển khai.</li>
-        </ul>
-    </div>
+<div class="container">
+  <h1 class="construction-text">Trang web này đang được xây dựng!</h1>
+  <div class="construction-animation">Loading...</div>
+</div>
 </body>
 </html>

@@ -3,27 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Key Page</title>
+    <title>Secret Page</title>
+    <style>
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        input[type="password"] {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 16px;
+            padding: 10px;
+            border: 2px solid #fff;
+            background-color: #000;
+            color: #fff;
+            outline: none;
+            text-align: center;
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        input[type="submit"] {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: 2px solid #fff;
+            background-color: #000;
+            color: #fff;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #fff;
+            color: #000;
+        }
+        .error {
+            color: red;
+        }
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            25% {
+                transform: translate(-5px, 5px);
+            }
+            50% {
+                transform: translate(5px, -5px);
+            }
+            75% {
+                transform: translate(-5px, 5px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+        .glitch {
+            animation: glitch 0.5s infinite;
+        }
+    </style>
 </head>
 <body>
-    <h1>Enter any keyword you think possible</h1>
-    <form id="secretForm">
-        <label for="secretKey">Keyword:</label>
-        <input type="password" id="secretKey" name="secretKey" required>
-        <button type="submit">Submit</button>
-    </form>
-
+    <div id="container">
+        <form id="secretForm" action="secret.html">
+            <label for="keyword">Enter the secret keyword:</label><br>
+            <input type="password" id="keyword" name="keyword" required><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
     <script>
         document.getElementById("secretForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent form submission
-
-            var secretKey = document.getElementById("secretKey").value.trim();
-
-            // Check if the secret key is correct
-            if (secretKey === "your_secret_key_here") {
-                window.location.href = "page1.html"; // Redirect to page1 if key is correct
+            event.preventDefault();
+            var keyword = document.getElementById("keyword").value;
+            if (keyword === "secret") {
+                window.location.href = "secret.html";
             } else {
-                window.location.href = "page2.html"; // Redirect to page2 if key is incorrect
+                document.getElementById("keyword").classList.add("glitch");
+                setTimeout(function() {
+                    document.getElementById("keyword").classList.remove("glitch");
+                }, 500);
+                document.getElementById("keyword").value = "";
+                document.getElementById("keyword").placeholder = "Incorrect keyword, try again";
             }
         });
     </script>

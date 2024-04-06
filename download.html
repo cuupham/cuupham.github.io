@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trang Download</title>
+<style>
+    body {
+        font-family: 'Press Start 2P', cursive;
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+        color: #fff;
+    }
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #333;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 32px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 20px;
+        padding: 10px;
+        position: relative;
+        transition: all 0.3s ease-in-out;
+    }
+    li:hover {
+        transform: translateY(-5px);
+    }
+    li a {
+        text-decoration: none;
+        color: #fff;
+    }
+    .download-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Danh sách các công cụ</h1>
+    <ul>
+        <li><a href="#">Tool 1</a> <span class="download-icon">[<a href="#">Download</a>]</span></li>
+        <li><a href="#">Tool 2</a> <span class="download-icon">[<a href="#">Download</a>]</span></li>
+        <li><a href="#">Tool 3</a> <span class="download-icon">[<a href="#">Download</a>]</span></li>
+        <li><a href="#">Tool 4</a> <span class="download-icon">[<a href="#">Download</a>]</span></li>
+        <li><a href="#">Tool 5</a> <span class="download-icon">[<a href="#">Download</a>]</span></li>
+    </ul>
+</div>
+</body>
+</html>

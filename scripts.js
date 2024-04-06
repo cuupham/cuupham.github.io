@@ -1,4 +1,3 @@
-
 /* -- Xử lý Volume và Pause Video -- */
 document.addEventListener('DOMContentLoaded', function () {
     const videos = document.querySelectorAll('video');
@@ -30,10 +29,10 @@ function pauseOtherVideos(currentVideo, allVideos) {
     });
 }
 
-/* -- Xử lý Youtube --  */
+/* -- Youtube -- */
 
 
-/* -- Xử lý chức năng download -- */
+/* -- Tiktok -- */
 async function verifyTikTokUrl(url) {
     try {
         const response = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`, {
