@@ -4,127 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIND ME</title>
     <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
-    <title>Find me</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Calibri', sans-serif;
-            background-image: url('../img/pexels-travis-rupert-1032654.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.9);
-            overflow: hidden;
-        }
-
-        .navbar a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 20px;
-            text-decoration: none;
-        }
-
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-        .content {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .video-table {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            grid-gap: 20px;
-        }
-
-        .video-wrapper {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            backdrop-filter: blur(8px);
-        }
-
-        .video {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        .video iframe,
-        .video video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
-
-    <div class="navbar">
-        <a href="/">Home</a>
-        <a target="_blank" href="/download.html">Download</a>
-        <a target="_blank" href="/viruss.html">Secret</a>
-    </div>
-
-    <div class="content">
-        <div class="video-table">
-            <div class="video-wrapper">
-                <div class="video">
-                    <video class="low-volume" autoplay="" controls="" loop="" width="560" height="315">
-                        <source src="/video/piano_thien_ly.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </div>
-            <div class="video-wrapper">
-                <div class="video">
-                    <video class="low-volume" controls="" loop="" width="560" height="315">
-                        <source src="/video/satoru_memory.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </div>
-            <div class="video-wrapper">
-                <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/moLVhElGGiY?si=5HBSgz4F7sjhsrEp&clip=UgkxUpfD7FBMo2z7EnfrnNoTQheuH369bXWZ&clipt=EP7KARjenwU" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-                </div>
-            </div>
-            <div class="video-wrapper">
-                <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/video2" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-                </div>
-            </div>
-            <div class="video-wrapper">
-                <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/video2" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-                </div>
-            </div>
-            
-            <!-- Add more videos as needed -->
+    <div class="video-container">
+        <div class="video-item low-volume">
+            <video width="560" height="315" controls autoplay loop>
+                <source src="/video/piano_thien_ly.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="video-item">
+            <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/moLVhElGGiY?si=5HBSgz4F7sjhsrEp&clip=UgkxUpfD7FBMo2z7EnfrnNoTQheuH369bXWZ&clipt=EP7KARjenwU"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
         </div>
     </div>
 
