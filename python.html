@@ -4,11 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python</title>
+    <title>Python Collection</title>
 </head>
 
 <body>
+    <nav>
+        <button onclick="history.back()">← Back</button>
+        <a href="index.html">HOME</a>
+        <a href="python.html">PYTHON</a>
+        <a href="fsi_project.html">FSI PROJECT</a>
+        <a href="getamped2.html">GETAMPED2</a>
+    </nav>
 
+    <header></header>
+    <main>
+        <div>
+            <h3>Create venv</h3>
+            <pre><code>python -m venv .venv</code></pre>
+
+            <h3>Requirements</h3>
+            <code>pip freeze > requirements.txt</code><br>
+            <code>pip uninstall -r requirements.txt -y</code>
+
+            <h3>Set Policy</h3>
+            <code>Get-ExecutionPolicy -List</code><br>
+            <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+
+            <h3>Activate Venv</h3>
+            <code>.venv/Scripts/activate<br>activate</code>
+
+            <h3>Check Enviroment</h3>
+            <code>py --list</code>
+        </div>
+    </main>
 </body>
 
 </html>
