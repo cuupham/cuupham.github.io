@@ -23,10 +23,20 @@
     <main>
         <div>
             <h1>Win 10</h1>
+
             <h2>Bypass connect network when reinstall windows</h2>
             <code>oobe\bypassnro</code>
+
             <h2>Disable High Precision Event Timer(HPET) increase FPS Game</h2>
             <p>Device Manager -> System -> High Precision Event Timer -> Disable it and restart</p>
+
+            <h2> Disable Perfetch</h2>
+            <p>
+                1. Go to regedit:
+                HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters
+                <br>
+                2. Change key to 0
+            </p>
         </div>
     </main>
 </body>
