@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thu thập lệnh & code Windows — Snippets</title>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+
+  <!-- NAV CỐ ĐỊNH -->
+  <nav class="top-nav">
+    <ul class="nav-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/python">Python</a></li>
+      <li><a href="/windows">Windows</a></li>
+    </ul>
+  </nav>
+
+  <!-- NỘI DUNG CHÍNH -->
+  <main class="wrapper">
+    <header>
+      <div>
+        <h1>Thu thập lệnh & code Windows</h1>
+        <p class="lead">Các snippet nhanh gọn dùng cho Windows, VirtualBox, cài đặt hệ thống.</p>
+      </div>
+    </header>
+
+    <div class="vertical-list" role="list">
+
+      <article class="card" role="listitem">
+        <div class="meta"><h3>Bypass network khi cài Windows</h3><div class="muted">CMD / Script</div></div>
+        <pre><code class="language-bash">oobe\bypassnro</code></pre>
+        <div class="btn-box"><button class="copy">Copy</button></div>
+      </article>
+
+      <article class="card" role="listitem">
+        <div class="meta"><h3>Tăng VRAM cho máy ảo VirtualBox</h3><div class="muted">CMD</div></div>
+        <pre><code class="language-bash">VBoxManage.exe modifyvm &lt;Machine Name&gt; --vram 256</code></pre>
+        <div class="btn-box"><button class="copy">Copy</button></div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- FOOTER LUÔN DƯỚI -->
+  <footer>
+    <div class="footer-line">&copy; 2025 - cuupham</div>
+  </footer>
+
+  <script src="/assets/js/copy.js"></script>
+</body>
+</html>
