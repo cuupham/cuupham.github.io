@@ -8,6 +8,7 @@ body {
 #layout {
   display: flex;
   height: 100vh;
+  flex-direction: row; /* desktop mặc định */
 }
 
 #sidebar {
@@ -15,6 +16,7 @@ body {
   background: #141414;
   padding: 20px;
   border-right: 1px solid #222;
+  box-sizing: border-box;
 }
 
 #sidebar h1 {
@@ -42,6 +44,7 @@ body {
   flex: 1;
   padding: 30px;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .snippet {
@@ -61,4 +64,33 @@ pre {
   padding: 12px;
   border-radius: 6px;
   overflow-x: auto;
+}
+
+/* --- Responsive cho mobile / tablet --- */
+@media (max-width: 768px) {
+  #layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  #sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #222;
+    padding: 15px;
+  }
+
+  #sidebar h1 {
+    font-size: 20px;
+  }
+
+  #sidebar button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  #content {
+    padding: 15px;
+    height: auto;
+  }
 }
