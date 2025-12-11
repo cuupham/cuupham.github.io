@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Bypass network khi cài Win",
+    "content": "Shift+F10 to open CMD, then run:\nOOBE\\BYPASSNRO"
+  },
+  {
+    "title": "Stop service",
+    "content": "sc stop &lt;service&gt;\nsc config &lt;service&gt; start= disabled"
+  }
+]

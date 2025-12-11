@@ -1,51 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Home — Thu thập lệnh & code</title>
-  <link rel="stylesheet" href="/assets/css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snippets Hub</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-  <!-- NAV CỐ ĐỊNH -->
-  <nav class="top-nav">
-    <ul class="nav-list">
-      <li><a href="/">Home</a></li>
-      <li><a href="/python">Python</a></li>
-      <li><a href="/window">Windows</a></li>
-    </ul>
-  </nav>
+  <!-- Redirect nếu người dùng truy cập index.html -->
+  <script>
+    if (location.pathname.endsWith("index.html")) {
+      location.replace(location.pathname.replace("index.html", ""));
+    }
+  </script>
 
-  <!-- NỘI DUNG CHÍNH -->
-  <main class="wrapper">
-    <header>
-      <h1>Welcome to Snippets Hub</h1>
-      <p class="lead">Thu thập các lệnh và đoạn code ngắn gọn, copy nhanh và sử dụng trong terminal hoặc script.</p>
-    </header>
+  <div id="layout">
+    <aside id="sidebar">
+      <h1>Snippets</h1>
+      <nav>
+        <button onclick="loadCategory('python')">Python</button>
+        <button onclick="loadCategory('windows')">Windows</button>
+        <button onclick="loadCategory('git')">Git</button>
+      </nav>
+    </aside>
 
-    <section class="vertical-list">
+    <main id="content">
+      <h2>Welcome</h2>
+      <p>Chọn một mục bên trái để xem.</p>
+    </main>
+  </div>
 
-      <article class="card">
-        <h3>Python Snippets</h3>
-        <p class="muted">Tổng hợp các lệnh, setup môi trường và snippet Python nhanh.</p>
-        <div class="btn-box"><a class="copy" href="/python">Xem chi tiết →</a></div>
-      </article>
-
-      <article class="card">
-        <h3>Windows Snippets</h3>
-        <p class="muted">Các lệnh nhanh cho Windows, VirtualBox và tweak hệ thống.</p>
-        <div class="btn-box"><a class="copy" href="/window/">Xem chi tiết →</a></div>
-      </article>
-
-    </section>
-
-  </main>
-
-  <!-- FOOTER LUÔN DƯỚI -->
-  <footer>
-    <div class="footer-line">&copy; 2025 - cuupham</div>
-  </footer>
-
+  <script src="assets/js/app.js"></script>
 </body>
 </html>

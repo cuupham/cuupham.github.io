@@ -1,0 +1,46 @@
+[
+  {
+    "title": "Get Policy",
+    "content": "Get-ExecutionPolicy -List"
+  },
+  {
+    "title": "Set Policy",
+    "content": "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser"
+  },
+  {
+    "title": "List available Python interpreters",
+    "content": "py --list"
+  },
+  {
+    "title": "Create virtual environment",
+    "content": "python -m venv .venv"
+  },
+  {
+    "title": "Activate virtual environment",
+    "content": ".venv\\Scripts\\activate\n.venv\\Scripts\\activate.bat"
+  },
+  {
+    "title": "Freeze pip",
+    "content": "pip freeze > requirements.txt"
+  },
+  {
+    "title": "Uninstall packages from file",
+    "content": "pip uninstall -r requirements.txt -y"
+  },
+  {
+    "title": "Upgrade pip",
+    "content": "python -m pip install --upgrade pip"
+  },
+  {
+    "title": "Install packages from file",
+    "content": "pip install -r requirements.txt"
+  },
+  {
+    "title": "Install ensurepip",
+    "content": "python -m ensurepip --upgrade"
+  },
+  {
+    "title": "Open server",
+    "content": "python -m http.server 8000\n\nFind your local IP from Ethernet/Wi-Fi (run ipconfig → check IPv4 Address), then access:\nhttp://&lt;your_ip&gt;:8000"
+  }
+]
