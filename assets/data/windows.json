@@ -6,5 +6,9 @@
   {
     "title": "Stop service",
     "content": "sc stop &lt;service&gt;\nsc config &lt;service&gt; start= disabled"
+  },
+  {
+    "title": "Set Win32 Priority Separation",
+    "content": "Optimizes foreground app performance by modifying system process priority behavior.\n\nApply:\nSet-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\PriorityControl\" -Name \"Win32PrioritySeparation\" -Type DWord -Value 36\n\nCheck current value:\nGet-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\PriorityControl\" -Name \"Win32PrioritySeparation\"\n\nUnapply:\nSet-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\PriorityControl\" -Name \"Win32PrioritySeparation\" -Type DWord -Value 2"
   }
 ]
