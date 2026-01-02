@@ -43,18 +43,29 @@ async function loadCategory(category) {
 
     // attach copy handlers
     content.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const codeEl = e.target.previousElementSibling.querySelector('code');
+      btn.addEventListener('click', async (e) => {
+        const snippet = e.target.closest('.snippet');
+        const codeEl = snippet ? snippet.querySelector('pre > code') : null;
         const text = codeEl ? codeEl.innerText : '';
-        if (navigator.clipboard && text) {
-          navigator.clipboard.writeText(text).then(() => {
-            const prev = btn.textContent;
-            btn.textContent = 'Copied';
-            setTimeout(() => btn.textContent = prev || 'Copy', 1500);
-          }).catch(() => {
-            btn.textContent = 'Copy failed';
-            setTimeout(() => btn.textContent = 'Copy', 1500);
-          });
+        if (!text) return;
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+          }
+          const prev = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(() => btn.textContent = prev || 'Copy', 1100);
+        } catch (err) {
+          console.error('Copy failed', err);
+          btn.textContent = 'Copy failed';
+          setTimeout(() => btn.textContent = 'Copy', 1100);
         }
       });
     });
