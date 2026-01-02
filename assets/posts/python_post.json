@@ -1,0 +1,78 @@
+[
+    {
+        "title": "Get Policy Details",
+        "command": "Get-ExecutionPolicy -List",
+        "is_show": true
+    },
+    {
+        "title": "Set Current Policy: RemoteSigned",
+        "command": "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser",
+        "is_show": true
+    },
+    {
+        "title": "List Python Interpreters",
+        "command": "py --list",
+        "is_show": true
+    },
+    {
+        "title": "Create Virtual Environment",
+        "command": "python -m venv .venv",
+        "is_show": true
+    },
+    {
+        "title": "Activate Virtual Environment",
+        "command": ".\\.venv\\Scripts\\activate",
+        "is_show": true
+    },
+    {
+        "title": "Set PIP to Require Virtual Environment",
+        "command": "setx PIP_REQUIRE_VIRTUALENV true",
+        "is_show": true
+    },
+    {
+        "title": "Install Package",
+        "command": "pip install <package_name>",
+        "is_show": true
+    },
+    {
+        "title": "Freeze Requirements",
+        "command": "pip freeze > requirements.txt",
+        "is_show": true
+    },
+    {
+        "title": "Install from Requirements",
+        "command": "pip install -r requirements.txt",
+        "is_show": true
+    },
+    {
+        "title": "List Installed Packages",
+        "command": "pip list",
+        "is_show": true
+    },
+    {
+        "title": "Uninstall from Requirements",
+        "command": "pip uninstall -r requirements.txt", 
+        "is_show": true
+    },
+    {
+        "title": "Uninstall Package",
+        "command": "pip uninstall <package_name>",
+        "is_show": true
+    },
+    {
+        "title": "Show Package Info",
+        "command": "pip show <package_name>",
+        "is_show": true
+    },
+    {
+        "title": "Upgrade Package",
+        "command": "pip install --upgrade <package_name>",
+        "is_show": true
+    },
+    {
+        "title": "Open Server",
+        "command": "python -m http.server 8000",
+        "details": "Open browser and type: 'your_ip':8000<br>Example: 127.1.1.22:8000",
+        "is_show": true
+    }
+]

@@ -1,0 +1,87 @@
+[
+    {
+        "title": "Set username",
+        "command": "git config --global user.name \"Your Name\" ",
+        "is_show": true
+    },
+    {
+        "title": "Set email",
+        "command": "git config --global user.email \"Your email\" ",
+        "is_show": true
+    },
+    {
+        "title": "Initialize Git Repository",
+        "command": "git init",
+        "is_show": true
+    },
+    {
+        "title": "Clone Repository",
+        "command": "git clone <repository_url>",
+        "is_show": true
+    },
+    {
+        "title": "Check Repository Status",
+        "command": "git status",
+        "is_show": true
+    },
+    {
+        "title": "Stage Changes",
+        "command": "git add <file_name> or git add .",
+        "is_show": true
+    },
+    {
+        "title": "Commit Changes",
+        "command": "git commit -m \"commit message\"",
+        "is_show": true
+    },
+    {
+        "title": "Push Changes",
+        "command": "git push origin <branch_name>",
+        "is_show": true
+    },
+    {
+        "title": "Pull Changes",
+        "command": "git pull origin <branch_name>",
+        "is_show": true
+    },
+    {
+        "title": "Create New Branch",
+        "command": "git checkout -b <branch_name>",
+        "is_show": true
+    },
+    {
+        "title": "Switch Branch",
+        "command": "git checkout <branch_name>",
+        "is_show": true
+    },
+    {
+        "title": "Merge Branch",
+        "command": "git merge <branch_name>",
+        "is_show": true
+    },
+    {
+        "title": "View Commit History",
+        "command": "git log",
+        "is_show": true
+    },
+    {
+        "title": "View Remote Repositories",
+        "command": "git remote -v",
+        "is_show": true
+    },
+    {
+        "title": "Add Remote Repository",
+        "command": "git remote add origin <repository_url>",
+        "is_show": true
+    },
+    {
+        "title": "Remove Remote Repository",
+        "command": "git remote remove origin",
+        "is_show": true
+    },
+    {
+        "title": "Delete Branch",
+        "command": "git branch -d <branch_name>",
+        "is_show": true
+    }
+]

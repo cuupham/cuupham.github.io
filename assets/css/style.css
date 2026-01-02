@@ -66,6 +66,26 @@ pre {
   overflow-x: auto;
 }
 
+.details {
+  margin-top: 8px;
+  color: #bdbdbd;
+  font-size: 0.95rem;
+}
+
+.copy-btn {
+  margin-top: 10px;
+  padding: 6px 10px;
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  background: #3a3a3a;
+}
+
 /* --- Responsive cho mobile / tablet --- */
 @media (max-width: 768px) {
   #layout {
