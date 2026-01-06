@@ -1,0 +1,12 @@
+[
+    {
+        "title": "Get Policy Details",
+        "command": "Get-ExecutionPolicy -List",
+        "is_show": true
+    },
+    {
+        "title": "Set Current Policy: RemoteSigned",
+        "command": "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser",
+        "is_show": true
+    }
+]

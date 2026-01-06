@@ -5,12 +5,12 @@
         "is_show": true
     },
     {
-        "title": "[Services] Disabe Service",
+        "title": "[Services] Disable Service",
         "command": "sc config <service_name> start= disabled",
         "is_show": true
     },
     {
-        "title": "[Virtual Oracle] Upsize VRAM",
+        "title": "[VirtualBox] Upsize VRAM",
         "command": "VBoxManage modifyvm <vm_name> --vram 256",
         "is_show": true
     }
