@@ -112,12 +112,13 @@ function renderCategoryButtons(nav) {
     const btn = document.createElement('button');
     const count = getSnippetCount(cat.id);
     const icon = cat.icon || '📄';
+    const shortcutNum = index + 1;
 
     btn.innerHTML = `
       <span class="cat-icon">${icon}</span>
       <span class="cat-label">${escapeHtml(cat.label)}</span>
       <span class="cat-count">${count}</span>
-      <span class="cat-shortcut">${index + 1}</span>
+      ${shortcutNum <= 9 ? `<span class="cat-shortcut">${shortcutNum}</span>` : ''}
     `;
     btn.dataset.categoryId = cat.id;
     btn.setAttribute('aria-label', `View ${cat.label} snippets, ${count} items`);
