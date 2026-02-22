@@ -9,32 +9,49 @@
   <meta name="keywords" content="guides, commands, developer tools">
   <meta name="author" content="cuupham">
   <meta name="theme-color" content="#0f0f0f">
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
-  <!-- title + #site-title: fallback; JS cập nhật từ CONFIG.SITE_TITLE trong app.js -->
-  <title>Guides</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <title>Arcane Lab</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
 
-  <!-- Redirect nếu người dùng truy cập index.html -->
   <script>
     if (location.pathname.endsWith("index.html")) {
       location.replace(location.pathname.replace("index.html", ""));
     }
   </script>
 
+  <main id="landing">
+    <div class="landing-inner">
+      <div class="logo">
+        <div class="logo-wrap">
+          <img id="landing-logo-img" src="" alt="" width="64" height="64">
+        </div>
+        <span id="landing-site-name"></span>
+      </div>
+      <p class="slogan" id="landing-slogan"></p>
+      <div class="landing-actions">
+        <a href="?section=guides" class="landing-card" id="landing-guides">📚 Guides</a>
+        <a href="?section=games" class="landing-card" id="landing-games">🎮 Game</a>
+      </div>
+    </div>
+  </main>
+
   <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
 
   <div id="layout">
     <aside id="sidebar">
       <div class="sidebar-header">
-        <h1 id="site-title">📋 Guides</h1>
+        <a href="?" class="sidebar-home" id="sidebar-home-link" title="Về trang chủ">⌂</a>
+        <h1 id="site-title">Arcane Lab</h1>
         <button type="button" id="sidebar-toggle" class="sidebar-toggle" aria-label="Đóng sidebar" aria-expanded="true" title="Đóng sidebar"><span class="sidebar-toggle-icon">×</span></button>
       </div>
       <nav id="category-nav">
-        <!-- Categories will be loaded dynamically -->
+        <!-- Guide categories loaded by JS -->
+      </nav>
+      <nav id="game-nav">
+        <!-- Game list loaded by JS -->
       </nav>
     </aside>
 
@@ -48,6 +65,7 @@
     <p>© 2026 <a href="https://github.com/cuupham" target="_blank">cuupham</a></p>
   </footer>
 
+  <script src="assets/js/config.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 

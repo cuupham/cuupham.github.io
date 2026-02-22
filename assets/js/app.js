@@ -1,19 +1,7 @@
 /**
- * Guides - Main Application
- * Command guides reference (Python, Git, SSH, ...)
+ * Arcane Lab - Main Application
+ * Guides + Games. CONFIG from config.js.
  */
-
-// ============ Constants (single source of truth) ============
-
-const CONFIG = {
-  SITE_TITLE: 'Guides',
-  GUIDES_PATH: 'assets/guides',
-  CODE_BLOCK_CLASS: 'code-block',
-  SKELETON_BLOCK_CLASS: 'skeleton-block',
-  DEFAULT_ICON: '📄',
-  COPY_FEEDBACK_MS: 1500,
-  STORAGE_KEY_SIDEBAR: 'guides-sidebar-closed',
-};
 
 const COPY_BTN_STATE = {
   default: '<span class="copy-icon">📋</span> Copy',
@@ -32,6 +20,7 @@ function getSkeletonHtml() {
 
 const cache = {};
 let categoriesData = null;
+let gamesData = null;
 
 // ============ Utility Functions ============
 
@@ -67,29 +56,73 @@ function getUrlCategory() {
 function setUrlCategory(categoryId) {
   const url = new URL(window.location);
   url.searchParams.set('cat', categoryId);
+  url.searchParams.delete('game');
   window.history.pushState({}, '', url);
 }
 
-// ============ Category Loading ============
-
-/** Cập nhật title, header và meta từ CONFIG + categories (single source of truth). */
-function updatePageTitleAndMeta() {
-  document.title = CONFIG.SITE_TITLE;
-  const siteTitleEl = document.getElementById('site-title');
-  if (siteTitleEl) siteTitleEl.textContent = `📋 ${CONFIG.SITE_TITLE}`;
-
-  if (!categoriesData || categoriesData.length === 0) return;
-
-  const labels = categoriesData.map((c) => c.label).join(', ');
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', `${CONFIG.SITE_TITLE} - Bộ sưu tập: ${labels}`);
-
-  const keywords = ['guides', 'commands', ...categoriesData.map((c) => c.id), 'developer tools'].join(', ');
-  const metaKw = document.querySelector('meta[name="keywords"]');
-  if (metaKw) metaKw.setAttribute('content', keywords);
+function getUrlGame() {
+  return new URLSearchParams(window.location.search).get('game');
 }
 
-async function loadCategories() {
+function setUrlGame(gameId) {
+  const url = new URL(window.location);
+  url.searchParams.set('game', gameId);
+  url.searchParams.delete('cat');
+  window.history.pushState({}, '', url);
+}
+
+// ============ Section (Landing / Guides / Games) ============
+
+function getSection() {
+  const params = new URLSearchParams(window.location.search);
+  const s = params.get('section');
+  return s === 'guides' || s === 'games' ? s : 'landing';
+}
+
+function setSection(section) {
+  const url = new URL(window.location);
+  if (section === 'landing') {
+    url.search = '';
+  } else {
+    url.searchParams.set('section', section);
+  }
+  window.history.pushState({}, '', url);
+}
+
+function applySection(section) {
+  const body = document.body;
+  body.classList.remove('section-landing', 'section-guides', 'section-games');
+  body.classList.add(`section-${section}`);
+
+  const siteTitleEl = document.getElementById('site-title');
+  const landingLogo = document.getElementById('landing-logo-img');
+  const landingName = document.getElementById('landing-site-name');
+  const landingSlogan = document.getElementById('landing-slogan');
+
+  if (section === 'landing') {
+    if (landingLogo) {
+      landingLogo.src = CONFIG.LOGO_SVG_PATH;
+      landingLogo.alt = CONFIG.SITE_NAME;
+    }
+    if (landingName) landingName.textContent = CONFIG.SITE_NAME;
+    if (landingSlogan) landingSlogan.textContent = CONFIG.SITE_SLOGAN;
+    document.title = CONFIG.SITE_NAME;
+    return;
+  }
+
+  if (section === 'guides') {
+    if (siteTitleEl) siteTitleEl.textContent = 'Guides';
+    loadGuidesSection();
+    return;
+  }
+
+  if (section === 'games') {
+    if (siteTitleEl) siteTitleEl.textContent = 'Game';
+    loadGamesSection();
+  }
+}
+
+async function loadGuidesSection() {
   const nav = document.getElementById('category-nav');
   if (!nav) return;
 
@@ -97,23 +130,68 @@ async function loadCategories() {
     const res = await fetch(`${CONFIG.GUIDES_PATH}/categories.json`);
     if (!res.ok) throw new Error('Failed to load categories');
     categoriesData = JSON.parse(await res.text());
-
     renderCategoryButtons(nav);
 
-    // Load from URL or show welcome
     const urlCategory = getUrlCategory();
-    const validCategory = categoriesData.find(c => c.id === urlCategory);
+    const validCategory = categoriesData.find((c) => c.id === urlCategory);
     if (validCategory) {
       loadCategory(urlCategory);
-    } else if (categoriesData.length > 0) {
-      // Don't auto-load, show welcome screen
+    } else {
+      const content = document.getElementById('content');
+      content.innerHTML = '<h2>👋 Guides</h2><p>Chọn một guide từ sidebar.</p>';
     }
+    updatePageTitleAndMeta();
   } catch (error) {
     console.error('Error loading categories:', error);
     nav.innerHTML = '<p class="error-msg">Failed to load categories</p>';
   }
+}
 
-  updatePageTitleAndMeta();
+async function loadGamesSection() {
+  const nav = document.getElementById('game-nav');
+  if (!nav) return;
+
+  try {
+    const res = await fetch(`${CONFIG.GAMES_PATH}/games.json`);
+    if (!res.ok) {
+      gamesData = [];
+    } else {
+      gamesData = JSON.parse(await res.text());
+    }
+    renderGameButtons();
+
+    const urlGame = getUrlGame();
+    const validGame = gamesData?.find((g) => g.id === urlGame);
+    if (validGame) {
+      loadGame(urlGame);
+    } else {
+      const content = document.getElementById('content');
+      content.innerHTML = '<h2>👋 Game</h2><p>Chọn một game từ sidebar.</p>';
+    }
+    document.title = `${CONFIG.SITE_NAME} - Game`;
+  } catch (error) {
+    console.error('Error loading games:', error);
+    nav.innerHTML = '<p class="error-msg">Failed to load games</p>';
+  }
+}
+
+// ============ Category Loading ============
+
+/** Cập nhật title, header và meta từ CONFIG + categories. */
+function updatePageTitleAndMeta() {
+  document.title = `${CONFIG.SITE_NAME} - Guides`;
+  const siteTitleEl = document.getElementById('site-title');
+  if (siteTitleEl) siteTitleEl.textContent = 'Guides';
+
+  if (!categoriesData || categoriesData.length === 0) return;
+
+  const labels = categoriesData.map((c) => c.label).join(', ');
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', `${CONFIG.SITE_NAME} - Bộ sưu tập: ${labels}`);
+
+  const keywords = ['guides', 'commands', ...categoriesData.map((c) => c.id), 'developer tools'].join(', ');
+  const metaKw = document.querySelector('meta[name="keywords"]');
+  if (metaKw) metaKw.setAttribute('content', keywords);
 }
 
 async function fetchGuideData(guideId) {
@@ -158,14 +236,205 @@ function getCategoryIcon(categoryId) {
 
 function updateActiveButton(categoryId) {
   const nav = document.getElementById('category-nav');
-  if (!nav) return;
+  if (nav) {
+    nav.querySelectorAll('button').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.categoryId === categoryId);
+    });
+  }
+  const gameNav = document.getElementById('game-nav');
+  if (gameNav) {
+    gameNav.querySelectorAll('button').forEach((btn) => btn.classList.remove('active'));
+  }
+}
 
-  nav.querySelectorAll('button').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.categoryId === categoryId);
+function renderGameButtons() {
+  const nav = document.getElementById('game-nav');
+  if (!nav || !gamesData?.length) return;
+
+  nav.innerHTML = '';
+  gamesData.forEach((game) => {
+    const btn = document.createElement('button');
+    const icon = game.icon || CONFIG.DEFAULT_ICON;
+    btn.innerHTML = `
+      <span class="cat-icon">${icon}</span>
+      <span class="cat-label">${escapeHtml(game.label)}</span>
+    `;
+    btn.dataset.gameId = game.id;
+    btn.setAttribute('aria-label', `Chơi ${game.label}`);
+    btn.addEventListener('click', () => loadGame(game.id));
+    nav.appendChild(btn);
   });
 }
 
+function updateActiveGameButton(gameId) {
+  const gameNav = document.getElementById('game-nav');
+  if (gameNav) {
+    gameNav.querySelectorAll('button').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.gameId === gameId);
+    });
+  }
+  const catNav = document.getElementById('category-nav');
+  if (catNav) {
+    catNav.querySelectorAll('button').forEach((btn) => btn.classList.remove('active'));
+  }
+}
+
 // ============ Content Loading ============
+
+function loadGame(gameId) {
+  const content = document.getElementById('content');
+  updateActiveGameButton(gameId);
+  setUrlGame(gameId);
+
+  if (gameId === 'caro') {
+    renderGameCaro(content);
+  } else if (gameId === 'rps') {
+    renderGameRPS(content);
+  } else {
+    content.innerHTML = '<p class="error-msg">Game chưa có.</p>';
+  }
+}
+
+function renderGameCaro(container) {
+  const N = CONFIG.CARO_SIZE;
+  const WIN = CONFIG.CARO_WIN_LENGTH;
+  let board = Array(N * N).fill('');
+  let currentPlayer = 'X';
+  let gameOver = false;
+
+  const getGame = () => ({ board, currentPlayer, gameOver });
+  const setGame = (next) => {
+    board = next.board;
+    currentPlayer = next.currentPlayer;
+    gameOver = next.gameOver;
+  };
+
+  function checkWin(r, c, mark) {
+    const at = (rr, cc) => (rr >= 0 && rr < N && cc >= 0 && cc < N ? board[rr * N + cc] : null);
+    const dirs = [
+      [0, 1],
+      [1, 0],
+      [1, 1],
+      [1, -1],
+    ];
+    for (const [dr, dc] of dirs) {
+      let count = 1;
+      for (let t = 1; t < WIN; t++) if (at(r + dr * t, c + dc * t) === mark) count++;
+      for (let t = 1; t < WIN; t++) if (at(r - dr * t, c - dc * t) === mark) count++;
+      if (count >= WIN) return true;
+    }
+    return false;
+  }
+
+  const statusEl = document.createElement('p');
+  statusEl.className = 'game-status';
+  statusEl.textContent = `Lượt: ${currentPlayer}`;
+
+  const boardEl = document.createElement('div');
+  boardEl.className = 'game-caro-board';
+  boardEl.style.gridTemplateColumns = `repeat(${N}, 32px)`;
+
+  for (let i = 0; i < N * N; i++) {
+    const cell = document.createElement('button');
+    cell.type = 'button';
+    cell.className = 'game-caro-cell';
+    cell.dataset.index = String(i);
+    cell.addEventListener('click', () => {
+      const { gameOver: over } = getGame();
+      if (over || board[i]) return;
+      const r = Math.floor(i / N);
+      const c = i % N;
+      board[i] = currentPlayer;
+      cell.textContent = currentPlayer;
+      cell.disabled = true;
+
+      if (checkWin(r, c, currentPlayer)) {
+        setGame({ board, currentPlayer, gameOver: true });
+        statusEl.textContent = `Thắng: ${currentPlayer}`;
+        boardEl.querySelectorAll('.game-caro-cell').forEach((b) => (b.disabled = true));
+        return;
+      }
+      if (board.every(Boolean)) {
+        setGame({ board, currentPlayer, gameOver: true });
+        statusEl.textContent = 'Hòa!';
+        return;
+      }
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      setGame({ board, currentPlayer, gameOver: false });
+      statusEl.textContent = `Lượt: ${currentPlayer}`;
+    });
+    boardEl.appendChild(cell);
+  }
+
+  const resetBtn = document.createElement('button');
+  resetBtn.type = 'button';
+  resetBtn.className = 'game-rps-btn';
+  resetBtn.style.fontSize = '14px';
+  resetBtn.textContent = 'Chơi lại';
+  resetBtn.addEventListener('click', () => loadGame('caro'));
+
+  container.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className = 'game-container';
+  wrap.innerHTML = '<h2>⭕ Caro</h2>';
+  wrap.appendChild(statusEl);
+  wrap.appendChild(boardEl);
+  wrap.appendChild(resetBtn);
+  container.appendChild(wrap);
+}
+
+function renderGameRPS(container) {
+  const choices = [
+    { id: 'rock', label: 'Búa', icon: '✊' },
+    { id: 'paper', label: 'Bao', icon: '✋' },
+    { id: 'scissors', label: 'Kéo', icon: '✌️' },
+  ];
+  const resultText = { win: 'Bạn thắng!', lose: 'Bạn thua!', draw: 'Hòa!' };
+  let score = { win: 0, lose: 0, draw: 0 };
+
+  const resultEl = document.createElement('div');
+  resultEl.className = 'game-rps-result';
+  resultEl.textContent = 'Chọn Búa, Kéo hoặc Bao.';
+
+  const scoreEl = document.createElement('p');
+  scoreEl.className = 'game-rps-score';
+  scoreEl.textContent = 'Thắng: 0 — Thua: 0 — Hòa: 0';
+
+  function play(playerId) {
+    const comp = choices[Math.floor(Math.random() * 3)];
+    const player = choices.find((c) => c.id === playerId);
+    let outcome = 'draw';
+    if (player.id !== comp.id) {
+      const win =
+        (player.id === 'rock' && comp.id === 'scissors') ||
+        (player.id === 'scissors' && comp.id === 'paper') ||
+        (player.id === 'paper' && comp.id === 'rock');
+      outcome = win ? 'win' : 'lose';
+    }
+    score[outcome]++;
+    scoreEl.textContent = `Thắng: ${score.win} — Thua: ${score.lose} — Hòa: ${score.draw}`;
+    resultEl.textContent = `Bạn: ${player.icon} ${player.label} — Máy: ${comp.icon} ${comp.label}. ${resultText[outcome]}`;
+  }
+
+  container.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className = 'game-container';
+  wrap.innerHTML = '<h2>✊ Oẳn tù tì</h2>';
+  const choicesEl = document.createElement('div');
+  choicesEl.className = 'game-rps-choices';
+  choices.forEach((c) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'game-rps-btn';
+    btn.textContent = `${c.icon} ${c.label}`;
+    btn.title = c.label;
+    btn.addEventListener('click', () => play(c.id));
+    choicesEl.appendChild(btn);
+  });
+  wrap.appendChild(choicesEl);
+  wrap.appendChild(resultEl);
+  wrap.appendChild(scoreEl);
+}
 
 async function loadCategory(category) {
   const content = document.getElementById('content');
@@ -286,14 +555,38 @@ function initSidebarToggle() {
 // ============ Initialize ============
 
 document.addEventListener('DOMContentLoaded', () => {
+  const section = getSection();
+  applySection(section);
+
+  const landingGuides = document.getElementById('landing-guides');
+  const landingGames = document.getElementById('landing-games');
+  const homeLink = document.getElementById('sidebar-home-link');
+
+  if (landingGuides) {
+    landingGuides.addEventListener('click', (e) => {
+      e.preventDefault();
+      setSection('guides');
+      applySection('guides');
+    });
+  }
+  if (landingGames) {
+    landingGames.addEventListener('click', (e) => {
+      e.preventDefault();
+      setSection('games');
+      applySection('games');
+    });
+  }
+  if (homeLink) {
+    homeLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      setSection('landing');
+      applySection('landing');
+    });
+  }
+
   initSidebarToggle();
-  loadCategories();
 });
 
-// Handle browser back/forward
 window.addEventListener('popstate', () => {
-  const cat = getUrlCategory();
-  if (cat && categoriesData?.find(c => c.id === cat)) {
-    loadCategory(cat);
-  }
+  applySection(getSection());
 });

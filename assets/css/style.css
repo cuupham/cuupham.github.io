@@ -1,6 +1,36 @@
-/* ============ CSS Variables ============ */
+/* ============ CSS Variables ============
+ * Cách làm: DESIGN TOKENS + DERIVED VALUES
+ * - Token (nguồn gốc): đổi 1 chỗ, áp dụng mọi nơi dùng token đó.
+ * - Derived (dẫn xuất): calc() từ token, không gõ số cố định.
+ * - Component: dùng var(--token), tránh magic number (px cứng).
+ * Áp dụng: sidebar, landing, content, nút, form, UI mới... đều nên
+ * lấy spacing/size từ block "Layout tokens" hoặc token riêng của block.
+ * ======================================== */
 
 :root {
+  /* ---------- Layout tokens (dùng chung toàn site) ----------
+   * Chỉnh các số bên dưới khi cần scale spacing/radius cho cả site. */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.25s ease;
+
+  /* ---------- Site theme (single source): đổi tại đây ---------- */
+  --color-theme-accent: #a78bfa;
+  --color-theme-muted: #7c3aed;
+  --color-theme-glow: rgba(167, 139, 250, 0.25);
+  --theme-glow-bg: radial-gradient(ellipse 80% 50% at 50% 40%, var(--color-theme-glow) 0%, transparent 55%);
+
   /* Base colors */
   --color-bg-primary: #0f0f0f;
   --color-bg-secondary: #141414;
@@ -18,17 +48,22 @@
   --color-border-secondary: #333;
   --color-border-hover: #444;
 
-  /* UI colors */
+  /* UI colors (active/selected dùng theme) */
   --color-button-bg: #1f1f1f;
   --color-button-hover: #292929;
-  --color-button-active-start: #2a5298;
-  --color-button-active-end: #1e3c72;
-  --color-button-active-border: #3a6ab8;
+  --color-button-active-start: var(--color-theme-accent);
+  --color-button-active-end: var(--color-theme-muted);
+  --color-button-active-border: var(--color-theme-accent);
 
   /* Feedback colors */
   --color-success: #28a745;
   --color-success-bg: #1e7e34;
   --color-error: #f66;
+
+  /* Arcane alias (dùng theme; giữ tên cũ để tương thích) */
+  --color-arcane: var(--color-theme-accent);
+  --color-arcane-muted: var(--color-theme-muted);
+  --color-arcane-glow: var(--color-theme-glow);
 
   /* Misc */
   --color-copy-btn-bg: #2a2a2a;
@@ -39,10 +74,23 @@
   --color-border-code: #1a1a1a;
   --color-skeleton-highlight: #252525;
   --sidebar-width: 260px;
+  /* Sidebar đóng: dùng layout tokens (--space-*) + 1 biến width.
+   * Đổi --space-sm / --space-md là padding sidebar đóng đổi theo. */
   --sidebar-collapsed-width: 48px;
-  --sidebar-collapsed-gap: 12px;
+  --sidebar-collapsed-padding-x: var(--space-sm);
+  --sidebar-collapsed-padding-y: var(--space-md);
+  --sidebar-collapsed-gap: var(--space-md);
   --sidebar-collapsed-mobile-height: 64px;
-  --sidebar-transition-duration: 0.25s;
+  --sidebar-transition-duration: var(--transition-slow);
+  /* Derived: content width, icon size (không sửa tay) */
+  --sidebar-collapsed-content-width: calc(var(--sidebar-collapsed-width) - 2 * var(--sidebar-collapsed-padding-x));
+  --sidebar-collapsed-icon-size: min(24px, calc(var(--sidebar-collapsed-content-width) * 0.75));
+
+  /* --- Quy ước mở rộng ---
+   * Thêm UI mới: (1) Dùng --space-*, --radius-*, --transition-* có sẵn.
+   * (2) Nếu cần block riêng (vd. footer, modal): thêm 1–2 primitive token
+   *     (vd. --footer-height), phần còn lại derived từ đó.
+   * (3) Tránh gõ số px/em cố định trong component. */
 }
 
 /* ============ Base Styles ============ */
@@ -59,13 +107,138 @@ body {
   line-height: 1.6;
 }
 
-/* ============ Layout ============ */
+/* ============ Section: Landing vs Layout ============ */
+
+#landing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-3xl) var(--space-xl);
+  background: var(--theme-glow-bg);
+}
 
 #layout {
-  display: flex;
+  display: none;
   min-height: 100vh;
   flex-direction: row;
+  flex: 1;
+  background: var(--theme-glow-bg);
 }
+
+body.section-landing #landing,
+body:not([class*="section-"]) #landing {
+  display: block;
+}
+
+body.section-landing #layout,
+body:not([class*="section-"]) #layout {
+  display: none;
+}
+
+body.section-guides #landing,
+body.section-games #landing {
+  display: none;
+}
+
+body.section-guides #layout,
+body.section-games #layout {
+  display: flex;
+}
+
+/* ============ Landing Page ============ */
+
+.landing-inner {
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.landing-inner .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.landing-inner .logo .logo-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.landing-inner .logo .logo-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  background: var(--color-theme-accent);
+  border-radius: 50%;
+  opacity: 0.08;
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+.landing-inner .logo img {
+  position: relative;
+  display: block;
+  color: var(--color-text-primary);
+}
+
+.landing-inner .logo span {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.02em;
+}
+
+.landing-inner .logo span::first-letter {
+  color: var(--color-theme-accent);
+}
+
+.landing-inner .slogan {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  margin: 0 0 36px 0;
+}
+
+.landing-inner .slogan strong {
+  color: var(--color-theme-accent);
+  font-weight: 600;
+}
+
+.landing-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.landing-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 160px;
+  padding: 22px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  background: var(--color-button-bg);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 14px;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.landing-card:hover {
+  background: var(--color-button-hover);
+  border-color: var(--color-theme-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--color-theme-glow);
+}
+
+/* ============ Layout ============ */
 
 #sidebar {
   position: fixed;
@@ -86,7 +259,7 @@ body {
 
 body.sidebar-closed #sidebar {
   width: var(--sidebar-collapsed-width);
-  padding: 12px 8px;
+  padding: var(--sidebar-collapsed-padding-y) var(--sidebar-collapsed-padding-x);
 }
 
 body.sidebar-closed #sidebar #category-nav .cat-label {
@@ -100,21 +273,40 @@ body.sidebar-closed #sidebar #category-nav {
 
 body.sidebar-closed #sidebar #category-nav button {
   width: 100%;
-  min-height: 40px;
-  padding: 8px;
+  min-height: var(--sidebar-collapsed-content-width);
+  padding: calc(var(--sidebar-collapsed-padding-x) / 2);
   justify-content: center;
   margin-bottom: 0;
 }
 
 body.sidebar-closed #sidebar #category-nav .cat-icon {
   margin: 0;
+  font-size: var(--sidebar-collapsed-icon-size);
+  width: var(--sidebar-collapsed-icon-size);
+  min-width: var(--sidebar-collapsed-icon-size);
+  height: var(--sidebar-collapsed-icon-size);
+  min-height: var(--sidebar-collapsed-icon-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  line-height: 1;
 }
 
 body.sidebar-closed #sidebar #category-nav button:hover {
   transform: none;
 }
 
-body.sidebar-closed #sidebar .sidebar-header h1 {
+body.sidebar-closed #sidebar .sidebar-header h1,
+body.sidebar-closed #sidebar .sidebar-header .sidebar-home {
+  display: none;
+}
+
+body.section-guides #game-nav {
+  display: none;
+}
+
+body.section-games #category-nav {
   display: none;
 }
 
@@ -127,6 +319,20 @@ body.sidebar-closed #sidebar .sidebar-header h1 {
   gap: 12px;
   flex-shrink: 0;
   margin-bottom: 20px;
+}
+
+.sidebar-home {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 18px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-home:hover {
+  background: var(--color-button-hover);
+  color: var(--color-text-primary);
 }
 
 body.sidebar-closed #sidebar .sidebar-header {
@@ -160,8 +366,11 @@ body.sidebar-closed #sidebar .sidebar-header {
 }
 
 body.sidebar-closed #sidebar .sidebar-toggle {
-  width: 40px;
-  height: 40px;
+  width: 100%;
+  max-width: var(--sidebar-collapsed-content-width);
+  aspect-ratio: 1;
+  height: auto;
+  min-height: 0;
   margin: 0;
   border-radius: 8px;
   align-self: flex-start;
@@ -177,7 +386,7 @@ body.sidebar-closed .sidebar-toggle .sidebar-toggle-icon {
 
 body.sidebar-closed .sidebar-toggle::before {
   content: '☰';
-  font-size: 22px;
+  font-size: var(--sidebar-collapsed-icon-size);
 }
 
 .sidebar-backdrop {
@@ -206,9 +415,47 @@ body.sidebar-closed .sidebar-toggle::before {
 }
 
 #category-nav {
-  flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+#game-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+body.sidebar-closed #sidebar #game-nav .cat-label {
+  display: none;
+}
+
+body.sidebar-closed #sidebar #game-nav {
+  margin-top: 6px;
+  gap: 6px;
+}
+
+body.sidebar-closed #sidebar #game-nav button {
+  width: 100%;
+  min-height: var(--sidebar-collapsed-content-width);
+  padding: calc(var(--sidebar-collapsed-padding-x) / 2);
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+body.sidebar-closed #sidebar #game-nav .cat-icon {
+  font-size: var(--sidebar-collapsed-icon-size);
+  width: var(--sidebar-collapsed-icon-size);
+  min-width: var(--sidebar-collapsed-icon-size);
+  height: var(--sidebar-collapsed-icon-size);
+  min-height: var(--sidebar-collapsed-icon-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  line-height: 1;
+}
+
+body.sidebar-closed #sidebar #game-nav button:hover {
+  transform: none;
 }
 
 /* ============ Category Buttons ============ */
@@ -239,15 +486,18 @@ body.sidebar-closed .sidebar-toggle::before {
 }
 
 #category-nav button.active {
-  background: linear-gradient(135deg, var(--color-button-active-start), var(--color-button-active-end));
-  border-color: var(--color-button-active-border);
+  background: linear-gradient(135deg, var(--color-theme-accent), var(--color-theme-muted));
+  border-color: var(--color-theme-accent);
   color: var(--color-text-primary);
 }
 
 .cat-icon {
-  font-size: 18px;
-  width: 24px;
+  font-size: 22px;
+  width: 28px;
+  min-width: 28px;
   text-align: center;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .cat-label {
@@ -268,6 +518,123 @@ body.sidebar-closed .sidebar-toggle::before {
 #category-nav button.active .cat-count {
   background: rgba(255, 255, 255, 0.2);
   color: var(--color-text-primary);
+}
+
+#game-nav button {
+  width: 100%;
+  background: var(--color-button-bg);
+  color: var(--color-text-secondary);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  font-size: 14px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#game-nav button:hover {
+  background: var(--color-button-hover);
+  border-color: var(--color-border-hover);
+  transform: translateX(4px);
+}
+
+#game-nav button.active {
+  background: linear-gradient(135deg, var(--color-theme-accent), var(--color-theme-muted));
+  border-color: var(--color-theme-accent);
+  color: var(--color-text-primary);
+}
+
+/* ============ Game content ============ */
+
+.game-container {
+  max-width: 480px;
+}
+
+.game-container h2 {
+  margin-bottom: 16px;
+}
+
+.game-status {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.game-caro-board {
+  display: grid;
+  gap: 2px;
+  background: var(--color-border-secondary);
+  padding: 2px;
+  border-radius: 8px;
+  width: min-content;
+  margin-bottom: 12px;
+}
+
+.game-caro-cell {
+  width: 32px;
+  height: 32px;
+  background: var(--color-bg-secondary);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.game-caro-cell:hover:not(:disabled) {
+  background: var(--color-button-hover);
+}
+
+.game-caro-cell:disabled {
+  cursor: default;
+}
+
+.game-rps-choices {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.game-rps-btn {
+  padding: 16px 24px;
+  font-size: 32px;
+  border: 2px solid var(--color-border-secondary);
+  border-radius: 12px;
+  background: var(--color-button-bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.game-rps-btn:hover {
+  background: var(--color-button-hover);
+  border-color: var(--color-border-hover);
+  transform: scale(1.05);
+}
+
+.game-rps-result {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.game-rps-score {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--color-muted-secondary);
 }
 
 /* ============ Content Area ============ */
@@ -302,8 +669,8 @@ body.sidebar-closed #content {
 }
 
 .code-block:hover {
-  border-color: var(--color-button-active-border);
-  box-shadow: 0 4px 12px rgba(42, 82, 152, 0.15);
+  border-color: var(--color-theme-accent);
+  box-shadow: 0 4px 12px var(--color-theme-glow);
 }
 
 .code-block h3 {
@@ -451,6 +818,10 @@ footer a:hover {
 /* ============ Responsive ============ */
 
 @media (max-width: 768px) {
+  .landing-actions {
+    flex-direction: column;
+  }
+
   #layout {
     flex-direction: column;
   }
