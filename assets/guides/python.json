@@ -1,0 +1,45 @@
+{
+  "sections": [
+    {
+      "title": "Kiểm tra Python / venv",
+      "blocks": [
+        { "type": "text", "content": "# Liệt kê các bản Python đã cài (Windows: py launcher)" },
+        { "type": "code", "content": "py --list" },
+        { "type": "text", "content": "# Tạo môi trường ảo trong thư mục hiện tại (chạy tại project root)" },
+        { "type": "code", "content": "python -m venv .venv" },
+        { "type": "text", "content": "# Kích hoạt venv — Windows PowerShell (từ thư mục có .venv)" },
+        { "type": "code", "content": ".\\ .venv\\Scripts\\activate" },
+        { "type": "text", "content": "# Bắt buộc dùng venv khi chạy pip (tránh cài nhầm global)" },
+        { "type": "code", "content": "setx PIP_REQUIRE_VIRTUALENV true" }
+      ]
+    },
+    {
+      "title": "Pip — cài đặt / gói",
+      "blocks": [
+        { "type": "text", "content": "# Cài một gói (đổi <package_name>)" },
+        { "type": "code", "content": "pip install <package_name>" },
+        { "type": "text", "content": "# Xuất danh sách gói đang cài ra file (để share môi trường)" },
+        { "type": "code", "content": "pip freeze > requirements.txt" },
+        { "type": "text", "content": "# Cài lại theo requirements.txt (sau khi clone repo)" },
+        { "type": "code", "content": "pip install -r requirements.txt" },
+        { "type": "text", "content": "# Xem tất cả gói đã cài" },
+        { "type": "code", "content": "pip list" },
+        { "type": "text", "content": "# Gỡ theo requirements.txt" },
+        { "type": "code", "content": "pip uninstall -r requirements.txt" },
+        { "type": "text", "content": "# Gỡ một gói" },
+        { "type": "code", "content": "pip uninstall <package_name>" },
+        { "type": "text", "content": "# Xem thông tin gói (đường dẫn, version, dependencies)" },
+        { "type": "code", "content": "pip show <package_name>" },
+        { "type": "text", "content": "# Nâng cấp một gói lên bản mới nhất" },
+        { "type": "code", "content": "pip install --upgrade <package_name>" }
+      ]
+    },
+    {
+      "title": "Chạy server HTTP nhanh",
+      "blocks": [
+        { "type": "text", "content": "# Mở server tại port 8000. Trên trình duyệt gõ: your_ip:8000 (vd: 127.0.0.1:8000)" },
+        { "type": "code", "content": "python -m http.server 8000" }
+      ]
+    }
+  ]
+}

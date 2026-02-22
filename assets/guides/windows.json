@@ -1,0 +1,20 @@
+{
+  "sections": [
+    {
+      "title": "Services (sc)",
+      "blocks": [
+        { "type": "text", "content": "# Dừng service (chạy CMD/PowerShell admin)" },
+        { "type": "code", "content": "sc stop <service_name>" },
+        { "type": "text", "content": "# Tắt auto-start khi khởi động" },
+        { "type": "code", "content": "sc config <service_name> start= disabled" }
+      ]
+    },
+    {
+      "title": "VirtualBox — VRAM",
+      "blocks": [
+        { "type": "text", "content": "# Tăng VRAM cho VM (đổi <vm_name>, 256 MB)" },
+        { "type": "code", "content": "VBoxManage modifyvm <vm_name> --vram 256" }
+      ]
+    }
+  ]
+}

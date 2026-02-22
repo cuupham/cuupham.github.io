@@ -4,14 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Snippets Hub - Bộ sưu tập các command snippets hữu ích cho Python, PowerShell, Git và Windows">
-  <meta name="keywords" content="snippets, commands, python, powershell, git, windows, developer tools">
+  <!-- description + keywords: fallback; JS cập nhật từ CONFIG.SITE_TITLE + assets/guides/categories.json -->
+  <meta name="description" content="Guides - Bộ sưu tập command guides">
+  <meta name="keywords" content="guides, commands, developer tools">
   <meta name="author" content="cuupham">
   <meta name="theme-color" content="#0f0f0f">
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
-  <title>Snippets Hub</title>
+  <!-- title + #site-title: fallback; JS cập nhật từ CONFIG.SITE_TITLE trong app.js -->
+  <title>Guides</title>
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
@@ -24,9 +25,14 @@
     }
   </script>
 
+  <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+
   <div id="layout">
     <aside id="sidebar">
-      <h1>📋 Snippets</h1>
+      <div class="sidebar-header">
+        <h1 id="site-title">📋 Guides</h1>
+        <button type="button" id="sidebar-toggle" class="sidebar-toggle" aria-label="Đóng sidebar" aria-expanded="true" title="Đóng sidebar"><span class="sidebar-toggle-icon">×</span></button>
+      </div>
       <nav id="category-nav">
         <!-- Categories will be loaded dynamically -->
       </nav>
@@ -34,8 +40,7 @@
 
     <main id="content">
       <h2>👋 Welcome!</h2>
-      <p>Chọn một category từ sidebar để xem snippets.</p>
-      <p class="details" id="shortcut-hint"></p>
+      <p>Chọn một guide từ sidebar để xem nội dung.</p>
     </main>
   </div>
 

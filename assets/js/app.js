@@ -1,7 +1,34 @@
 /**
- * Snippets Hub - Main Application
- * A lightweight code snippets manager
+ * Guides - Main Application
+ * Command guides reference (Python, Git, SSH, ...)
  */
+
+// ============ Constants (single source of truth) ============
+
+const CONFIG = {
+  SITE_TITLE: 'Guides',
+  GUIDES_PATH: 'assets/guides',
+  CODE_BLOCK_CLASS: 'code-block',
+  SKELETON_BLOCK_CLASS: 'skeleton-block',
+  DEFAULT_ICON: '📄',
+  COPY_FEEDBACK_MS: 1500,
+  STORAGE_KEY_SIDEBAR: 'guides-sidebar-closed',
+};
+
+const COPY_BTN_STATE = {
+  default: '<span class="copy-icon">📋</span> Copy',
+  copied: '<span class="copy-icon">✅</span> Copied!',
+  failed: '<span class="copy-icon">❌</span> Failed',
+};
+
+function getSkeletonHtml() {
+  return `
+  <div class="skeleton-header"></div>
+  <div class="${CONFIG.SKELETON_BLOCK_CLASS}"></div>
+  <div class="${CONFIG.SKELETON_BLOCK_CLASS}"></div>
+  <div class="${CONFIG.SKELETON_BLOCK_CLASS}"></div>
+`.trim();
+}
 
 const cache = {};
 let categoriesData = null;
@@ -27,18 +54,7 @@ function sanitizeDetails(html) {
 }
 
 async function copyToClipboard(text) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    await navigator.clipboard.writeText(text);
-  } else {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    ta.remove();
-  }
+  await navigator.clipboard.writeText(text);
 }
 
 // ============ URL State Management ============
@@ -56,22 +72,35 @@ function setUrlCategory(categoryId) {
 
 // ============ Category Loading ============
 
+/** Cập nhật title, header và meta từ CONFIG + categories (single source of truth). */
+function updatePageTitleAndMeta() {
+  document.title = CONFIG.SITE_TITLE;
+  const siteTitleEl = document.getElementById('site-title');
+  if (siteTitleEl) siteTitleEl.textContent = `📋 ${CONFIG.SITE_TITLE}`;
+
+  if (!categoriesData || categoriesData.length === 0) return;
+
+  const labels = categoriesData.map((c) => c.label).join(', ');
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', `${CONFIG.SITE_TITLE} - Bộ sưu tập: ${labels}`);
+
+  const keywords = ['guides', 'commands', ...categoriesData.map((c) => c.id), 'developer tools'].join(', ');
+  const metaKw = document.querySelector('meta[name="keywords"]');
+  if (metaKw) metaKw.setAttribute('content', keywords);
+}
+
 async function loadCategories() {
   const nav = document.getElementById('category-nav');
   if (!nav) return;
 
   try {
-    const res = await fetch('assets/posts/categories.json');
+    const res = await fetch(`${CONFIG.GUIDES_PATH}/categories.json`);
     if (!res.ok) throw new Error('Failed to load categories');
     categoriesData = JSON.parse(await res.text());
 
-    // Pre-fetch all category data for counts
-    await Promise.all(categoriesData.map(cat => fetchCategoryData(cat.id)));
-
     renderCategoryButtons(nav);
-    setupKeyboardShortcuts();
 
-    // Load category from URL or first category
+    // Load from URL or show welcome
     const urlCategory = getUrlCategory();
     const validCategory = categoriesData.find(c => c.id === urlCategory);
     if (validCategory) {
@@ -83,45 +112,33 @@ async function loadCategories() {
     console.error('Error loading categories:', error);
     nav.innerHTML = '<p class="error-msg">Failed to load categories</p>';
   }
+
+  updatePageTitleAndMeta();
 }
 
-async function fetchCategoryData(categoryId) {
-  if (cache[categoryId]) return cache[categoryId];
+async function fetchGuideData(guideId) {
+  if (cache[guideId]) return cache[guideId];
 
-  try {
-    const res = await fetch(`assets/posts/${categoryId}_post.json`);
-    if (!res.ok) return [];
-    const data = await res.json();
-    cache[categoryId] = data;
-    return data;
-  } catch {
-    return [];
-  }
-}
-
-function getSnippetCount(categoryId) {
-  const data = cache[categoryId];
-  if (!data) return 0;
-  return data.filter(item => item.is_show !== false).length;
+  const res = await fetch(`${CONFIG.GUIDES_PATH}/${guideId}.json`);
+  if (!res.ok) throw new Error('Failed to load guide');
+  const data = await res.json();
+  cache[guideId] = data;
+  return data;
 }
 
 function renderCategoryButtons(nav) {
   nav.innerHTML = '';
 
-  categoriesData.forEach((cat, index) => {
+  categoriesData.forEach((cat) => {
     const btn = document.createElement('button');
-    const count = getSnippetCount(cat.id);
-    const icon = cat.icon || '📄';
-    const shortcutNum = index + 1;
+    const icon = cat.icon || CONFIG.DEFAULT_ICON;
 
     btn.innerHTML = `
       <span class="cat-icon">${icon}</span>
       <span class="cat-label">${escapeHtml(cat.label)}</span>
-      <span class="cat-count">${count}</span>
-      ${shortcutNum <= 9 ? `<span class="cat-shortcut">${shortcutNum}</span>` : ''}
     `;
     btn.dataset.categoryId = cat.id;
-    btn.setAttribute('aria-label', `View ${cat.label} snippets, ${count} items`);
+    btn.setAttribute('aria-label', `Xem ${cat.label}`);
     btn.addEventListener('click', () => loadCategory(cat.id));
     nav.appendChild(btn);
   });
@@ -134,9 +151,9 @@ function getCategoryLabel(categoryId) {
 }
 
 function getCategoryIcon(categoryId) {
-  if (!categoriesData) return '📄';
+  if (!categoriesData) return CONFIG.DEFAULT_ICON;
   const cat = categoriesData.find(c => c.id === categoryId);
-  return cat?.icon || '📄';
+  return cat?.icon || CONFIG.DEFAULT_ICON;
 }
 
 function updateActiveButton(categoryId) {
@@ -148,120 +165,130 @@ function updateActiveButton(categoryId) {
   });
 }
 
-// ============ Keyboard Shortcuts ============
-
-function setupKeyboardShortcuts() {
-  // Update hint text dynamically
-  updateShortcutHint();
-
-  document.addEventListener('keydown', (e) => {
-    // Ignore if typing in input
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-    // Number keys 1-9 for categories (max 9)
-    const num = parseInt(e.key);
-    const maxShortcuts = Math.min(categoriesData.length, 9);
-    if (num >= 1 && num <= maxShortcuts) {
-      loadCategory(categoriesData[num - 1].id);
-    }
-  });
-}
-
-function updateShortcutHint() {
-  const hint = document.getElementById('shortcut-hint');
-  if (!hint || !categoriesData) return;
-
-  const maxNum = Math.min(categoriesData.length, 9);
-  if (maxNum > 0) {
-    hint.innerHTML = `💡 Mẹo: Nhấn phím <kbd>1</kbd>-<kbd>${maxNum}</kbd> để chuyển nhanh giữa các categories.`;
-  }
-}
-
 // ============ Content Loading ============
 
 async function loadCategory(category) {
   const content = document.getElementById('content');
 
-  // Show loading skeleton
-  content.innerHTML = `
-    <div class="skeleton-header"></div>
-    <div class="skeleton-snippet"></div>
-    <div class="skeleton-snippet"></div>
-    <div class="skeleton-snippet"></div>
-  `;
+  content.innerHTML = getSkeletonHtml();
 
   updateActiveButton(category);
   setUrlCategory(category);
 
   try {
-    const data = await fetchCategoryData(category);
-    renderSnippets(category, data);
+    const data = await fetchGuideData(category);
+    if (!data?.sections) {
+      content.innerHTML = '<p class="error-msg">Error loading guide.</p>';
+      return;
+    }
+    renderGuide(category, data);
     attachCopyHandlers(content);
   } catch (error) {
-    content.innerHTML = '<p class="error-msg">Error loading category.</p>';
+    content.innerHTML = '<p class="error-msg">Error loading guide.</p>';
     console.error(error);
   }
 }
 
-function renderSnippets(category, data) {
+function renderGuide(guideId, data) {
   const content = document.getElementById('content');
-  const label = getCategoryLabel(category);
-  const icon = getCategoryIcon(category);
+  const label = getCategoryLabel(guideId);
+  const icon = getCategoryIcon(guideId);
 
   content.innerHTML = `<h2>${icon} ${escapeHtml(label)}</h2>`;
 
-  const visibleItems = data.filter(item => item.is_show !== false);
-
-  if (visibleItems.length === 0) {
-    content.innerHTML += '<p class="empty-msg">No snippets available.</p>';
+  if (!data.sections || data.sections.length === 0) {
+    content.innerHTML += '<p class="empty-msg">No content available.</p>';
     return;
   }
 
-  visibleItems.forEach(item => {
-    const block = document.createElement('div');
-    block.className = 'snippet';
-    block.innerHTML = `
-      <h3>${escapeHtml(item.title)}</h3>
-      <pre><code>${escapeHtml(item.command)}</code></pre>
-      ${item.details ? `<p class="details">${sanitizeDetails(item.details)}</p>` : ''}
-      <button class="copy-btn" aria-label="Copy command">
-        <span class="copy-icon">📋</span> Copy
-      </button>
-    `;
-    content.appendChild(block);
-  });
-}
+  data.sections.forEach(section => {
+    const sectionTitle = document.createElement('h3');
+    sectionTitle.textContent = section.title;
+    content.appendChild(sectionTitle);
 
-function attachCopyHandlers(container) {
-  container.querySelectorAll('.copy-btn').forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      const snippet = e.target.closest('.snippet');
-      const codeEl = snippet?.querySelector('pre > code');
-      const text = codeEl?.innerText || '';
-      if (!text) return;
-
-      try {
-        await copyToClipboard(text);
-        btn.innerHTML = '<span class="copy-icon">✅</span> Copied!';
-        btn.classList.add('copied');
-        setTimeout(() => {
-          btn.innerHTML = '<span class="copy-icon">📋</span> Copy';
-          btn.classList.remove('copied');
-        }, 1500);
-      } catch (err) {
-        console.error('Copy failed', err);
-        btn.innerHTML = '<span class="copy-icon">❌</span> Failed';
-        setTimeout(() => {
-          btn.innerHTML = '<span class="copy-icon">📋</span> Copy';
-        }, 1500);
+    (section.blocks || []).forEach(block => {
+      if (block.type === 'code') {
+        const div = document.createElement('div');
+        div.className = CONFIG.CODE_BLOCK_CLASS;
+        div.innerHTML = `
+          <pre><code>${escapeHtml(block.content)}</code></pre>
+          <button class="copy-btn" aria-label="Copy command">${COPY_BTN_STATE.default}</button>
+        `;
+        content.appendChild(div);
+      } else {
+        const p = document.createElement('p');
+        p.className = 'guide-comment';
+        p.textContent = block.content || '';
+        content.appendChild(p);
       }
     });
   });
 }
 
+function attachCopyHandlers(container) {
+  const blockClass = CONFIG.CODE_BLOCK_CLASS;
+  container.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const block = e.target.closest(`.${blockClass}`);
+      const codeEl = block?.querySelector('pre > code');
+      const text = codeEl?.innerText || '';
+      if (!text) return;
+
+      try {
+        await copyToClipboard(text);
+        btn.innerHTML = COPY_BTN_STATE.copied;
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = COPY_BTN_STATE.default;
+          btn.classList.remove('copied');
+        }, CONFIG.COPY_FEEDBACK_MS);
+      } catch (err) {
+        console.error('Copy failed', err);
+        btn.innerHTML = COPY_BTN_STATE.failed;
+        setTimeout(() => {
+          btn.innerHTML = COPY_BTN_STATE.default;
+        }, CONFIG.COPY_FEEDBACK_MS);
+      }
+    });
+  });
+}
+
+// ============ Sidebar Toggle ============
+
+function initSidebarToggle() {
+  const toggle = document.getElementById('sidebar-toggle');
+  const body = document.body;
+  if (!toggle || !body) return;
+
+  const closed = localStorage.getItem(CONFIG.STORAGE_KEY_SIDEBAR) === 'true';
+  if (closed) body.classList.add('sidebar-closed');
+
+  function updateA11y() {
+    const isClosed = body.classList.contains('sidebar-closed');
+    toggle.setAttribute('aria-expanded', String(!isClosed));
+    toggle.setAttribute('aria-label', isClosed ? 'Mở sidebar' : 'Đóng sidebar');
+    toggle.title = isClosed ? 'Mở sidebar' : 'Đóng sidebar';
+  }
+  updateA11y();
+
+  function setClosed(closed) {
+    body.classList.toggle('sidebar-closed', closed);
+    localStorage.setItem(CONFIG.STORAGE_KEY_SIDEBAR, String(closed));
+    updateA11y();
+  }
+
+  toggle.addEventListener('click', () => setClosed(!body.classList.contains('sidebar-closed')));
+
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (backdrop) backdrop.addEventListener('click', () => setClosed(true));
+}
+
 // ============ Initialize ============
 
-document.addEventListener('DOMContentLoaded', loadCategories);
+document.addEventListener('DOMContentLoaded', () => {
+  initSidebarToggle();
+  loadCategories();
+});
 
 // Handle browser back/forward
 window.addEventListener('popstate', () => {

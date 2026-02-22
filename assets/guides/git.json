@@ -1,0 +1,67 @@
+{
+  "sections": [
+    {
+      "title": "Cấu hình lần đầu (user / email)",
+      "blocks": [
+        { "type": "text", "content": "# Đặt tên và email cho commit (chạy một lần trên máy)" },
+        { "type": "code", "content": "git config --global user.name \"Your Name\"" },
+        { "type": "code", "content": "git config --global user.email \"Your email\"" }
+      ]
+    },
+    {
+      "title": "Khởi tạo / clone",
+      "blocks": [
+        { "type": "text", "content": "# Tạo repo mới trong thư mục hiện tại" },
+        { "type": "code", "content": "git init" },
+        { "type": "text", "content": "# Clone repo về máy (thay <repository_url> bằng URL SSH hoặc HTTPS)" },
+        { "type": "code", "content": "git clone <repository_url>" }
+      ]
+    },
+    {
+      "title": "Trạng thái / stage / commit",
+      "blocks": [
+        { "type": "text", "content": "# Xem file thay đổi, branch hiện tại" },
+        { "type": "code", "content": "git status" },
+        { "type": "text", "content": "# Thêm file vào staging (một file hoặc tất cả: git add .)" },
+        { "type": "code", "content": "git add <file_name> or git add ." },
+        { "type": "text", "content": "# Commit với message" },
+        { "type": "code", "content": "git commit -m \"commit message\"" }
+      ]
+    },
+    {
+      "title": "Push / Pull",
+      "blocks": [
+        { "type": "text", "content": "# Đẩy commit lên remote (thay <branch_name>, thường là main hoặc master)" },
+        { "type": "code", "content": "git push origin <branch_name>" },
+        { "type": "text", "content": "# Lấy code mới từ remote về" },
+        { "type": "code", "content": "git pull origin <branch_name>" }
+      ]
+    },
+    {
+      "title": "Nhánh (branch)",
+      "blocks": [
+        { "type": "text", "content": "# Tạo và chuyển sang nhánh mới" },
+        { "type": "code", "content": "git checkout -b <branch_name>" },
+        { "type": "text", "content": "# Chuyển sang nhánh có sẵn" },
+        { "type": "code", "content": "git checkout <branch_name>" },
+        { "type": "text", "content": "# Gộp nhánh vào nhánh hiện tại (đứng tại nhánh đích)" },
+        { "type": "code", "content": "git merge <branch_name>" },
+        { "type": "text", "content": "# Xóa nhánh local (đã merge)" },
+        { "type": "code", "content": "git branch -d <branch_name>" }
+      ]
+    },
+    {
+      "title": "Lịch sử / Remote",
+      "blocks": [
+        { "type": "text", "content": "# Xem lịch sử commit" },
+        { "type": "code", "content": "git log" },
+        { "type": "text", "content": "# Xem remote đã cấu hình" },
+        { "type": "code", "content": "git remote -v" },
+        { "type": "text", "content": "# Thêm remote (vd origin trỏ tới GitHub)" },
+        { "type": "code", "content": "git remote add origin <repository_url>" },
+        { "type": "text", "content": "# Xóa remote origin" },
+        { "type": "code", "content": "git remote remove origin" }
+      ]
+    }
+  ]
+}

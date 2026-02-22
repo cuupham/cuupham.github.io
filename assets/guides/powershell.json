@@ -1,0 +1,13 @@
+{
+  "sections": [
+    {
+      "title": "Execution Policy",
+      "blocks": [
+        { "type": "text", "content": "# Xem policy hiện tại (thường cần RemoteSigned để chạy script local)" },
+        { "type": "code", "content": "Get-ExecutionPolicy -List" },
+        { "type": "text", "content": "# Cho phép chạy script (chỉ áp dụng user hiện tại)" },
+        { "type": "code", "content": "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser" }
+      ]
+    }
+  ]
+}
