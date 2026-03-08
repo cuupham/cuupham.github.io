@@ -8,6 +8,8 @@ window.CONFIG = {
   LOGO_SVG_PATH: 'assets/logo.svg',
 
   SITE_TITLE: 'Arcane Lab',
+  LABEL_GUIDES: 'Guides',
+  LABEL_GAMES: 'Game',
   GUIDES_PATH: 'assets/guides',
   GAMES_PATH: 'assets/games',
   CODE_BLOCK_CLASS: 'code-block',

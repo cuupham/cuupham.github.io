@@ -33,14 +33,7 @@ function escapeHtml(str = '') {
     .replace(/'/g, '&#039;');
 }
 
-function sanitizeDetails(html) {
-  if (!html) return '';
-  return html
-    .replace(/<br\s*\/?>/gi, '{{BR}}')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\{\{BR\}\}/g, '<br>');
-}
+
 
 async function copyToClipboard(text) {
   await navigator.clipboard.writeText(text);
@@ -111,13 +104,13 @@ function applySection(section) {
   }
 
   if (section === 'guides') {
-    if (siteTitleEl) siteTitleEl.textContent = 'Guides';
+    if (siteTitleEl) siteTitleEl.textContent = CONFIG.LABEL_GUIDES;
     loadGuidesSection();
     return;
   }
 
   if (section === 'games') {
-    if (siteTitleEl) siteTitleEl.textContent = 'Game';
+    if (siteTitleEl) siteTitleEl.textContent = CONFIG.LABEL_GAMES;
     loadGamesSection();
   }
 }
@@ -130,7 +123,7 @@ async function loadGuidesSection() {
     const res = await fetch(`${CONFIG.GUIDES_PATH}/categories.json`);
     if (!res.ok) throw new Error('Failed to load categories');
     categoriesData = JSON.parse(await res.text());
-    renderCategoryButtons(nav);
+    renderNavButtons('category-nav', categoriesData, 'categoryId', 'Xem', loadCategory);
 
     const urlCategory = getUrlCategory();
     const validCategory = categoriesData.find((c) => c.id === urlCategory);
@@ -138,7 +131,7 @@ async function loadGuidesSection() {
       loadCategory(urlCategory);
     } else {
       const content = document.getElementById('content');
-      content.innerHTML = '<h2>👋 Guides</h2><p>Chọn một guide từ sidebar.</p>';
+      content.innerHTML = `<h2>👋 ${CONFIG.LABEL_GUIDES}</h2><p>Chọn một guide từ sidebar.</p>`;
     }
     updatePageTitleAndMeta();
   } catch (error) {
@@ -158,7 +151,7 @@ async function loadGamesSection() {
     } else {
       gamesData = JSON.parse(await res.text());
     }
-    renderGameButtons();
+    renderNavButtons('game-nav', gamesData, 'gameId', 'Chơi', loadGame);
 
     const urlGame = getUrlGame();
     const validGame = gamesData?.find((g) => g.id === urlGame);
@@ -166,9 +159,9 @@ async function loadGamesSection() {
       loadGame(urlGame);
     } else {
       const content = document.getElementById('content');
-      content.innerHTML = '<h2>👋 Game</h2><p>Chọn một game từ sidebar.</p>';
+      content.innerHTML = `<h2>👋 ${CONFIG.LABEL_GAMES}</h2><p>Chọn một game từ sidebar.</p>`;
     }
-    document.title = `${CONFIG.SITE_NAME} - Game`;
+    document.title = `${CONFIG.SITE_NAME} - ${CONFIG.LABEL_GAMES}`;
   } catch (error) {
     console.error('Error loading games:', error);
     nav.innerHTML = '<p class="error-msg">Failed to load games</p>';
@@ -179,9 +172,9 @@ async function loadGamesSection() {
 
 /** Cập nhật title, header và meta từ CONFIG + categories. */
 function updatePageTitleAndMeta() {
-  document.title = `${CONFIG.SITE_NAME} - Guides`;
+  document.title = `${CONFIG.SITE_NAME} - ${CONFIG.LABEL_GUIDES}`;
   const siteTitleEl = document.getElementById('site-title');
-  if (siteTitleEl) siteTitleEl.textContent = 'Guides';
+  if (siteTitleEl) siteTitleEl.textContent = CONFIG.LABEL_GUIDES;
 
   if (!categoriesData || categoriesData.length === 0) return;
 
@@ -204,20 +197,21 @@ async function fetchGuideData(guideId) {
   return data;
 }
 
-function renderCategoryButtons(nav) {
+function renderNavButtons(navId, data, dataKey, actionLabel, clickHandler) {
+  const nav = document.getElementById(navId);
+  if (!nav || !data?.length) return;
   nav.innerHTML = '';
-
-  categoriesData.forEach((cat) => {
+  data.forEach((item) => {
     const btn = document.createElement('button');
-    const icon = cat.icon || CONFIG.DEFAULT_ICON;
+    const icon = item.icon || CONFIG.DEFAULT_ICON;
 
     btn.innerHTML = `
       <span class="cat-icon">${icon}</span>
-      <span class="cat-label">${escapeHtml(cat.label)}</span>
+      <span class="cat-label">${escapeHtml(item.label)}</span>
     `;
-    btn.dataset.categoryId = cat.id;
-    btn.setAttribute('aria-label', `Xem ${cat.label}`);
-    btn.addEventListener('click', () => loadCategory(cat.id));
+    btn.dataset[dataKey] = item.id;
+    btn.setAttribute('aria-label', `${actionLabel} ${item.label}`);
+    btn.addEventListener('click', () => clickHandler(item.id));
     nav.appendChild(btn);
   });
 }
@@ -234,56 +228,25 @@ function getCategoryIcon(categoryId) {
   return cat?.icon || CONFIG.DEFAULT_ICON;
 }
 
-function updateActiveButton(categoryId) {
-  const nav = document.getElementById('category-nav');
-  if (nav) {
-    nav.querySelectorAll('button').forEach((btn) => {
-      btn.classList.toggle('active', btn.dataset.categoryId === categoryId);
+function updateActiveNavButton(activeNavId, dataKey, activeId) {
+  ['category-nav', 'game-nav'].forEach(navId => {
+    const nav = document.getElementById(navId);
+    if (!nav) return;
+    nav.querySelectorAll('button').forEach(btn => {
+      if (navId === activeNavId) {
+        btn.classList.toggle('active', btn.dataset[dataKey] === activeId);
+      } else {
+        btn.classList.remove('active');
+      }
     });
-  }
-  const gameNav = document.getElementById('game-nav');
-  if (gameNav) {
-    gameNav.querySelectorAll('button').forEach((btn) => btn.classList.remove('active'));
-  }
-}
-
-function renderGameButtons() {
-  const nav = document.getElementById('game-nav');
-  if (!nav || !gamesData?.length) return;
-
-  nav.innerHTML = '';
-  gamesData.forEach((game) => {
-    const btn = document.createElement('button');
-    const icon = game.icon || CONFIG.DEFAULT_ICON;
-    btn.innerHTML = `
-      <span class="cat-icon">${icon}</span>
-      <span class="cat-label">${escapeHtml(game.label)}</span>
-    `;
-    btn.dataset.gameId = game.id;
-    btn.setAttribute('aria-label', `Chơi ${game.label}`);
-    btn.addEventListener('click', () => loadGame(game.id));
-    nav.appendChild(btn);
   });
-}
-
-function updateActiveGameButton(gameId) {
-  const gameNav = document.getElementById('game-nav');
-  if (gameNav) {
-    gameNav.querySelectorAll('button').forEach((btn) => {
-      btn.classList.toggle('active', btn.dataset.gameId === gameId);
-    });
-  }
-  const catNav = document.getElementById('category-nav');
-  if (catNav) {
-    catNav.querySelectorAll('button').forEach((btn) => btn.classList.remove('active'));
-  }
 }
 
 // ============ Content Loading ============
 
 function loadGame(gameId) {
   const content = document.getElementById('content');
-  updateActiveGameButton(gameId);
+  updateActiveNavButton('game-nav', 'gameId', gameId);
   setUrlGame(gameId);
 
   if (gameId === 'caro') {
@@ -441,7 +404,7 @@ async function loadCategory(category) {
 
   content.innerHTML = getSkeletonHtml();
 
-  updateActiveButton(category);
+  updateActiveNavButton('category-nav', 'categoryId', category);
   setUrlCategory(category);
 
   try {
