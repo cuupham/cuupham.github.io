@@ -4,30 +4,40 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Ideas, knowledge, stories, games and things worth exploring.">
-  <meta name="theme-color" content="#0b0b0c">
+  <meta name="theme-color" content="#09090a">
+  <meta property="og:title" content="Ideas worth sharing.">
+  <meta property="og:description" content="Ideas, knowledge, stories, games and things worth exploring.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cuupham.github.io/">
   <link rel="canonical" href="https://cuupham.github.io/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/site.css">
   <title>Ideas worth sharing.</title>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header container">
   <a class="brand" href="/" aria-label="Home">CUU<span>.</span></a>
   <nav aria-label="Primary">
+    <a href="/" aria-current="page">Home</a>
     <a href="/topics/">Topics</a>
     <a href="/articles/">Articles</a>
     <a href="/about.html">About</a>
   </nav>
 </header>
-<main>
-  <section class="hero container">
+<main id="main-content">
+  <section class="hero container" aria-labelledby="hero-title">
     <p class="eyebrow">A space for ideas</p>
-    <h1>Ideas worth<br><em>sharing.</em></h1>
+    <h1 id="hero-title">Ideas worth<br><em>sharing.</em></h1>
     <p class="lead">Knowledge, experiments, stories, games and things worth exploring — collected in one place.</p>
     <a class="pill" href="#topics">Explore topics <span aria-hidden="true">↓</span></a>
   </section>
 
   <section class="section container" id="topics" aria-labelledby="topics-title">
-    <div class="section-head"><p class="eyebrow" id="topics-title">Explore</p><a href="/topics/">View all <span aria-hidden="true">→</span></a></div>
+    <div class="section-head">
+      <p class="eyebrow" id="topics-title">Explore</p>
+      <a href="/topics/">View all <span aria-hidden="true">→</span></a>
+    </div>
     <div class="topic-grid">
       <a class="topic-card" href="/topics/technology/"><span>01</span><div><h2>Technology</h2><p>Software, systems, tools and the ideas behind them.</p></div><b aria-hidden="true">↗</b></a>
       <a class="topic-card" href="/topics/ai/"><span>02</span><div><h2>AI</h2><p>Artificial intelligence, experiments, workflows and practical lessons.</p></div><b aria-hidden="true">↗</b></a>
@@ -40,7 +50,7 @@
   </section>
 
   <section class="section container" aria-labelledby="featured-title">
-    <div class="section-head"><p class="eyebrow" id="featured-title">Featured</p></div>
+    <div class="section-head"><p class="eyebrow" id="featured-title">Featured</p><span class="section-note">Selected reading</span></div>
     <a class="feature-card" href="/articles/welcome/">
       <div><span class="type">Article · Technology</span><h2>Welcome to the archive</h2><p>Why this space exists and how the content is organized.</p></div>
       <time datetime="2026-09-08">Sep 8, 2026</time>
@@ -49,10 +59,12 @@
 
   <section class="section container" aria-labelledby="latest-title">
     <div class="section-head"><p class="eyebrow" id="latest-title">Latest</p><a href="/articles/">All articles <span aria-hidden="true">→</span></a></div>
-    <a class="article-row" href="/articles/welcome/">
-      <div><span class="type">Article · Technology</span><h2>Welcome to the archive</h2><p>Why this space exists and how the content is organized.</p></div>
-      <time datetime="2026-09-08">Sep 8, 2026</time>
-    </a>
+    <div class="article-list">
+      <a class="article-row" href="/articles/welcome/">
+        <div><span class="type">Article · Technology</span><h2>Welcome to the archive</h2><p>Why this space exists and how the content is organized.</p></div>
+        <time datetime="2026-09-08">Sep 8, 2026</time>
+      </a>
+    </div>
   </section>
 </main>
 <footer class="site-footer container"><span>Ideas worth sharing.</span><span>© 2026</span></footer>
