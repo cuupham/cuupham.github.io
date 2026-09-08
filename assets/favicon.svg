@@ -1,8 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">C.U.U</title>
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset=".45" stop-color="#4D8DFF"/>
+      <stop offset=".78" stop-color="#22C7B7"/>
+      <stop offset="1" stop-color="#9BE15D"/>
+    </linearGradient>
+    <filter id="s" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#1E2350" flood-opacity=".2"/>
+    </filter>
+  </defs>
   <rect width="64" height="64" rx="16" fill="#171817"/>
-  <g fill="none" stroke="#8b84ff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M43 13H29C19.6 13 13 19.4 13 28s6.6 15 16 15h14"/>
-    <path d="M23 20v14c0 6 3.5 9 9 9s9-3 9-9V20"/>
-    <path d="M34 20v9c0 6 3.5 9 9 9s9-3 9-9V20"/>
+  <g fill="none" stroke="url(#g)" stroke-linecap="round" stroke-linejoin="round" filter="url(#s)">
+    <path d="M43 13H29C19.6 13 13 19.4 13 28s6.6 15 16 15h14" stroke-width="7"/>
+    <path d="M23 20v14c0 6 3.5 9 9 9s9-3 9-9V20M34 20v9c0 6 3.5 9 9 9s9-3 9-9V20" stroke-width="7"/>
   </g>
 </svg>
