@@ -25,6 +25,13 @@
     --accent: #4d46d8;
     --accent-2: #0b8f9a;
     --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+    --topic-technology: #3b82f6;
+    --topic-ai: #8b5cf6;
+    --topic-programming: #0891b2;
+    --topic-games: #f97316;
+    --topic-manga: #e11d48;
+    --topic-novels: #b7791f;
+    --topic-music: #c026d3;
     --theme-color: var(--bg);
     --shadow-xs: 0 1px 2px rgb(24 25 23 / 5%);
     --shadow-sm: 0 5px 18px rgb(24 25 23 / 7%);
@@ -62,6 +69,13 @@
     --accent: #8b84ff;
     --accent-2: #45d1dc;
     --accent-soft: color-mix(in srgb, var(--accent) 15%, transparent);
+    --topic-technology: #60a5fa;
+    --topic-ai: #a78bfa;
+    --topic-programming: #22d3ee;
+    --topic-games: #fb923c;
+    --topic-manga: #fb7185;
+    --topic-novels: #f0b94f;
+    --topic-music: #e879f9;
     --theme-color: var(--bg);
     --shadow-xs: 0 1px 2px rgb(0 0 0 / 20%);
     --shadow-sm: 0 8px 22px rgb(0 0 0 / 24%);
@@ -85,6 +99,13 @@
       --accent: #8b84ff;
       --accent-2: #45d1dc;
       --accent-soft: color-mix(in srgb, var(--accent) 15%, transparent);
+      --topic-technology: #60a5fa;
+      --topic-ai: #a78bfa;
+      --topic-programming: #22d3ee;
+      --topic-games: #fb923c;
+      --topic-manga: #fb7185;
+      --topic-novels: #f0b94f;
+      --topic-music: #e879f9;
       --theme-color: var(--bg);
       --shadow-xs: 0 1px 2px rgb(0 0 0 / 20%);
       --shadow-sm: 0 8px 22px rgb(0 0 0 / 24%);
@@ -109,7 +130,7 @@
   body::before {
     content: "";
     position: fixed;
-    z-index: -1;
+    z-index: 0;
     inset: 0;
     pointer-events: none;
     opacity: .035;
@@ -161,7 +182,8 @@
 
   .brand { font-family: "Space Grotesk", Inter, sans-serif; font-size: 1.08rem; font-weight: 760; letter-spacing: -.07em; }
   .brand span { color: var(--accent); }
-  main { padding-bottom: 92px; }
+  main { position: relative; z-index: 1; padding-bottom: 92px; }
+  .site-footer { position: relative; z-index: 1; }
   .hero { position: relative; padding: clamp(92px, 12vw, 156px) 0 clamp(86px, 11vw, 138px); isolation: isolate; }
   .section { margin-top: 12px; padding: 58px 0; }
   .section-head { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 20px; }
@@ -230,7 +252,7 @@
   .topic-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--line); container-type: inline-size; box-shadow: var(--shadow-md); }
   .topic-card { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr) 22px; gap: 12px; min-height: 205px; padding: 32px; overflow: hidden; isolation: isolate; background: var(--surface); transition: transform var(--normal) var(--ease), background var(--normal) ease, box-shadow var(--normal) ease; }
   .topic-card::before { content: ""; position: absolute; z-index: -1; width: 240px; aspect-ratio: 1; top: -150px; right: -120px; border-radius: 50%; background: var(--topic-accent, var(--accent)); filter: blur(28px); opacity: .08; transition: opacity var(--normal) ease, transform var(--slow) var(--ease); }
-  .topic-card::after { content: ""; position: absolute; z-index: -1; inset: 0; background: radial-gradient(220px 180px at var(--mouse-x, 100%) var(--mouse-y, 0%), color-mix(in srgb, var(--topic-accent, var(--accent)) 8%, transparent), transparent 70%); opacity: 0; transition: opacity var(--normal) ease; }
+  .topic-card::after { content: ""; position: absolute; z-index: -1; inset: 0; background: radial-gradient(220px 180px at 100% 0%, color-mix(in srgb, var(--topic-accent, var(--accent)) 8%, transparent), transparent 70%); opacity: 0; transition: opacity var(--normal) ease; }
   .topic-card:hover { z-index: 1; background: color-mix(in srgb, var(--surface) 92%, var(--topic-accent, var(--accent))); box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%); }
   .topic-card:hover::before { opacity: .18; transform: scale(1.15); }
   .topic-card:hover::after { opacity: 1; }
@@ -239,13 +261,13 @@
   .topic-card:hover > b { color: var(--topic-accent, var(--accent)); transform: translate(2px, -2px); }
   .topic-card h2 { margin-bottom: 10px; font-size: 1.6rem; }
   .topic-card p { max-width: 36ch; color: var(--muted); font-size: .88rem; line-height: 1.65; }
-  .topic-card:nth-child(1) { --topic-accent: #3b82f6; }
-  .topic-card:nth-child(2) { --topic-accent: #8b5cf6; }
-  .topic-card:nth-child(3) { --topic-accent: #0891b2; }
-  .topic-card:nth-child(4) { --topic-accent: #f97316; }
-  .topic-card:nth-child(5) { --topic-accent: #e11d48; }
-  .topic-card:nth-child(6) { --topic-accent: #d49a25; }
-  .topic-card:nth-child(7) { --topic-accent: #c026d3; }
+  .topic-card:nth-child(1) { --topic-accent: var(--topic-technology); }
+  .topic-card:nth-child(2) { --topic-accent: var(--topic-ai); }
+  .topic-card:nth-child(3) { --topic-accent: var(--topic-programming); }
+  .topic-card:nth-child(4) { --topic-accent: var(--topic-games); }
+  .topic-card:nth-child(5) { --topic-accent: var(--topic-manga); }
+  .topic-card:nth-child(6) { --topic-accent: var(--topic-novels); }
+  .topic-card:nth-child(7) { --topic-accent: var(--topic-music); }
 
   .feature-card { position: relative; display: flex; justify-content: space-between; align-items: end; gap: 28px; overflow: hidden; padding: clamp(30px, 5vw, 54px); border: 1px solid var(--line); border-radius: var(--radius-lg); background: radial-gradient(420px 260px at 100% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 72%), linear-gradient(135deg, var(--surface), var(--bg)); box-shadow: var(--shadow-md); transition: border-color var(--normal) ease, transform var(--normal) var(--ease), box-shadow var(--normal) ease; }
   .feature-card::after { content: ""; position: absolute; width: 180px; aspect-ratio: 1; right: 12%; bottom: -120px; border-radius: 50%; background: var(--accent-2); filter: blur(60px); opacity: .1; pointer-events: none; }
