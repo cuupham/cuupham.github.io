@@ -20,7 +20,24 @@
       novels: 'Novels', novelsDesc: 'Books and stories worth reading and remembering.',
       music: 'Music', musicDesc: 'Albums, artists, discoveries and listening notes.',
       articleTechnology: 'Article · Technology', welcomeTitle: 'Welcome to the archive', welcomeDesc: 'Why this space exists and how the content is organized.',
-      footer: 'Ideas worth sharing.'
+      footer: 'Ideas worth sharing.',
+      allTopics: '← All topics', topic: 'Topic', allTags: '← All tags', tag: 'Tag',
+      noArticles: 'No published articles yet. This topic is ready for the first one.',
+      exploreDesc: 'Browse ideas and stories by subject. The taxonomy is intentionally open-ended, so new subjects can be added without changing the site\'s runtime.',
+      writing: 'Writing', articlesDesc: 'Knowledge, observations, guides and ideas worth keeping.',
+      archiveEyebrow: 'Chronological', archiveDesc: 'A simple timeline of published work, ordered from newest to oldest.',
+      publishedArticles: 'Published articles', september8: 'Sep 8, 2026', september8Long: 'September 8, 2026',
+      aboutEyebrow: 'About this space', aboutTitle: 'A place to share what matters.',
+      aboutDesc: 'This site is built around ideas, knowledge and things worth exploring. It is intentionally open-ended: technology can sit beside games, stories, music and everything else that deserves a thoughtful write-up.',
+      tagMetaDesc: 'Articles about the site, its structure and publishing model.', tagWebsiteDesc: 'Notes about the site and its publishing system.',
+      nothingHere: 'Nothing here.', returnHome: 'Return home →',
+      welcomeIntro: 'This is the first note in the archive.',
+      welcomePara1: 'The site is built around a simple idea: <strong>share useful things</strong>. Topics can grow over time, and each topic can contain articles, guides, reviews, notes and other forms of writing.',
+      durableTitle: 'A small, durable system',
+      durablePara1: 'The site is intentionally static. Every published page is plain HTML with shared CSS, so there is no server, runtime or build pipeline required to read the content.',
+      durablePara2: 'That keeps the publishing model simple: add a page, link it from the relevant topic and article index, and push the files to GitHub Pages.',
+      durablePara3: 'The goal is not to publish everything. It is to keep ideas that are worth returning to.',
+      metadata: 'Article metadata', tagsLabel: 'Tags'
     },
     vi: {
       home: 'Trang chủ', topics: 'Chủ đề', articles: 'Bài viết', archive: 'Lưu trữ', tags: 'Thẻ', about: 'Giới thiệu',
@@ -38,7 +55,24 @@
       novels: 'Tiểu thuyết', novelsDesc: 'Những cuốn sách và câu chuyện đáng đọc và ghi nhớ.',
       music: 'Âm nhạc', musicDesc: 'Album, nghệ sĩ, khám phá mới và ghi chú nghe nhạc.',
       articleTechnology: 'Bài viết · Công nghệ', welcomeTitle: 'Chào mừng đến với kho lưu trữ', welcomeDesc: 'Lý do không gian này tồn tại và cách nội dung được tổ chức.',
-      footer: 'Những điều đáng chia sẻ.'
+      footer: 'Những điều đáng chia sẻ.',
+      allTopics: '← Tất cả chủ đề', topic: 'Chủ đề', allTags: '← Tất cả thẻ', tag: 'Thẻ',
+      noArticles: 'Chưa có bài viết nào được xuất bản. Chủ đề này đã sẵn sàng cho bài viết đầu tiên.',
+      exploreDesc: 'Khám phá ý tưởng và câu chuyện theo chủ đề. Hệ thống phân loại được thiết kế mở để có thể thêm chủ đề mới mà không cần thay đổi phần runtime của website.',
+      writing: 'Bài viết', articlesDesc: 'Kiến thức, quan sát, hướng dẫn và những ý tưởng đáng lưu giữ.',
+      archiveEyebrow: 'Theo thời gian', archiveDesc: 'Dòng thời gian đơn giản của các nội dung đã xuất bản, từ mới nhất đến cũ nhất.',
+      publishedArticles: 'Bài viết đã xuất bản', september8: '08/09/2026', september8Long: '8 tháng 9, 2026',
+      aboutEyebrow: 'Về không gian này', aboutTitle: 'Nơi chia sẻ những điều đáng quan tâm.',
+      aboutDesc: 'Website này xoay quanh ý tưởng, kiến thức và những điều đáng khám phá. Nội dung được giữ mở để công nghệ có thể đứng cạnh trò chơi, câu chuyện, âm nhạc và bất cứ điều gì xứng đáng được viết một cách có chiều sâu.',
+      tagMetaDesc: 'Các bài viết về website, cấu trúc và cách xuất bản nội dung.', tagWebsiteDesc: 'Ghi chú về website và hệ thống xuất bản nội dung.',
+      nothingHere: 'Không có nội dung ở đây.', returnHome: 'Về trang chủ →',
+      welcomeIntro: 'Đây là ghi chú đầu tiên trong kho lưu trữ.',
+      welcomePara1: 'Website được xây dựng quanh một ý tưởng đơn giản: <strong>chia sẻ những điều hữu ích</strong>. Các chủ đề có thể phát triển theo thời gian, và mỗi chủ đề có thể chứa bài viết, hướng dẫn, đánh giá, ghi chú cùng nhiều hình thức nội dung khác.',
+      durableTitle: 'Một hệ thống nhỏ và bền vững',
+      durablePara1: 'Website được xây dựng theo hướng tĩnh. Mỗi trang đã xuất bản là HTML thuần với CSS dùng chung, vì vậy không cần máy chủ, runtime hay quy trình build để đọc nội dung.',
+      durablePara2: 'Điều này giữ cho quy trình xuất bản đơn giản: thêm một trang, liên kết trang đó từ chủ đề và danh sách bài viết phù hợp, rồi đẩy các file lên GitHub Pages.',
+      durablePara3: 'Mục tiêu không phải là xuất bản mọi thứ. Mục tiêu là lưu lại những ý tưởng đáng quay lại.',
+      metadata: 'Thông tin bài viết', tagsLabel: 'Thẻ'
     }
   };
 
@@ -46,12 +80,28 @@
     try { return localStorage.getItem(key) || fallback; } catch { return fallback; }
   };
 
-  const getLanguage = () => supportedLanguages.includes(getStored(STORAGE.lang, 'en')) ? getStored(STORAGE.lang, 'en') : 'en';
-  const getTheme = () => supportedThemes.includes(getStored(STORAGE.theme, 'system')) ? getStored(STORAGE.theme, 'system') : 'system';
+  const getLanguage = () => {
+    const value = getStored(STORAGE.lang, 'en');
+    return supportedLanguages.includes(value) ? value : 'en';
+  };
+
+  const getTheme = () => {
+    const value = getStored(STORAGE.theme, 'system');
+    return supportedThemes.includes(value) ? value : 'system';
+  };
 
   function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme === 'system' ? '' : theme;
+    updateThemeMeta(theme);
+  }
+
+  function updateThemeMeta(theme) {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) return;
+    if (theme === 'dark') meta.content = '#0b0b0c';
+    else if (theme === 'light') meta.content = '#f6f6f3';
+    else meta.content = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#0b0b0c' : '#f6f6f3';
   }
 
   function applyLanguage(lang) {
@@ -65,7 +115,30 @@
       const key = el.dataset.i18nAria;
       if (t[key] !== undefined) el.setAttribute('aria-label', t[key]);
     });
-    document.querySelectorAll('[data-lang-option]').forEach((el) => el.toggleAttribute('aria-current', el.dataset.langOption === lang));
+    document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+      const key = el.dataset.i18nTitle;
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-i18n-content]').forEach((el) => {
+      const key = el.dataset.i18nContent;
+      if (t[key] !== undefined) el.setAttribute('content', t[key]);
+    });
+    document.querySelectorAll('[data-lang-option]').forEach((el) => {
+      el.toggleAttribute('aria-current', el.dataset.langOption === lang);
+    });
+    updateControlLabels(lang);
+  }
+
+  function updateControlLabels(lang) {
+    const t = translations[lang];
+    document.querySelectorAll('[data-theme-option]').forEach((button) => {
+      const key = button.dataset.themeOption;
+      button.setAttribute('aria-label', t[key]);
+      button.title = t[key];
+    });
+    const groups = document.querySelectorAll('.control-group');
+    groups[0]?.setAttribute('aria-label', t.language);
+    groups[1]?.setAttribute('aria-label', t.theme);
   }
 
   function createControls() {
@@ -75,22 +148,29 @@
     const controls = document.createElement('div');
     controls.className = 'site-controls';
     controls.innerHTML = `
-      <div class="control-group" aria-label="Language">
+      <div class="control-group" role="group">
         <button type="button" class="control-button" data-lang-option="en" aria-label="English">EN</button>
         <button type="button" class="control-button" data-lang-option="vi" aria-label="Tiếng Việt">VI</button>
       </div>
-      <div class="control-group theme-group" aria-label="Theme">
-        <button type="button" class="control-button theme-button" data-theme-option="light" title="Light">☼</button>
-        <button type="button" class="control-button theme-button" data-theme-option="system" title="System">◐</button>
-        <button type="button" class="control-button theme-button" data-theme-option="dark" title="Dark">◑</button>
+      <div class="control-group theme-group" role="group">
+        <button type="button" class="control-button theme-button" data-theme-option="light">☼</button>
+        <button type="button" class="control-button theme-button" data-theme-option="system">◐</button>
+        <button type="button" class="control-button theme-button" data-theme-option="dark">◑</button>
       </div>`;
 
     header.appendChild(controls);
     controls.addEventListener('click', (event) => {
       const lang = event.target.closest('[data-lang-option]')?.dataset.langOption;
       const theme = event.target.closest('[data-theme-option]')?.dataset.themeOption;
-      if (lang) { localStorage.setItem(STORAGE.lang, lang); applyLanguage(lang); }
-      if (theme) { localStorage.setItem(STORAGE.theme, theme); applyTheme(theme); updateThemeButtons(theme); }
+      if (lang) {
+        localStorage.setItem(STORAGE.lang, lang);
+        applyLanguage(lang);
+      }
+      if (theme) {
+        localStorage.setItem(STORAGE.theme, theme);
+        applyTheme(theme);
+        updateThemeButtons(theme);
+      }
     });
     updateThemeButtons(getTheme());
   }
@@ -101,11 +181,21 @@
     });
   }
 
+  function initSystemThemeListener() {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const sync = () => {
+      if (getTheme() === 'system') applyTheme('system');
+    };
+    if (typeof media.addEventListener === 'function') media.addEventListener('change', sync);
+    else media.addListener(sync);
+  }
+
   function init() {
     applyTheme(getTheme());
     createControls();
     applyLanguage(getLanguage());
     updateThemeButtons(getTheme());
+    initSystemThemeListener();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
