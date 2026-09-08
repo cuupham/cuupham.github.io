@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { topics } from '../../data/topics';
+
+export function getStaticPaths() { return topics.map((topic) => ({ params: { slug: topic.slug } })); }
+const { slug } = Astro.params;
+const topic = topics.find((item) => item.slug === slug);
+if (!topic) throw new Error('Topic not found');
+const articles = (await getCollection('articles', ({ data }) => !data.draft && data.topic === topic.slug)).sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout title={`${topic.name} — Cuu Pham`} description={topic.description}>
+  <section class="intro"><a class="back" href="/topics">← All topics</a><p class="eyebrow">Topic</p><h1>{topic.name}</h1><p class="muted">{topic.description}</p></section>
+  <section><div class="section-head"><p class="eyebrow">{articles.length} {articles.length === 1 ? 'article' : 'articles'}</p></div><div class="latest">{articles.length ? articles.map((article) => <a class="latest-item" href={`/articles/${article.id}`}><div><span class="type">{article.data.type}</span><h2>{article.data.title}</h2><p>{article.data.description}</p></div><time>{article.data.pubDate.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time></a>) : <p class="empty">No published articles yet. This topic is ready for the first one.</p>}</div></section>
+</BaseLayout>
+<style>.intro{padding:80px 0 55px;max-width:720px}.back{display:inline-block;color:#777;margin-bottom:55px;font-size:.85rem}.intro h1{font-size:clamp(3rem,8vw,6rem);margin:15px 0}.intro .muted{font-size:1.05rem}.section-head{margin-bottom:15px}.latest{border-top:1px solid #222226}.latest-item{display:flex;justify-content:space-between;gap:30px;padding:26px 0;border-bottom:1px solid #222226}.latest-item h2{font-size:1.35rem;margin:8px 0}.latest-item p{color:#777;margin:0;line-height:1.5}.latest-item time{color:#666;font-size:.78rem;white-space:nowrap}.empty{color:#666;padding:40px 0}@media(max-width:650px){.latest-item{display:block}.latest-item time{display:block;margin-top:12px}}</style>
