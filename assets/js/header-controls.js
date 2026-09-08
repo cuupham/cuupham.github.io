@@ -2,7 +2,7 @@
   const THEME_ORDER = Object.freeze(['light', 'dark', 'system']);
   const TYPEAHEAD_TIMEOUT = 700;
   const ICONS = Object.freeze({
-    language: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.4 2.4 3.6 5.4 3.6 9s-1.2 6.6-3.6 9c-2.4 2.4-3.6 5.4-3.6 9s1.2 6.6 3.6 9Z"/></svg>',
+    language: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.4 2.4 3.6 5.4 3.6 9s-1.2 6.6-3.6 9-3.6-5.4-3.6-9S9.6 5.4 12 3Z"/></svg>',
     light: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
     dark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 15.2A8.5 8.5 0 0 1 8.8 3.6a8.5 8.5 0 1 0 11.6 11.6Z"/></svg>',
     system: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 18v3"/></svg>',
@@ -54,7 +54,9 @@
     const next = options[Math.min(options.length - 1, Math.max(0, index))];
     button.setAttribute('aria-activedescendant', next.id);
     options.forEach((option) => {
-      option.classList.toggle('is-active', option === next);
+      const active = option === next;
+      option.classList.toggle('is-active', active);
+      option.setAttribute('aria-selected', String(active));
     });
     next.scrollIntoView({ block: 'nearest' });
   }
@@ -78,7 +80,9 @@
       const selected = item.dataset.value === value;
       if (sourceOption) item.textContent = sourceOption.textContent.trim();
       item.classList.toggle('is-selected', selected);
-      item.setAttribute('aria-selected', String(selected));
+      item.setAttribute('aria-selected', String(control.classList.contains('is-open')
+        ? item.classList.contains('is-active')
+        : selected));
     });
   }
 
@@ -86,11 +90,15 @@
     if (!control) return;
     const button = control.querySelector('.control-trigger');
     const list = control.querySelector('[role="listbox"]');
+    const select = control.querySelector('select[data-control]');
     control.classList.remove('is-open');
     button?.setAttribute('aria-expanded', 'false');
     button?.removeAttribute('aria-activedescendant');
     list?.setAttribute('hidden', '');
-    getOptionElements(control).forEach((option) => option.classList.remove('is-active'));
+    getOptionElements(control).forEach((option) => {
+      option.classList.remove('is-active');
+      option.setAttribute('aria-selected', String(option.dataset.value === select?.value));
+    });
     if (openControl === control) openControl = null;
     if (restoreFocus) button?.focus();
   }
@@ -112,9 +120,8 @@
     list.removeAttribute('hidden');
     openControl = control;
 
-    const options = getOptionElements(control);
-    const selectedIndex = options.findIndex((option) => option.dataset.value === select.value);
-    setActiveOption(control, initialIndex ?? Math.max(0, selectedIndex));
+    const selectedIndex = getSelectedIndex(control);
+    setActiveOption(control, initialIndex ?? selectedIndex);
   }
 
   function chooseOption(control, value, { restoreFocus = true } = {}) {
