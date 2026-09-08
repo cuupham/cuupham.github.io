@@ -34,8 +34,14 @@
     button.querySelector('.control-value').textContent = option.textContent;
     button.setAttribute('aria-label', select.getAttribute('aria-label') || '');
 
+    if (select.dataset.control === 'theme') {
+      button.querySelector('.control-icon').textContent = ICONS[value] || ICONS.system;
+    }
+
     control.querySelectorAll('[role="option"]').forEach((item) => {
+      const sourceOption = Array.from(select.options).find((source) => source.value === item.dataset.value);
       const selected = item.dataset.value === value;
+      if (sourceOption) item.textContent = sourceOption.textContent;
       item.classList.toggle('is-selected', selected);
       item.setAttribute('aria-selected', String(selected));
     });
