@@ -313,10 +313,8 @@
   .article-header h1 { margin: 18px 0 23px; font-size: clamp(2.8rem, 7vw, 5.8rem); text-wrap: balance; }
   .article-header .dek { color: var(--muted); font-size: 1.12rem; line-height: 1.75; text-wrap: pretty; }
   .article-header time { display: block; margin-top: 24px; color: var(--faint); font-size: .76rem; }
-  .article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 22px; }
+  .article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 22px; }
   .article-meta .separator { color: var(--faint); }
-  .article-meta a { color: var(--muted); font-size: .78rem; transition: color var(--fast) ease; }
-  .article-meta a:hover { color: var(--accent); }
   .prose { padding-top: 48px; color: var(--muted); font-size: 1.04rem; line-height: 1.9; }
   .prose > * + * { margin-top: 1.35em; }
   .prose h2, .prose h3 { color: var(--text); }
