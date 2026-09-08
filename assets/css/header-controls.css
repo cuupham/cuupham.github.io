@@ -135,7 +135,7 @@
   white-space: nowrap;
   cursor: pointer;
   outline: none;
-  transition: background var(--fast) ease, color var(--fast) ease, transform var(--fast) ease;
+  transition: background var(--fast) ease, color var(--fast) ease, transform var(--fast) ease, box-shadow var(--fast) ease;
 }
 
 .control-option::before {
@@ -158,6 +158,10 @@
 .control-option.is-selected {
   background: color-mix(in srgb, var(--accent) 10%, var(--surface-2));
   color: var(--text);
+}
+
+.control-option.is-active {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 32%, transparent);
 }
 
 .control-option.is-selected::before {
