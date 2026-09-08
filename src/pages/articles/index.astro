@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+const articles = (await getCollection('articles', ({ data }) => !data.draft)).sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout title="Articles — Cuu Pham">
+  <section class="intro"><p class="eyebrow">Writing</p><h1>Articles</h1><p class="muted">Knowledge, observations, guides and ideas worth keeping.</p></section>
+  <div class="latest">{articles.map((article) => <a class="latest-item" href={`/articles/${article.id}`}><div><span class="type">{article.data.type}</span><h2>{article.data.title}</h2><p>{article.data.description}</p></div><time>{article.data.pubDate.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})}</time></a>)}</div>
+</BaseLayout>
+<style>.intro{padding:90px 0 55px;max-width:650px}.intro h1{font-size:clamp(3.5rem,8vw,6rem);margin:15px 0}.latest{border-top:1px solid #222226}.latest-item{display:flex;justify-content:space-between;gap:30px;padding:26px 0;border-bottom:1px solid #222226}.latest-item h2{font-size:1.35rem;margin:8px 0}.latest-item p{color:#777;margin:0}.latest-item time{color:#666;font-size:.78rem;white-space:nowrap}@media(max-width:650px){.latest-item{display:block}.latest-item time{display:block;margin-top:12px}}</style>
