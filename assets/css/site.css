@@ -249,18 +249,19 @@
   .pill span:last-child { color: var(--accent); transition: transform var(--normal) var(--ease); }
   .pill:hover span:last-child { transform: translateY(3px); }
 
-  .topic-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--line); container-type: inline-size; box-shadow: var(--shadow-md); }
-  .topic-card { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr) 22px; gap: 12px; min-height: 205px; padding: 32px; overflow: hidden; isolation: isolate; background: var(--surface); transition: transform var(--normal) var(--ease), background var(--normal) ease, box-shadow var(--normal) ease; }
-  .topic-card::before { content: ""; position: absolute; z-index: -1; width: 240px; aspect-ratio: 1; top: -150px; right: -120px; border-radius: 50%; background: var(--topic-accent, var(--accent)); filter: blur(28px); opacity: .08; transition: opacity var(--normal) ease, transform var(--slow) var(--ease); }
-  .topic-card::after { content: ""; position: absolute; z-index: -1; inset: 0; background: radial-gradient(220px 180px at 100% 0%, color-mix(in srgb, var(--topic-accent, var(--accent)) 8%, transparent), transparent 70%); opacity: 0; transition: opacity var(--normal) ease; }
-  .topic-card:hover { z-index: 1; background: color-mix(in srgb, var(--surface) 92%, var(--topic-accent, var(--accent))); box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%); }
-  .topic-card:hover::before { opacity: .18; transform: scale(1.15); }
+  .topic-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .topic-card { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr) 28px; gap: 20px; min-height: 164px; padding: clamp(24px, 3vw, 32px); overflow: hidden; isolation: isolate; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); box-shadow: var(--shadow-xs); transition: transform var(--normal) var(--ease), border-color var(--normal) ease, background var(--normal) ease, box-shadow var(--normal) ease; }
+  .topic-card::before { content: ""; position: absolute; z-index: -1; width: 260px; aspect-ratio: 1; top: -170px; right: -120px; border-radius: 50%; background: var(--topic-accent, var(--accent)); filter: blur(30px); opacity: .07; transition: opacity var(--normal) ease, transform var(--slow) var(--ease); }
+  .topic-card::after { content: ""; position: absolute; z-index: -1; inset: 0; background: radial-gradient(260px 190px at 100% 0%, color-mix(in srgb, var(--topic-accent, var(--accent)) 9%, transparent), transparent 72%); opacity: 0; transition: opacity var(--normal) ease; }
+  .topic-card:hover { z-index: 1; transform: translateY(-3px); border-color: color-mix(in srgb, var(--topic-accent, var(--accent)) 38%, var(--line)); background: color-mix(in srgb, var(--surface) 94%, var(--topic-accent, var(--accent))); box-shadow: var(--shadow-md); }
+  .topic-card:hover::before { opacity: .16; transform: scale(1.15); }
   .topic-card:hover::after { opacity: 1; }
-  .topic-card > span { color: var(--topic-accent, var(--faint)); font-size: .68rem; font-weight: 760; }
-  .topic-card > b { align-self: start; color: var(--muted); font-size: 1rem; transition: color var(--fast) ease, transform var(--normal) var(--ease); }
+  .topic-card:focus-visible { border-color: var(--topic-accent, var(--accent)); }
+  .topic-card > span { padding-top: 2px; color: var(--topic-accent, var(--faint)); font-size: .68rem; font-weight: 760; }
+  .topic-card > b { align-self: start; justify-self: end; color: var(--muted); font-size: 1rem; transition: color var(--fast) ease, transform var(--normal) var(--ease); }
   .topic-card:hover > b { color: var(--topic-accent, var(--accent)); transform: translate(2px, -2px); }
-  .topic-card h2 { margin-bottom: 10px; font-size: 1.6rem; }
-  .topic-card p { max-width: 36ch; color: var(--muted); font-size: .88rem; line-height: 1.65; }
+  .topic-card h2 { margin-bottom: 10px; font-size: clamp(1.55rem, 2.4vw, 2rem); }
+  .topic-card p { max-width: 58ch; color: var(--muted); font-size: .92rem; line-height: 1.7; }
   .topic-card:nth-child(1) { --topic-accent: var(--topic-technology); }
   .topic-card:nth-child(2) { --topic-accent: var(--topic-ai); }
   .topic-card:nth-child(3) { --topic-accent: var(--topic-programming); }
@@ -337,13 +338,6 @@
 }
 
 @layer enhancements {
-  @supports (container-type: inline-size) {
-    @container (max-width: 720px) {
-      .topic-card { min-height: 170px; }
-      .topic-card { grid-template-columns: 28px minmax(0, 1fr) 18px; padding: 24px; }
-    }
-  }
-
   @supports (view-transition-name: root) {
     @view-transition { navigation: auto; }
     :root { view-transition-name: root; }
@@ -371,7 +365,6 @@
     .site-header nav::-webkit-scrollbar { display: none; }
     .site-controls { justify-self: end; }
     .hero::after { right: -24%; opacity: .45; }
-    .topic-grid { grid-template-columns: 1fr; }
     .feature-card { align-items: flex-start; flex-direction: column; }
   }
 
@@ -388,7 +381,10 @@
     .section { padding: 44px 0; }
     .section-head { align-items: flex-start; }
     .section-head a { white-space: nowrap; }
-    .topic-card { min-height: 180px; padding: 24px; }
+    .topic-grid { gap: 12px; }
+    .topic-card { grid-template-columns: 32px minmax(0, 1fr) 22px; min-height: 0; padding: 22px; gap: 14px; }
+    .topic-card h2 { font-size: 1.45rem; }
+    .topic-card p { font-size: .88rem; }
     .article-row { align-items: flex-start; flex-direction: column; gap: 12px; }
     .article-row:hover { padding-inline: 0; background: transparent; }
     .article { padding-top: 46px; }
