@@ -14,7 +14,7 @@ This is intentionally a **pure static site**:
 - No build step
 - Hosted directly by GitHub Pages
 
-GitHub Pages can publish static HTML, CSS and JavaScript directly from a repository. This site uses only the HTML/CSS path so the repository itself is the published site.
+GitHub Pages supports publishing static files directly from a repository. This site uses the branch/root publishing model, so the repository itself is the published site.
 
 ## Structure
 
@@ -27,6 +27,11 @@ GitHub Pages can publish static HTML, CSS and JavaScript directly from a reposit
 ├── articles/
 │   ├── index.html
 │   └── <article>/index.html
+├── archive/
+│   └── index.html
+├── tags/
+│   ├── index.html
+│   └── <tag>/index.html
 ├── assets/
 │   ├── css/site.css
 │   └── favicon.svg
@@ -34,6 +39,7 @@ GitHub Pages can publish static HTML, CSS and JavaScript directly from a reposit
 ├── 404.html
 ├── robots.txt
 ├── sitemap.xml
+├── rss.xml
 └── .nojekyll
 ```
 
@@ -42,14 +48,20 @@ GitHub Pages can publish static HTML, CSS and JavaScript directly from a reposit
 1. Create `articles/<slug>/index.html`.
 2. Add the article to `articles/index.html`.
 3. Add it to its relevant topic page.
-4. Add the URL to `sitemap.xml`.
-5. Commit and push to `main`.
+4. Add any tags to `tags/index.html` and create the corresponding tag page.
+5. Add the URL to `sitemap.xml`.
+6. Add the item to `rss.xml`.
+7. Commit and push to `main`.
 
 There is no build command.
 
 ## Adding a new topic
 
 Create `topics/<slug>/index.html`, then add the topic card to `index.html` and `topics/index.html`. The visual system is shared through `assets/css/site.css`, so the topic page only needs semantic HTML.
+
+## Adding a new tag
+
+Create `tags/<slug>/index.html`, add the tag to `tags/index.html`, and link to it from relevant article metadata. Tags are intentionally lightweight cross-topic labels rather than a second taxonomy.
 
 ## Design principles
 
