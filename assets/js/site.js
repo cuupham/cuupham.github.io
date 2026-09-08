@@ -1,7 +1,7 @@
 (() => {
-  const STORAGE = { lang: 'cuu-lang', theme: 'cuu-theme' };
-  const supportedLanguages = ['en', 'vi'];
-  const supportedThemes = ['light', 'dark', 'system'];
+  const STORAGE = Object.freeze({ lang: 'cuu-lang', theme: 'cuu-theme' });
+  const supportedLanguages = Object.freeze(['en', 'vi']);
+  const supportedThemes = Object.freeze(['light', 'dark', 'system']);
 
   const translations = {
     en: {
@@ -82,6 +82,10 @@
     try { return localStorage.getItem(key) || fallback; } catch { return fallback; }
   };
 
+  const setStored = (key, value) => {
+    try { localStorage.setItem(key, value); } catch { /* storage can be unavailable */ }
+  };
+
   const getLanguage = () => {
     const value = getStored(STORAGE.lang, 'en');
     return supportedLanguages.includes(value) ? value : 'en';
@@ -95,22 +99,27 @@
   function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme === 'system' ? '' : theme;
-    updateThemeMeta(theme);
+    updateThemeMeta();
+    updateThemeButtons(theme);
   }
 
-  function updateThemeMeta(theme) {
+  function updateThemeMeta() {
     const meta = document.querySelector('meta[name="theme-color"]');
     if (!meta) return;
-    if (theme === 'dark') meta.content = '#0b0b0c';
-    else if (theme === 'light') meta.content = '#f6f6f3';
-    else meta.content = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#0b0b0c' : '#f6f6f3';
+    const value = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+    if (value) meta.content = value;
   }
 
   function applyLanguage(lang) {
     const t = translations[lang];
     document.documentElement.lang = lang;
+
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+      const key = el.dataset.i18nHtml;
       if (t[key] !== undefined) el.innerHTML = t[key];
     });
     document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
@@ -126,7 +135,7 @@
       if (t[key] !== undefined) el.setAttribute('content', t[key]);
     });
     document.querySelectorAll('[data-lang-option]').forEach((el) => {
-      el.toggleAttribute('aria-current', el.dataset.langOption === lang);
+      el.toggleAttribute('aria-pressed', el.dataset.langOption === lang);
     });
     updateControlLabels(lang);
   }
@@ -138,9 +147,8 @@
       button.setAttribute('aria-label', t[key]);
       button.title = t[key];
     });
-    const groups = document.querySelectorAll('.control-group');
-    groups[0]?.setAttribute('aria-label', t.language);
-    groups[1]?.setAttribute('aria-label', t.theme);
+    document.querySelector('[data-control-group="language"]')?.setAttribute('aria-label', t.language);
+    document.querySelector('[data-control-group="theme"]')?.setAttribute('aria-label', t.theme);
   }
 
   function createControls() {
@@ -150,11 +158,11 @@
     const controls = document.createElement('div');
     controls.className = 'site-controls';
     controls.innerHTML = `
-      <div class="control-group" role="group">
+      <div class="control-group" data-control-group="language" role="group">
         <button type="button" class="control-button" data-lang-option="en" aria-label="English">EN</button>
         <button type="button" class="control-button" data-lang-option="vi" aria-label="Tiếng Việt">VI</button>
       </div>
-      <div class="control-group theme-group" role="group">
+      <div class="control-group theme-group" data-control-group="theme" role="group">
         <button type="button" class="control-button theme-button" data-theme-option="light">☼</button>
         <button type="button" class="control-button theme-button" data-theme-option="system">◐</button>
         <button type="button" class="control-button theme-button" data-theme-option="dark">◑</button>
@@ -164,14 +172,13 @@
     controls.addEventListener('click', (event) => {
       const lang = event.target.closest('[data-lang-option]')?.dataset.langOption;
       const theme = event.target.closest('[data-theme-option]')?.dataset.themeOption;
-      if (lang) {
-        localStorage.setItem(STORAGE.lang, lang);
+      if (lang && supportedLanguages.includes(lang)) {
+        setStored(STORAGE.lang, lang);
         applyLanguage(lang);
       }
-      if (theme) {
-        localStorage.setItem(STORAGE.theme, theme);
+      if (theme && supportedThemes.includes(theme)) {
+        setStored(STORAGE.theme, theme);
         applyTheme(theme);
-        updateThemeButtons(theme);
       }
     });
     updateThemeButtons(getTheme());
@@ -196,7 +203,6 @@
     applyTheme(getTheme());
     createControls();
     applyLanguage(getLanguage());
-    updateThemeButtons(getTheme());
     initSystemThemeListener();
   }
 
