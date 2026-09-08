@@ -1,0 +1,17 @@
+/* C.U.U brand tokens — the single source of truth for brand identity. */
+
+:root {
+  --brand-primary: #4d46d8;
+  --brand-secondary: #0b8f9a;
+  --brand-ink: #171817;
+  --brand-paper: #f5f4ef;
+  --brand-dark: #090a0d;
+  --brand-on-primary: #ffffff;
+  --brand-mark-size: 30px;
+  --brand-gap: 10px;
+  --brand-wordmark-size: 1.08rem;
+  --brand-wordmark-weight: 760;
+  --brand-wordmark-spacing: -0.07em;
+  --brand-descriptor-size: 0.62rem;
+  --brand-descriptor-weight: 620;
+}
