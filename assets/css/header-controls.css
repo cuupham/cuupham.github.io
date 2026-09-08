@@ -2,80 +2,172 @@
   align-items: center;
 }
 
-.site-controls wa-select {
-  display: inline-block;
-  width: auto;
+.custom-select {
+  position: relative;
   min-width: 72px;
-  --wa-form-control-height-small: 30px;
 }
 
-.site-controls wa-select[data-control="theme"] {
+.custom-select[data-control="theme"] {
   min-width: 118px;
 }
 
-.site-controls wa-select::part(combobox) {
-  min-height: 30px;
-  border: 1px solid transparent;
+.custom-select select[hidden] {
+  display: none;
+}
+
+.control-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  min-height: 32px;
+  min-width: 100%;
+  padding: 5px 9px;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
   border-radius: var(--radius-pill);
-  background: transparent;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--surface) 88%, var(--accent) 12%), var(--surface-2));
   color: var(--muted);
-  box-shadow: none;
-  transition: background var(--fast) ease, border-color var(--fast) ease, color var(--fast) ease, box-shadow var(--fast) ease, transform var(--fast) ease;
-}
-
-.site-controls wa-select::part(combobox):hover {
-  border-color: var(--line);
-  background: var(--surface-2);
-  color: var(--text);
-  transform: translateY(-1px);
-}
-
-.site-controls wa-select:focus-within::part(combobox) {
-  border-color: var(--accent);
-  box-shadow: var(--ring);
-}
-
-.site-controls wa-select::part(display-input) {
-  min-width: 0;
-  padding-inline: 4px;
-  color: inherit;
+  box-shadow: 0 5px 16px color-mix(in srgb, var(--shadow) 40%, transparent), inset 0 1px 0 color-mix(in srgb, white 42%, transparent);
   font: inherit;
   font-size: .68rem;
   font-weight: 760;
-  letter-spacing: .02em;
+  letter-spacing: .025em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform var(--fast) ease, border-color var(--fast) ease, background var(--fast) ease, color var(--fast) ease, box-shadow var(--fast) ease;
 }
 
-.site-controls wa-select[data-control="theme"]::part(display-input) {
+.custom-select[data-control="theme"] .control-trigger {
   font-size: .72rem;
   font-weight: 680;
 }
 
-.site-controls wa-select::part(start) {
-  color: var(--accent);
-  font-size: .78rem;
+.control-trigger:hover,
+.custom-select.is-open .control-trigger {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--surface) 78%, var(--accent) 22%), var(--surface-2));
+  color: var(--text);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--shadow) 52%, transparent), inset 0 1px 0 color-mix(in srgb, white 50%, transparent);
+  transform: translateY(-1px);
 }
 
-.site-controls wa-select::part(expand-icon) {
-  color: var(--faint);
+.control-trigger:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--ring), 0 8px 22px color-mix(in srgb, var(--shadow) 45%, transparent);
+}
+
+.control-icon {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
   font-size: .7rem;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 48%, transparent);
+}
+
+.custom-select[data-control="theme"] .control-icon {
+  font-size: 1rem;
+}
+
+.control-value {
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+
+.control-chevron {
+  margin-inline-start: auto;
+  color: var(--faint);
+  font-size: .9rem;
+  line-height: 1;
+  transform: translateY(-1px);
   transition: transform var(--fast) ease, color var(--fast) ease;
 }
 
-.site-controls wa-select[open]::part(expand-icon) {
+.custom-select.is-open .control-chevron {
   color: var(--accent);
+  transform: rotate(180deg) translateY(1px);
 }
 
-.site-controls wa-select::part(listbox) {
+.control-menu {
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 7px);
+  right: 0;
   min-width: 100%;
+  margin: 0;
   padding: 5px;
+  list-style: none;
   border: 1px solid var(--line-strong);
   border-radius: 14px;
-  background: var(--surface);
-  box-shadow: var(--shadow-md);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: var(--shadow-md), inset 0 1px 0 color-mix(in srgb, white 30%, transparent);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  animation: control-menu-in 120ms ease-out;
 }
 
-.site-controls wa-option {
+.control-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 9px 7px 28px;
   border-radius: 9px;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 680;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  transition: background var(--fast) ease, color var(--fast) ease, transform var(--fast) ease;
+}
+
+.control-option::before {
+  position: absolute;
+  left: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent);
+  content: '';
+  opacity: 0;
+  transform: scale(.5);
+  transition: opacity var(--fast) ease, transform var(--fast) ease;
+}
+
+.control-option:hover,
+.control-option:focus-visible,
+.control-option.is-selected {
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface-2));
+  color: var(--text);
+}
+
+.control-option.is-selected::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.control-option:active {
+  transform: scale(.98);
+}
+
+@keyframes control-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @media (max-width: 760px) {
@@ -84,18 +176,40 @@
     padding: 3px;
   }
 
-  .site-controls wa-select[data-control="language"] {
+  .custom-select[data-control="language"] {
     min-width: 66px;
   }
 
-  .site-controls wa-select[data-control="theme"] {
+  .custom-select[data-control="theme"] {
     min-width: 106px;
+  }
+
+  .control-trigger {
+    padding-inline: 8px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-controls wa-select::part(combobox),
-  .site-controls wa-select::part(expand-icon) {
+  .control-trigger,
+  .control-chevron,
+  .control-option,
+  .control-option::before {
     transition: none;
+  }
+
+  .control-menu {
+    animation: none;
+  }
+}
+
+@supports not (color: color-mix(in srgb, black, white)) {
+  .control-trigger {
+    background: var(--surface-2);
+    border-color: var(--line);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .control-menu {
+    background: var(--surface);
   }
 }
