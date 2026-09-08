@@ -62,7 +62,6 @@
     --faint: #626269;
     --max: 1180px;
     --pad: clamp(18px, 3vw, 30px);
-    --measure: 72ch;
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: var(--bg);
     color: var(--text);
@@ -212,6 +211,11 @@
     color: var(--text);
   }
 
+  .section-note {
+    color: var(--faint);
+    font-size: .74rem;
+  }
+
   .site-footer {
     display: flex;
     align-items: center;
@@ -225,6 +229,25 @@
 }
 
 @layer components {
+  .skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 100;
+    transform: translateY(-160%);
+    padding: 9px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    background: var(--surface-2);
+    color: var(--text);
+    font-size: .82rem;
+    transition: transform .18s ease;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
   .pill {
     display: inline-flex;
     align-items: center;
@@ -624,8 +647,8 @@
 
   @media (max-width: 480px) {
     .site-header nav {
-      gap: 13px;
-      font-size: .78rem;
+      gap: 12px;
+      font-size: .77rem;
     }
 
     .hero h1 {
