@@ -1,8 +1,12 @@
 /* C.U.U brand tokens — the single source of truth for brand identity. */
 
 :root {
-  /* Identity color used by the canonical external mark asset. */
+  /* Fallback identity color for text/UI surfaces; the canonical mark is gradient SVG. */
   --brand-primary: #4d46d8;
+  --brand-gradient-start: #7c5cff;
+  --brand-gradient-mid: #4d8dff;
+  --brand-gradient-accent: #22c7b7;
+  --brand-gradient-end: #9be15d;
   --brand-mark-size: 30px;
   --brand-gap: 10px;
   --brand-wordmark-size: 1.08rem;
