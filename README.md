@@ -33,6 +33,10 @@ GitHub Pages supports publishing static files directly from a repository. This s
 │   ├── index.html
 │   └── <tag>/index.html
 ├── assets/
+│   ├── brand/
+│   │   ├── README.md
+│   │   ├── brand.css
+│   │   └── mark.svg
 │   ├── css/site.css
 │   └── favicon.svg
 ├── about.html
@@ -42,6 +46,17 @@ GitHub Pages supports publishing static files directly from a repository. This s
 ├── rss.xml
 └── .nojekyll
 ```
+
+## Brand system
+
+The site uses the **C.U.U** identity:
+
+- **Curious. Useful. Universal.**
+- Promise: **Explore widely. Understand deeply. Share usefully.**
+- Primary slogan: **Curious by nature. Useful by design. Universal by intent.**
+- Short slogan: **Explore. Understand. Share.**
+
+Brand assets are intentionally modular. `assets/brand/mark.svg` is the canonical symbol, while the website header composes the wordmark and descriptor as HTML. Brand tokens and lockup rules live in `assets/brand/brand.css`; detailed maintenance rules live in `assets/brand/README.md`.
 
 ## Publishing a new article
 
