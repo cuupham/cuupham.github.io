@@ -2,9 +2,10 @@
   const WEB_AWESOME_BASE = 'https://ka-f.webawesome.com/@awesome.me/webawesome@3.12.0';
   const THEME_ICONS = Object.freeze({
     light: 'sun',
-    system: 'desktop',
     dark: 'moon',
+    system: 'desktop',
   });
+  const THEME_ORDER = Object.freeze(['light', 'dark', 'system']);
 
   function loadStyles() {
     if (document.querySelector('link[data-web-awesome-theme]')) return;
@@ -20,6 +21,15 @@
     overrides.href = '/assets/css/header-controls.css';
     overrides.dataset.headerControls = 'true';
     document.head.appendChild(overrides);
+  }
+
+  function orderThemeOptions() {
+    const theme = document.querySelector('[data-control="theme"]');
+    if (!theme) return;
+
+    const options = Array.from(theme.options);
+    options.sort((a, b) => THEME_ORDER.indexOf(a.value) - THEME_ORDER.indexOf(b.value));
+    options.forEach((option) => theme.appendChild(option));
   }
 
   async function loadComponents() {
@@ -80,6 +90,7 @@
 
   async function init() {
     loadStyles();
+    orderThemeOptions();
     try {
       await loadComponents();
       upgradeControls();
