@@ -30,7 +30,6 @@
   flex: 0 0 var(--brand-mark-size);
   width: var(--brand-mark-size);
   height: var(--brand-mark-size);
-  color: var(--brand-primary);
 }
 
 .brand-copy {
