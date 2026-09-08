@@ -153,6 +153,7 @@
 }
 
 .control-option:hover,
+.control-option.is-active,
 .control-option:focus-visible,
 .control-option.is-selected {
   background: color-mix(in srgb, var(--accent) 10%, var(--surface-2));
