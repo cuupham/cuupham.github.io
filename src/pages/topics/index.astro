@@ -1,9 +1,0 @@
----
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { topics } from '../../data/topics';
----
-<BaseLayout title="Topics — Cuu Pham">
-  <section class="intro"><p class="eyebrow">Explore</p><h1>Topics</h1><p class="muted">Browse ideas and stories by subject. New topics can be added without changing the content system.</p></section>
-  <div class="grid">{topics.map((topic) => <a class="card" href={`/topics/${topic.slug}`}><span class="eyebrow">Topic</span><h2>{topic.name}</h2><p class="muted">{topic.description}</p><span class="go">Explore →</span></a>)}</div>
-</BaseLayout>
-<style>.intro{padding:90px 0 55px;max-width:650px}.intro h1{font-size:clamp(3.5rem,8vw,6rem);margin:15px 0}.intro .muted{font-size:1.05rem}.card h2{font-size:1.6rem;margin:14px 0}.go{display:block;margin-top:24px;color:#aaa;font-size:.85rem}</style>
