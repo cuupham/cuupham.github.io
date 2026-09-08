@@ -349,8 +349,8 @@
 
     orderThemeOptions();
     controls.querySelectorAll('select[data-control]').forEach((select) => {
-      const custom = createCustomControl(select);
       const group = select.closest('.control-group');
+      const custom = createCustomControl(select);
       if (group) group.replaceChildren(custom);
       else select.replaceWith(custom);
     });
