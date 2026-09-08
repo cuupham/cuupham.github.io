@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#171817"/>
-  <g fill="none" stroke="#8b84ff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+  <title>C.U.U mark</title>
+  <g fill="none" stroke="#4d46d8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
     <path d="M43 13H29C19.6 13 13 19.4 13 28s6.6 15 16 15h14"/>
     <path d="M23 20v14c0 6 3.5 9 9 9s9-3 9-9V20"/>
     <path d="M34 20v9c0 6 3.5 9 9 9s9-3 9-9V20"/>
