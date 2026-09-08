@@ -1,0 +1,101 @@
+.site-controls {
+  align-items: center;
+}
+
+.site-controls wa-select {
+  display: inline-block;
+  width: auto;
+  min-width: 72px;
+  --wa-form-control-height-small: 30px;
+}
+
+.site-controls wa-select[data-control="theme"] {
+  min-width: 118px;
+}
+
+.site-controls wa-select::part(combobox) {
+  min-height: 30px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--muted);
+  box-shadow: none;
+  transition: background var(--fast) ease, border-color var(--fast) ease, color var(--fast) ease, box-shadow var(--fast) ease, transform var(--fast) ease;
+}
+
+.site-controls wa-select::part(combobox):hover {
+  border-color: var(--line);
+  background: var(--surface-2);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.site-controls wa-select:focus-within::part(combobox) {
+  border-color: var(--accent);
+  box-shadow: var(--ring);
+}
+
+.site-controls wa-select::part(display-input) {
+  min-width: 0;
+  padding-inline: 4px;
+  color: inherit;
+  font: inherit;
+  font-size: .68rem;
+  font-weight: 760;
+  letter-spacing: .02em;
+}
+
+.site-controls wa-select[data-control="theme"]::part(display-input) {
+  font-size: .72rem;
+  font-weight: 680;
+}
+
+.site-controls wa-select::part(start) {
+  color: var(--accent);
+  font-size: .78rem;
+}
+
+.site-controls wa-select::part(expand-icon) {
+  color: var(--faint);
+  font-size: .7rem;
+  transition: transform var(--fast) ease, color var(--fast) ease;
+}
+
+.site-controls wa-select[open]::part(expand-icon) {
+  color: var(--accent);
+}
+
+.site-controls wa-select::part(listbox) {
+  min-width: 100%;
+  padding: 5px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.site-controls wa-option {
+  border-radius: 9px;
+}
+
+@media (max-width: 760px) {
+  .site-controls {
+    gap: 3px;
+    padding: 3px;
+  }
+
+  .site-controls wa-select[data-control="language"] {
+    min-width: 66px;
+  }
+
+  .site-controls wa-select[data-control="theme"] {
+    min-width: 106px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-controls wa-select::part(combobox),
+  .site-controls wa-select::part(expand-icon) {
+    transition: none;
+  }
+}
