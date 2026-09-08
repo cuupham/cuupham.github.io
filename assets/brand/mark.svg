@@ -1,8 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <title>C.U.U mark</title>
-  <g fill="none" stroke="#4d46d8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M43 13H29C19.6 13 13 19.4 13 28s6.6 15 16 15h14"/>
-    <path d="M23 20v14c0 6 3.5 9 9 9s9-3 9-9V20"/>
-    <path d="M34 20v9c0 6 3.5 9 9 9s9-3 9-9V20"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">C.U.U mark</title>
+  <desc id="desc">Premium gradient C.U.U negative-space mark.</desc>
+  <defs>
+    <linearGradient id="brand-gradient" x1="35" y1="35" x2="220" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset="0.45" stop-color="#4D8DFF"/>
+      <stop offset="0.78" stop-color="#22C7B7"/>
+      <stop offset="1" stop-color="#9BE15D"/>
+    </linearGradient>
+    <linearGradient id="inner-gradient" x1="70" y1="55" x2="185" y2="205" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#BCAEFF" stop-opacity=".95"/>
+      <stop offset=".5" stop-color="#73B7FF" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#6BE4D5" stop-opacity=".7"/>
+    </linearGradient>
+    <filter id="soft-shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="9" stdDeviation="9" flood-color="#1E2350" flood-opacity=".22"/>
+    </filter>
+  </defs>
+  <g filter="url(#soft-shadow)">
+    <path d="M188 48H118c-38 0-70 32-70 80s32 80 70 80h70" fill="none" stroke="url(#brand-gradient)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M92 76v58c0 23 11 34 30 34s30-11 30-34V76" fill="none" stroke="url(#inner-gradient)" stroke-width="16" stroke-linecap="round"/>
+    <path d="M132 76v58c0 23 11 34 30 34s30-11 30-34V76" fill="none" stroke="url(#inner-gradient)" stroke-width="16" stroke-linecap="round" opacity=".9"/>
   </g>
+  <path d="M119 52H91c-19 0-35 9-45 23" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity=".35"/>
 </svg>

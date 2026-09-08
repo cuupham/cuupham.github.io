@@ -19,16 +19,19 @@ assets/brand/
 └── mark.svg
 ```
 
-The website composes the full lockup from `mark.svg` + HTML text rather than storing a duplicated wordmark SVG. This keeps the wordmark selectable, localizable, responsive, and easy to maintain.
+`mark.svg` is the canonical C.U.U symbol asset. The website composes the full lockup from `mark.svg` + HTML text rather than storing a duplicated wordmark SVG. This keeps the wordmark selectable, localizable, responsive, and easy to maintain.
+
+The mark uses the approved C1 gradient treatment directly in the SVG because it is consumed as an external image. Brand tokens remain centralized in `brand.css`; layout and component styling remain in `assets/css/site.css`.
 
 ## Rules
 
-1. `mark.svg` is the canonical symbol asset and uses the approved C.U.U primary color because it is consumed as an external SVG image.
-2. Keep layout, responsive behavior, and component styling outside the asset; those rules belong in `brand.css` and `assets/css/site.css`.
-3. Use the HTML lockup for the website header.
-4. Use the mark alone for the favicon and compact/mobile identity.
-5. Do not add alternate logo variants unless a real platform requirement exists.
-6. Keep brand tokens in `brand.css`; component styling belongs in `assets/css/site.css`.
+1. `mark.svg` is the canonical symbol asset and the single source of truth for the C.U.U mark used by the website.
+2. Keep the C1 gradient, vector effects, and intrinsic geometry inside `mark.svg`; do not reproduce the mark with CSS or duplicate SVG wordmarks.
+3. Keep layout, responsive behavior, and component styling outside the asset; those rules belong in `brand.css` and `assets/css/site.css`.
+4. Use the HTML lockup (`mark.svg` + text) for the website header.
+5. Use the mark alone for the favicon and compact/mobile identity where appropriate.
+6. Do not add alternate logo variants unless a real platform requirement exists.
+7. Keep brand tokens in `brand.css`; component styling belongs in `assets/css/site.css`.
 
 ## Accessibility
 
