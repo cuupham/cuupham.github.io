@@ -1,42 +1,61 @@
 # cuupham.github.io
 
-A content-first publishing hub for knowledge, ideas, stories, games, comics, novels, music and more.
+A content-first publishing space for knowledge, ideas, stories, games, comics, novels, music and whatever is worth sharing.
 
-## Architecture
+## Stack
 
-- **Landing** — entry point and discovery
-- **Topics** — extensible subject taxonomy
-- **Articles** — Markdown/MDX-ready content model
-- **Collections** — reserved for curated lists and future media collections
-- **Archive** — future chronological discovery layer
+This is intentionally a **pure static site**:
 
-## Adding a topic
+- HTML5
+- Modern CSS
+- No Node.js
+- No React / Next.js / Astro
+- No runtime server
+- No build step
+- Hosted directly by GitHub Pages
 
-Add an entry to `src/data/topics.ts`. Topic pages are generated automatically.
+GitHub Pages can publish static HTML, CSS and JavaScript directly from a repository. This site uses only the HTML/CSS path so the repository itself is the published site.
 
-## Adding an article
+## Structure
 
-Create a Markdown file in `src/content/articles/` with frontmatter matching `src/content/config.ts`.
-
-```yaml
----
-title: 'Article title'
-description: 'Short description'
-pubDate: 2026-09-08
-topic: technology
-tags: ['example']
-type: article
-featured: false
-draft: false
----
+```text
+/
+├── index.html
+├── topics/
+│   ├── index.html
+│   └── <topic>/index.html
+├── articles/
+│   ├── index.html
+│   └── <article>/index.html
+├── assets/
+│   ├── css/site.css
+│   └── favicon.svg
+├── about.html
+├── 404.html
+├── robots.txt
+├── sitemap.xml
+└── .nojekyll
 ```
 
-## Development
+## Publishing a new article
 
-```bash
-npm install
-npm run dev
-npm run build
-```
+1. Create `articles/<slug>/index.html`.
+2. Add the article to `articles/index.html`.
+3. Add it to its relevant topic page.
+4. Add the URL to `sitemap.xml`.
+5. Commit and push to `main`.
 
-The `main` branch deploys automatically to GitHub Pages through `.github/workflows/deploy.yml`.
+There is no build command.
+
+## Adding a new topic
+
+Create `topics/<slug>/index.html`, then add the topic card to `index.html` and `topics/index.html`. The visual system is shared through `assets/css/site.css`, so the topic page only needs semantic HTML.
+
+## Design principles
+
+- Content first; no personal portfolio layer.
+- Static by default; browser-native features only when they provide a clear benefit.
+- Semantic HTML and accessible focus states.
+- Responsive layouts with modern CSS, including container queries where useful.
+- Progressive enhancement: newer CSS features enhance the experience but are not required for the content to work.
+- Keep the publishing path understandable enough to maintain years from now.
