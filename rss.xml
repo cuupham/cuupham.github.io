@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Ideas worth sharing.</title>
+    <link>https://cuupham.github.io/</link>
+    <description>Knowledge, experiments, stories, games and things worth exploring.</description>
+    <language>en</language>
+    <lastBuildDate>Tue, 08 Sep 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Welcome to the archive</title>
+      <link>https://cuupham.github.io/articles/welcome/</link>
+      <guid isPermaLink="true">https://cuupham.github.io/articles/welcome/</guid>
+      <description>Why this space exists and how the content is organized.</description>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 +0000</pubDate>
+      <category>Technology</category>
+    </item>
+  </channel>
+</rss>
