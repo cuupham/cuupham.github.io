@@ -153,21 +153,15 @@
       const style = el.dataset.i18nDate === 'long' ? 'long' : 'short';
       el.textContent = new Intl.DateTimeFormat(lang, { year: 'numeric', month: style, day: 'numeric' }).format(date);
     });
-    document.querySelectorAll('[data-lang-option]').forEach((el) => {
-      el.toggleAttribute('aria-pressed', el.dataset.langOption === lang);
-    });
     updateControlLabels(lang);
   }
 
   function updateControlLabels(lang) {
     const t = translations[lang];
-    document.querySelectorAll('[data-theme-option]').forEach((button) => {
-      const key = button.dataset.themeOption;
-      button.setAttribute('aria-label', t[key]);
-      button.title = t[key];
-    });
-    document.querySelector('[data-control-group="language"]')?.setAttribute('aria-label', t.language);
-    document.querySelector('[data-control-group="theme"]')?.setAttribute('aria-label', t.theme);
+    const languageSelect = document.querySelector('[data-control="language"]');
+    const themeSelect = document.querySelector('[data-control="theme"]');
+    languageSelect?.setAttribute('aria-label', t.language);
+    themeSelect?.setAttribute('aria-label', t.theme);
   }
 
   function createControls() {
@@ -177,36 +171,43 @@
     const controls = document.createElement('div');
     controls.className = 'site-controls';
     controls.innerHTML = `
-      <div class="control-group" data-control-group="language" role="group">
-        <button type="button" class="control-button" data-lang-option="en" aria-label="English">EN</button>
-        <button type="button" class="control-button" data-lang-option="vi" aria-label="Tiếng Việt">VI</button>
+      <div class="control-group" data-control-group="language">
+        <select class="control-button control-select" data-control="language" aria-label="Language">
+          <option value="en">EN</option>
+          <option value="vi">VI</option>
+        </select>
       </div>
-      <div class="control-group theme-group" data-control-group="theme" role="group">
-        <button type="button" class="control-button theme-button" data-theme-option="light">☼</button>
-        <button type="button" class="control-button theme-button" data-theme-option="system">◐</button>
-        <button type="button" class="control-button theme-button" data-theme-option="dark">◑</button>
+      <div class="control-group theme-group" data-control-group="theme">
+        <select class="control-button control-select theme-select" data-control="theme" aria-label="Theme">
+          <option value="light">Light</option>
+          <option value="system">System</option>
+          <option value="dark">Dark</option>
+        </select>
       </div>`;
 
     header.appendChild(controls);
-    controls.addEventListener('click', (event) => {
-      const lang = event.target.closest('[data-lang-option]')?.dataset.langOption;
-      const theme = event.target.closest('[data-theme-option]')?.dataset.themeOption;
-      if (lang && supportedLanguages.includes(lang)) {
-        setStored(STORAGE.lang, lang);
-        applyLanguage(lang);
+    controls.querySelector('[data-control="language"]').value = getLanguage();
+    controls.querySelector('[data-control="theme"]').value = getTheme();
+    controls.addEventListener('change', (event) => {
+      const control = event.target.closest('[data-control]');
+      if (!control) return;
+
+      if (control.dataset.control === 'language' && supportedLanguages.includes(control.value)) {
+        setStored(STORAGE.lang, control.value);
+        applyLanguage(control.value);
       }
-      if (theme && supportedThemes.includes(theme)) {
-        setStored(STORAGE.theme, theme);
-        applyTheme(theme);
+
+      if (control.dataset.control === 'theme' && supportedThemes.includes(control.value)) {
+        setStored(STORAGE.theme, control.value);
+        applyTheme(control.value);
       }
     });
     updateThemeButtons(getTheme());
   }
 
   function updateThemeButtons(theme) {
-    document.querySelectorAll('[data-theme-option]').forEach((button) => {
-      button.toggleAttribute('aria-pressed', button.dataset.themeOption === theme);
-    });
+    const themeSelect = document.querySelector('[data-control="theme"]');
+    if (themeSelect) themeSelect.value = theme;
   }
 
   function initSystemThemeListener() {
