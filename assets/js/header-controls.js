@@ -1,5 +1,7 @@
 (() => {
   const WEB_AWESOME_BASE = 'https://ka-f.webawesome.com/@awesome.me/webawesome@3.12.0';
+  const CDN_ORIGIN = 'https://ka-f.webawesome.com';
+  const LOAD_TIMEOUT_MS = 4000;
   const THEME_ICONS = Object.freeze({
     light: 'sun',
     dark: 'moon',
@@ -7,20 +9,48 @@
   });
   const THEME_ORDER = Object.freeze(['light', 'dark', 'system']);
 
+  function preconnect() {
+    if (document.head.querySelector(`link[data-web-awesome-preconnect="true"]`)) return;
+
+    const link = document.createElement('link');
+    link.rel = 'preconnect';
+    link.href = CDN_ORIGIN;
+    link.dataset.webAwesomePreconnect = 'true';
+    document.head.appendChild(link);
+  }
+
+  function loadStylesheet(href, attribute) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`link[href="${href}"]`);
+      if (existing) {
+        resolve();
+        return;
+      }
+
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      if (attribute) link.dataset[attribute] = 'true';
+      link.addEventListener('load', resolve, { once: true });
+      link.addEventListener('error', () => reject(new Error(`Stylesheet failed to load: ${href}`)), { once: true });
+      document.head.appendChild(link);
+    });
+  }
+
   function loadStyles() {
-    if (document.querySelector('link[data-web-awesome-theme]')) return;
+    return Promise.all([
+      loadStylesheet(`${WEB_AWESOME_BASE}/styles/themes/default.css`, 'webAwesomeTheme'),
+      loadStylesheet('/assets/css/header-controls.css', 'headerControls'),
+    ]);
+  }
 
-    const theme = document.createElement('link');
-    theme.rel = 'stylesheet';
-    theme.href = `${WEB_AWESOME_BASE}/styles/themes/default.css`;
-    theme.dataset.webAwesomeTheme = 'true';
-    document.head.appendChild(theme);
+  function withTimeout(promise, label) {
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = window.setTimeout(() => reject(new Error(`${label} timed out`)), LOAD_TIMEOUT_MS);
+    });
 
-    const overrides = document.createElement('link');
-    overrides.rel = 'stylesheet';
-    overrides.href = '/assets/css/header-controls.css';
-    overrides.dataset.headerControls = 'true';
-    document.head.appendChild(overrides);
+    return Promise.race([promise, timeout]).finally(() => window.clearTimeout(timer));
   }
 
   function orderThemeOptions() {
@@ -33,10 +63,11 @@
   }
 
   async function loadComponents() {
-    await import(`${WEB_AWESOME_BASE}/components/select/select.js`);
+    await withTimeout(
+      import(`${WEB_AWESOME_BASE}/components/select/select.js`),
+      'Web Awesome component load',
+    );
     await customElements.whenDefined('wa-select');
-    await customElements.whenDefined('wa-option');
-    await customElements.whenDefined('wa-icon');
   }
 
   function createSelect(source, iconName) {
@@ -89,13 +120,14 @@
   }
 
   async function init() {
-    loadStyles();
+    preconnect();
     orderThemeOptions();
+
     try {
-      await loadComponents();
+      await Promise.all([loadComponents(), loadStyles()]);
       upgradeControls();
     } catch (error) {
-      console.warn('[header-controls] Web Awesome failed to load; keeping native controls.', error);
+      console.warn('[header-controls] Web Awesome enhancement unavailable; keeping native controls.', error);
     }
   }
 
