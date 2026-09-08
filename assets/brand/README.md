@@ -23,8 +23,8 @@ The website composes the full lockup from `mark.svg` + HTML text rather than sto
 
 ## Rules
 
-1. `mark.svg` is the canonical symbol asset.
-2. Keep the SVG geometry independent from website color tokens by using `currentColor`.
+1. `mark.svg` is the canonical symbol asset and uses the approved C.U.U primary color because it is consumed as an external SVG image.
+2. Keep layout, responsive behavior, and component styling outside the asset; those rules belong in `brand.css` and `assets/css/site.css`.
 3. Use the HTML lockup for the website header.
 4. Use the mark alone for the favicon and compact/mobile identity.
 5. Do not add alternate logo variants unless a real platform requirement exists.
