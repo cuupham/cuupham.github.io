@@ -1,7 +1,7 @@
 (() => {
-  const STORAGE = { lang: 'cuu-lang', theme: 'cuu-theme' };
-  const supportedLanguages = ['en', 'vi'];
-  const supportedThemes = ['light', 'dark', 'system'];
+  const STORAGE = Object.freeze({ lang: 'cuu-lang', theme: 'cuu-theme' });
+  const supportedLanguages = Object.freeze(['en', 'vi']);
+  const supportedThemes = Object.freeze(['light', 'dark', 'system']);
 
   const translations = {
     en: {
@@ -27,7 +27,7 @@
       tagsDesc: 'Small labels for connecting related ideas across topics.',
       writing: 'Writing', articlesDesc: 'Knowledge, observations, guides and ideas worth keeping.',
       archiveEyebrow: 'Chronological', archiveDesc: 'A simple timeline of published work, ordered from newest to oldest.',
-      publishedArticles: 'Published articles', september8: 'Sep 8, 2026', september8Long: 'September 8, 2026',
+      publishedArticles: 'Published articles',
       aboutEyebrow: 'About this space', aboutTitle: 'A place to share what matters.',
       aboutDesc: 'This site is built around ideas, knowledge and things worth exploring. It is intentionally open-ended: technology can sit beside games, stories, music and everything else that deserves a thoughtful write-up.',
       tagMetaDesc: 'Articles about the site, its structure and publishing model.', tagWebsiteDesc: 'Notes about the site and its publishing system.',
@@ -38,7 +38,13 @@
       durablePara1: 'The site is intentionally static. Every published page is plain HTML with shared CSS, so there is no server, runtime or build pipeline required to read the content.',
       durablePara2: 'That keeps the publishing model simple: add a page, link it from the relevant topic and article index, and push the files to GitHub Pages.',
       durablePara3: 'The goal is not to publish everything. It is to keep ideas that are worth returning to.',
-      metadata: 'Article metadata', tagsLabel: 'Tags'
+      metadata: 'Article metadata', tagsLabel: 'Tags',
+      pageTitleHome: 'Ideas worth sharing.', pageTitleTopics: 'Topics — Ideas worth sharing.', pageTitleArticles: 'Articles — Ideas worth sharing.',
+      pageTitleArchive: 'Archive — Ideas worth sharing.', pageTitleTags: 'Tags — Ideas worth sharing.', pageTitleAbout: 'About — Ideas worth sharing.',
+      pageTitleWelcome: 'Welcome to the archive — Ideas worth sharing.', pageTitleTechnology: 'Technology — Ideas worth sharing.', pageTitleAi: 'AI — Ideas worth sharing.',
+      pageTitleProgramming: 'Programming — Ideas worth sharing.', pageTitleGames: 'Games — Ideas worth sharing.', pageTitleManga: 'Manga & Comics — Ideas worth sharing.',
+      pageTitleNovels: 'Novels — Ideas worth sharing.', pageTitleMusic: 'Music — Ideas worth sharing.',
+      pageTitleMetaTag: 'meta — Tags — Ideas worth sharing.', pageTitleWebsiteTag: 'website — Tags — Ideas worth sharing.'
     },
     vi: {
       home: 'Trang chủ', topics: 'Chủ đề', articles: 'Bài viết', archive: 'Lưu trữ', tags: 'Thẻ', about: 'Giới thiệu',
@@ -63,7 +69,7 @@
       tagsDesc: 'Các nhãn nhỏ giúp kết nối những ý tưởng liên quan giữa các chủ đề.',
       writing: 'Bài viết', articlesDesc: 'Kiến thức, quan sát, hướng dẫn và những ý tưởng đáng lưu giữ.',
       archiveEyebrow: 'Theo thời gian', archiveDesc: 'Dòng thời gian đơn giản của các nội dung đã xuất bản, từ mới nhất đến cũ nhất.',
-      publishedArticles: 'Bài viết đã xuất bản', september8: '08/09/2026', september8Long: '8 tháng 9, 2026',
+      publishedArticles: 'Bài viết đã xuất bản',
       aboutEyebrow: 'Về không gian này', aboutTitle: 'Nơi chia sẻ những điều đáng quan tâm.',
       aboutDesc: 'Website này xoay quanh ý tưởng, kiến thức và những điều đáng khám phá. Nội dung được giữ mở để công nghệ có thể đứng cạnh trò chơi, câu chuyện, âm nhạc và bất cứ điều gì xứng đáng được viết một cách có chiều sâu.',
       tagMetaDesc: 'Các bài viết về website, cấu trúc và cách xuất bản nội dung.', tagWebsiteDesc: 'Ghi chú về website và hệ thống xuất bản nội dung.',
@@ -74,12 +80,22 @@
       durablePara1: 'Website được xây dựng theo hướng tĩnh. Mỗi trang đã xuất bản là HTML thuần với CSS dùng chung, vì vậy không cần máy chủ, runtime hay quy trình build để đọc nội dung.',
       durablePara2: 'Điều này giữ cho quy trình xuất bản đơn giản: thêm một trang, liên kết trang đó từ chủ đề và danh sách bài viết phù hợp, rồi đẩy các file lên GitHub Pages.',
       durablePara3: 'Mục tiêu không phải là xuất bản mọi thứ. Mục tiêu là lưu lại những ý tưởng đáng quay lại.',
-      metadata: 'Thông tin bài viết', tagsLabel: 'Thẻ'
+      metadata: 'Thông tin bài viết', tagsLabel: 'Thẻ',
+      pageTitleHome: 'Những điều đáng chia sẻ.', pageTitleTopics: 'Chủ đề — Những điều đáng chia sẻ.', pageTitleArticles: 'Bài viết — Những điều đáng chia sẻ.',
+      pageTitleArchive: 'Lưu trữ — Những điều đáng chia sẻ.', pageTitleTags: 'Thẻ — Những điều đáng chia sẻ.', pageTitleAbout: 'Giới thiệu — Những điều đáng chia sẻ.',
+      pageTitleWelcome: 'Chào mừng đến với kho lưu trữ — Những điều đáng chia sẻ.', pageTitleTechnology: 'Công nghệ — Những điều đáng chia sẻ.', pageTitleAi: 'AI — Những điều đáng chia sẻ.',
+      pageTitleProgramming: 'Lập trình — Những điều đáng chia sẻ.', pageTitleGames: 'Trò chơi — Những điều đáng chia sẻ.', pageTitleManga: 'Manga & Comics — Những điều đáng chia sẻ.',
+      pageTitleNovels: 'Tiểu thuyết — Những điều đáng chia sẻ.', pageTitleMusic: 'Âm nhạc — Những điều đáng chia sẻ.',
+      pageTitleMetaTag: 'meta — Thẻ — Những điều đáng chia sẻ.', pageTitleWebsiteTag: 'website — Thẻ — Những điều đáng chia sẻ.'
     }
   };
 
   const getStored = (key, fallback) => {
     try { return localStorage.getItem(key) || fallback; } catch { return fallback; }
+  };
+
+  const setStored = (key, value) => {
+    try { localStorage.setItem(key, value); } catch { /* storage can be unavailable */ }
   };
 
   const getLanguage = () => {
@@ -95,22 +111,28 @@
   function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme === 'system' ? '' : theme;
-    updateThemeMeta(theme);
+    updateThemeMeta();
+    updateThemeButtons(theme);
   }
 
-  function updateThemeMeta(theme) {
+  function updateThemeMeta() {
     const meta = document.querySelector('meta[name="theme-color"]');
     if (!meta) return;
-    if (theme === 'dark') meta.content = '#0b0b0c';
-    else if (theme === 'light') meta.content = '#f6f6f3';
-    else meta.content = window.matchMedia('(prefers-color-scheme: dark)').matches ? '#0b0b0c' : '#f6f6f3';
+    const styles = getComputedStyle(document.documentElement);
+    const value = styles.getPropertyValue('--theme-color').trim() || styles.getPropertyValue('--bg').trim();
+    if (value) meta.content = value;
   }
 
   function applyLanguage(lang) {
     const t = translations[lang];
     document.documentElement.lang = lang;
+
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+      const key = el.dataset.i18nHtml;
       if (t[key] !== undefined) el.innerHTML = t[key];
     });
     document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
@@ -125,8 +147,14 @@
       const key = el.dataset.i18nContent;
       if (t[key] !== undefined) el.setAttribute('content', t[key]);
     });
+    document.querySelectorAll('[data-i18n-date]').forEach((el) => {
+      const date = new Date(`${el.dateTime}T00:00:00`);
+      if (Number.isNaN(date.getTime())) return;
+      const style = el.dataset.i18nDate === 'long' ? 'long' : 'short';
+      el.textContent = new Intl.DateTimeFormat(lang, { year: 'numeric', month: style, day: 'numeric' }).format(date);
+    });
     document.querySelectorAll('[data-lang-option]').forEach((el) => {
-      el.toggleAttribute('aria-current', el.dataset.langOption === lang);
+      el.toggleAttribute('aria-pressed', el.dataset.langOption === lang);
     });
     updateControlLabels(lang);
   }
@@ -138,9 +166,8 @@
       button.setAttribute('aria-label', t[key]);
       button.title = t[key];
     });
-    const groups = document.querySelectorAll('.control-group');
-    groups[0]?.setAttribute('aria-label', t.language);
-    groups[1]?.setAttribute('aria-label', t.theme);
+    document.querySelector('[data-control-group="language"]')?.setAttribute('aria-label', t.language);
+    document.querySelector('[data-control-group="theme"]')?.setAttribute('aria-label', t.theme);
   }
 
   function createControls() {
@@ -150,11 +177,11 @@
     const controls = document.createElement('div');
     controls.className = 'site-controls';
     controls.innerHTML = `
-      <div class="control-group" role="group">
+      <div class="control-group" data-control-group="language" role="group">
         <button type="button" class="control-button" data-lang-option="en" aria-label="English">EN</button>
         <button type="button" class="control-button" data-lang-option="vi" aria-label="Tiếng Việt">VI</button>
       </div>
-      <div class="control-group theme-group" role="group">
+      <div class="control-group theme-group" data-control-group="theme" role="group">
         <button type="button" class="control-button theme-button" data-theme-option="light">☼</button>
         <button type="button" class="control-button theme-button" data-theme-option="system">◐</button>
         <button type="button" class="control-button theme-button" data-theme-option="dark">◑</button>
@@ -164,14 +191,13 @@
     controls.addEventListener('click', (event) => {
       const lang = event.target.closest('[data-lang-option]')?.dataset.langOption;
       const theme = event.target.closest('[data-theme-option]')?.dataset.themeOption;
-      if (lang) {
-        localStorage.setItem(STORAGE.lang, lang);
+      if (lang && supportedLanguages.includes(lang)) {
+        setStored(STORAGE.lang, lang);
         applyLanguage(lang);
       }
-      if (theme) {
-        localStorage.setItem(STORAGE.theme, theme);
+      if (theme && supportedThemes.includes(theme)) {
+        setStored(STORAGE.theme, theme);
         applyTheme(theme);
-        updateThemeButtons(theme);
       }
     });
     updateThemeButtons(getTheme());
@@ -196,7 +222,6 @@
     applyTheme(getTheme());
     createControls();
     applyLanguage(getLanguage());
-    updateThemeButtons(getTheme());
     initSystemThemeListener();
   }
 

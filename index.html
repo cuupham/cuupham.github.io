@@ -14,7 +14,7 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/site.css">
   <script src="/assets/js/site.js" defer></script>
-  <title>Ideas worth sharing.</title>
+  <title data-i18n-title="pageTitleHome">Ideas worth sharing.</title>
 </head>
 <body>
 <a class="skip-link" href="#main-content" data-i18n="skip">Skip to content</a>
@@ -32,11 +32,10 @@
 <main id="main-content">
   <section class="hero container" aria-labelledby="hero-title">
     <p class="eyebrow" data-i18n="heroEyebrow">A space for ideas</p>
-    <h1 id="hero-title" data-i18n="heroTitle">Ideas worth<br><em>sharing.</em></h1>
+    <h1 id="hero-title" data-i18n-html="heroTitle">Ideas worth<br><em>sharing.</em></h1>
     <p class="lead" data-i18n="heroLead">Knowledge, experiments, stories, games and things worth exploring — collected in one place.</p>
     <a class="pill" href="#topics"><span data-i18n="exploreTopics">Explore topics</span> <span aria-hidden="true">↓</span></a>
   </section>
-
   <section class="section container" id="topics" aria-labelledby="topics-title">
     <div class="section-head">
       <p class="eyebrow" id="topics-title" data-i18n="explore">Explore</p>
@@ -52,23 +51,13 @@
       <a class="topic-card" href="/topics/music/"><span>07</span><div><h2 data-i18n="music">Music</h2><p data-i18n="musicDesc">Albums, artists, discoveries and listening notes.</p></div><b aria-hidden="true">↗</b></a>
     </div>
   </section>
-
   <section class="section container" aria-labelledby="featured-title">
     <div class="section-head"><p class="eyebrow" id="featured-title" data-i18n="featured">Featured</p><span class="section-note" data-i18n="selectedReading">Selected reading</span></div>
-    <a class="feature-card" href="/articles/welcome/">
-      <div><span class="type" data-i18n="articleTechnology">Article · Technology</span><h2 data-i18n="welcomeTitle">Welcome to the archive</h2><p data-i18n="welcomeDesc">Why this space exists and how the content is organized.</p></div>
-      <time datetime="2026-09-08">Sep 8, 2026</time>
-    </a>
+    <a class="feature-card" href="/articles/welcome/"><div><span class="type" data-i18n="articleTechnology">Article · Technology</span><h2 data-i18n="welcomeTitle">Welcome to the archive</h2><p data-i18n="welcomeDesc">Why this space exists and how the content is organized.</p></div><time datetime="2026-09-08" data-i18n-date="short">Sep 8, 2026</time></a>
   </section>
-
   <section class="section container" aria-labelledby="latest-title">
     <div class="section-head"><p class="eyebrow" id="latest-title" data-i18n="latest">Latest</p><a href="/articles/"><span data-i18n="allArticles">All articles</span> <span aria-hidden="true">→</span></a></div>
-    <div class="article-list">
-      <a class="article-row" href="/articles/welcome/">
-        <div><span class="type" data-i18n="articleTechnology">Article · Technology</span><h2 data-i18n="welcomeTitle">Welcome to the archive</h2><p data-i18n="welcomeDesc">Why this space exists and how the content is organized.</p></div>
-        <time datetime="2026-09-08">Sep 8, 2026</time>
-      </a>
-    </div>
+    <div class="article-list"><a class="article-row" href="/articles/welcome/"><div><span class="type" data-i18n="articleTechnology">Article · Technology</span><h2 data-i18n="welcomeTitle">Welcome to the archive</h2><p data-i18n="welcomeDesc">Why this space exists and how the content is organized.</p></div><time datetime="2026-09-08" data-i18n-date="short">Sep 8, 2026</time></a></div>
   </section>
 </main>
 <footer class="site-footer container"><span data-i18n="footer">Ideas worth sharing.</span><span>© 2026</span></footer>
