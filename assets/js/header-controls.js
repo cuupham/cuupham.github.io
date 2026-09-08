@@ -1,5 +1,6 @@
 (() => {
   const THEME_ORDER = Object.freeze(['light', 'dark', 'system']);
+  const TYPEAHEAD_TIMEOUT = 700;
   const ICONS = Object.freeze({
     language: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.4 2.4 3.6 5.4 3.6 9s-1.2 6.6-3.6 9c-2.4-2.4-3.6-5.4-3.6-9S9.6 5.4 12 3Z"/></svg>',
     light: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>',
@@ -21,8 +22,33 @@
   function getOptions(select) {
     return Array.from(select.options).map((option) => ({
       value: option.value,
-      label: option.textContent,
+      label: option.textContent.trim(),
     }));
+  }
+
+  function getOptionElements(control) {
+    return Array.from(control.querySelectorAll('[role="option"]'));
+  }
+
+  function getActiveIndex(control) {
+    const button = control.querySelector('.control-trigger');
+    const activeId = button?.getAttribute('aria-activedescendant');
+    const options = getOptionElements(control);
+    const index = options.findIndex((option) => option.id === activeId);
+    return index >= 0 ? index : 0;
+  }
+
+  function setActiveOption(control, index) {
+    const button = control.querySelector('.control-trigger');
+    const options = getOptionElements(control);
+    if (!button || !options.length) return;
+
+    const next = options[Math.min(options.length - 1, Math.max(0, index))];
+    button.setAttribute('aria-activedescendant', next.id);
+    options.forEach((option) => {
+      option.classList.toggle('is-active', option === next);
+    });
+    next.scrollIntoView({ block: 'nearest' });
   }
 
   function syncControl(control) {
@@ -32,7 +58,7 @@
     const option = select?.selectedOptions[0];
     if (!select || !button || !option) return;
 
-    button.querySelector('.control-value').textContent = option.textContent;
+    button.querySelector('.control-value').textContent = option.textContent.trim();
     button.setAttribute('aria-label', select.getAttribute('aria-label') || '');
 
     if (select.dataset.control === 'theme') {
@@ -42,26 +68,30 @@
     control.querySelectorAll('[role="option"]').forEach((item) => {
       const sourceOption = Array.from(select.options).find((source) => source.value === item.dataset.value);
       const selected = item.dataset.value === value;
-      if (sourceOption) item.textContent = sourceOption.textContent;
+      if (sourceOption) item.textContent = sourceOption.textContent.trim();
       item.classList.toggle('is-selected', selected);
       item.setAttribute('aria-selected', String(selected));
     });
   }
 
-  function closeControl(control) {
+  function closeControl(control, { restoreFocus = false } = {}) {
     if (!control) return;
-    control.classList.remove('is-open');
-    control.querySelector('.control-trigger')?.setAttribute('aria-expanded', 'false');
+    const button = control.querySelector('.control-trigger');
     const list = control.querySelector('[role="listbox"]');
-    if (list) list.hidden = true;
+    control.classList.remove('is-open');
+    button?.setAttribute('aria-expanded', 'false');
+    button?.removeAttribute('aria-activedescendant');
+    list?.setAttribute('hidden', '');
+    getOptionElements(control).forEach((option) => option.classList.remove('is-active'));
     if (openControl === control) openControl = null;
+    if (restoreFocus) button?.focus();
   }
 
-  function closeOpenControl() {
-    closeControl(openControl);
+  function closeOpenControl(options) {
+    closeControl(openControl, options);
   }
 
-  function openControlMenu(control) {
+  function openControlMenu(control, initialIndex) {
     if (openControl && openControl !== control) closeOpenControl();
 
     const select = control.querySelector('select[data-control]');
@@ -71,15 +101,15 @@
 
     control.classList.add('is-open');
     button.setAttribute('aria-expanded', 'true');
-    list.hidden = false;
+    list.removeAttribute('hidden');
     openControl = control;
 
-    const selected = Array.from(list.querySelectorAll('[role="option"]'))
-      .find((option) => option.dataset.value === select.value);
-    selected?.focus();
+    const options = getOptionElements(control);
+    const selectedIndex = options.findIndex((option) => option.dataset.value === select.value);
+    setActiveOption(control, initialIndex ?? Math.max(0, selectedIndex));
   }
 
-  function chooseOption(control, value) {
+  function chooseOption(control, value, { restoreFocus = true } = {}) {
     const select = control.querySelector('select[data-control]');
     if (!select || !Array.from(select.options).some((option) => option.value === value)) return;
 
@@ -89,38 +119,104 @@
     }
 
     syncControl(control);
-    closeControl(control);
-    control.querySelector('.control-trigger')?.focus();
+    closeControl(control, { restoreFocus });
   }
 
   function moveActiveOption(control, direction) {
-    const options = Array.from(control.querySelectorAll('[role="option"]'));
+    const options = getOptionElements(control);
     if (!options.length) return;
-
-    const current = options.indexOf(document.activeElement);
-    const next = current < 0 ? 0 : Math.min(options.length - 1, Math.max(0, current + direction));
-    options[next].focus();
-    options[next].scrollIntoView({ block: 'nearest' });
+    setActiveOption(control, getActiveIndex(control) + direction);
   }
 
   function focusEdgeOption(control, last) {
-    const options = Array.from(control.querySelectorAll('[role="option"]'));
-    if (options.length) options[last ? options.length - 1 : 0].focus();
+    const options = getOptionElements(control);
+    if (options.length) setActiveOption(control, last ? options.length - 1 : 0);
+  }
+
+  function findTypeaheadOption(control, key) {
+    const state = control._typeahead || { buffer: '', lastKey: '', lastTime: 0 };
+    const now = Date.now();
+    const lowerKey = key.toLocaleLowerCase();
+    const expired = now - state.lastTime > TYPEAHEAD_TIMEOUT;
+    const nextBuffer = expired ? lowerKey : `${state.buffer}${lowerKey}`;
+    const options = getOptionElements(control);
+    const labels = options.map((option) => option.textContent.trim().toLocaleLowerCase());
+
+    let start = getActiveIndex(control);
+    let match = labels.findIndex((label) => label.startsWith(nextBuffer));
+
+    if (match < 0 && !expired) {
+      match = labels.findIndex((label) => label.startsWith(lowerKey));
+    }
+
+    if (match < 0) return null;
+
+    if (!expired && nextBuffer.length === 1 && state.lastKey === lowerKey) {
+      for (let offset = 1; offset <= options.length; offset += 1) {
+        const candidate = (start + offset) % options.length;
+        if (labels[candidate].startsWith(lowerKey)) {
+          match = candidate;
+          break;
+        }
+      }
+    }
+
+    control._typeahead = { buffer: nextBuffer, lastKey: lowerKey, lastTime: now };
+    return match;
+  }
+
+  function handleTypeahead(event, control) {
+    if (event.key.length !== 1 || event.ctrlKey || event.metaKey || event.altKey) return false;
+    const match = findTypeaheadOption(control, event.key);
+    if (match === null) return false;
+    event.preventDefault();
+    if (!control.classList.contains('is-open')) openControlMenu(control, match);
+    else setActiveOption(control, match);
+    return true;
   }
 
   function handleKeydown(event, control) {
     const button = control.querySelector('.control-trigger');
-    const activeOption = document.activeElement?.closest?.('[role="option"]');
+    const activeOption = getOptionElements(control).find(
+      (option) => option.id === button?.getAttribute('aria-activedescendant'),
+    );
 
     if (event.target === button) {
-      if (['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
-        event.preventDefault();
-        openControlMenu(control);
+      if (handleTypeahead(event, control)) return;
+
+      switch (event.key) {
+        case 'Enter':
+        case ' ':
+          event.preventDefault();
+          openControlMenu(control);
+          break;
+        case 'ArrowDown':
+        case 'ArrowUp':
+          event.preventDefault();
+          openControlMenu(control, getActiveIndex(control) + (event.key === 'ArrowDown' ? 1 : -1));
+          break;
+        case 'Home':
+          event.preventDefault();
+          openControlMenu(control, 0);
+          break;
+        case 'End':
+          event.preventDefault();
+          openControlMenu(control, getOptionElements(control).length - 1);
+          break;
+        case 'Escape':
+          if (control.classList.contains('is-open')) {
+            event.preventDefault();
+            closeControl(control, { restoreFocus: true });
+          }
+          break;
+        default:
+          break;
       }
       return;
     }
 
     if (!control.classList.contains('is-open') || !activeOption) return;
+    if (handleTypeahead(event, control)) return;
 
     switch (event.key) {
       case 'ArrowDown':
@@ -146,11 +242,10 @@
         break;
       case 'Escape':
         event.preventDefault();
-        closeControl(control);
-        button?.focus();
+        closeControl(control, { restoreFocus: true });
         break;
       case 'Tab':
-        chooseOption(control, activeOption.dataset.value);
+        chooseOption(control, activeOption.dataset.value, { restoreFocus: false });
         break;
       default:
         break;
@@ -161,10 +256,12 @@
     const control = document.createElement('div');
     control.className = 'custom-select';
     control.dataset.control = select.dataset.control;
+    control._typeahead = { buffer: '', lastKey: '', lastTime: 0 };
 
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'control-trigger';
+    button.setAttribute('role', 'combobox');
     button.setAttribute('aria-haspopup', 'listbox');
     button.setAttribute('aria-expanded', 'false');
 
@@ -185,14 +282,17 @@
     list.className = 'control-menu';
     list.id = `${select.dataset.control}-menu`;
     list.setAttribute('role', 'listbox');
+    list.setAttribute('aria-label', select.getAttribute('aria-label') || 'Options');
     list.hidden = true;
     button.setAttribute('aria-controls', list.id);
 
-    getOptions(select).forEach((option) => {
+    getOptions(select).forEach((option, index) => {
       const item = document.createElement('li');
       item.className = 'control-option';
+      item.id = `${select.dataset.control}-option-${index}`;
       item.dataset.value = option.value;
       item.setAttribute('role', 'option');
+      item.setAttribute('aria-selected', 'false');
       item.tabIndex = -1;
       item.textContent = option.label;
       item.addEventListener('click', () => chooseOption(control, option.value));
