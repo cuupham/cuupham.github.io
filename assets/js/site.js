@@ -106,7 +106,7 @@
   function updateThemeMeta() {
     const meta = document.querySelector('meta[name="theme-color"]');
     if (!meta) return;
-    const value = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+    const value = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
     if (value) meta.content = value;
   }
 
