@@ -20,21 +20,6 @@ The site is intentionally content-first. It is not a portfolio template or a pro
 - **Progressive enhancement** — modern browser features enhance the experience without making the content dependent on a framework runtime.
 - **Static publishing** — fast, simple, and easy to host.
 
-## Technology
-
-The site deliberately uses a lightweight web platform rather than a frontend framework:
-
-- HTML5
-- Modern CSS
-- Vanilla JavaScript
-- GitHub Pages
-- No Node.js runtime
-- No React, Next.js, Astro, or other frontend framework
-- No application server
-- No build step
-
-The repository itself is the deployable website. GitHub Pages serves the static files directly.
-
 ## Brand
 
 The site identity is **C.U.U**:
