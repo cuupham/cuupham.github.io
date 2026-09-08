@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <title>C.U.U mark</title>
-  <path fill="currentColor" d="M31 8h13c6.627 0 12 5.373 12 12v6H45v-5a4 4 0 0 0-4-4H31a11 11 0 1 0 0 22h10a4 4 0 0 0 4-4v-5h11v6c0 6.627-5.373 12-12 12H31C17.745 48 7 37.255 7 24S17.745 0 31 0v8Z"/>
-  <path fill="currentColor" d="M20 20h9v16a4 4 0 0 0 8 0V20h9v16c0 7.18-5.82 13-13 13S20 43.18 20 36V20Z" opacity=".86"/>
+  <path fill="#4d46d8" d="M31 8h13c6.627 0 12 5.373 12 12v6H45v-5a4 4 0 0 0-4-4H31a11 11 0 1 0 0 22h10a4 4 0 0 0 4-4v-5h11v6c0 6.627-5.373 12-12 12H31C17.745 48 7 37.255 7 24S17.745 0 31 0v8Z"/>
+  <path fill="#4d46d8" d="M20 20h9v16a4 4 0 0 0 8 0V20h9v16c0 7.18-5.82 13-13 13S20 43.18 20 36V20Z" opacity=".86"/>
 </svg>
