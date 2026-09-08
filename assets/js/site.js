@@ -118,7 +118,8 @@
   function updateThemeMeta() {
     const meta = document.querySelector('meta[name="theme-color"]');
     if (!meta) return;
-    const value = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+    const styles = getComputedStyle(document.documentElement);
+    const value = styles.getPropertyValue('--theme-color').trim() || styles.getPropertyValue('--bg').trim();
     if (value) meta.content = value;
   }
 
