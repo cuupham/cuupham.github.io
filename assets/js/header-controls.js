@@ -1,5 +1,10 @@
 (() => {
   const WEB_AWESOME_BASE = 'https://ka-f.webawesome.com/@awesome.me/webawesome@3.12.0';
+  const THEME_ICONS = Object.freeze({
+    light: 'sun',
+    system: 'desktop',
+    dark: 'moon',
+  });
 
   function loadStyles() {
     if (document.querySelector('link[data-web-awesome-theme]')) return;
@@ -52,15 +57,25 @@
     return select;
   }
 
+  function updateThemeIcon(themeSelect) {
+    const icon = themeSelect.querySelector('wa-icon[slot="start"]');
+    if (!icon) return;
+
+    icon.name = THEME_ICONS[themeSelect.value] || THEME_ICONS.system;
+  }
+
   function upgradeControls() {
     const language = document.querySelector('[data-control="language"]');
     const theme = document.querySelector('[data-control="theme"]');
     if (!language || !theme || language.localName === 'wa-select') return;
 
     const languageSelect = createSelect(language, 'language');
-    const themeSelect = createSelect(theme, 'circle-half-stroke');
+    const themeSelect = createSelect(theme, THEME_ICONS[theme.value] || THEME_ICONS.system);
     language.replaceWith(languageSelect);
     theme.replaceWith(themeSelect);
+
+    updateThemeIcon(themeSelect);
+    themeSelect.addEventListener('change', () => updateThemeIcon(themeSelect));
   }
 
   async function init() {
