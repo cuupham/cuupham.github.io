@@ -1,12 +1,12 @@
-# C.U.U — Curious. Useful. Universal.
+# U.U.C — Understand. Use. Create.
 
 The source repository for [cuupham.github.io](https://cuupham.github.io), an independent publishing space for exploring ideas, technology, culture, games, comics, novels, music, and things worth sharing.
 
-> **Explore widely. Understand deeply. Share usefully.**
+> **Understand. Use. Create.**
 
 ## About
 
-C.U.U is built around a simple idea: curiosity should lead to useful understanding, and useful understanding should be shared openly.
+U.U.C is built around a simple progression: explore questions, understand them deeply, put that understanding into practice, and create something meaningful from it.
 
 The site is intentionally content-first. It is not a portfolio template or a product landing page. The interface stays quiet so the content can remain the focus, while the design system provides a consistent editorial experience across articles, topics, tags, and supporting pages.
 
@@ -22,13 +22,17 @@ The site is intentionally content-first. It is not a portfolio template or a pro
 
 ## Brand
 
-The site identity is **C.U.U**:
+The site identity is **U.U.C**:
 
-- **Curious** — explore, question, experiment.
-- **Useful** — understand, apply, solve.
-- **Universal** — share, connect, remain accessible.
+- **Understand** — explore, question, learn, and build a clear mental model.
+- **Use** — turn understanding into practice, judgment, and useful action.
+- **Create** — make, write, build, experiment, and contribute something new.
 
-The brand voice is clear, curious, technical, practical, calm, and independent. The visual identity follows the same principle: distinctive enough to have character, restrained enough to keep attention on the content.
+The core philosophy is:
+
+> **Explore → Understand → Use → Create**
+
+The brand voice is clear, curious, technical, practical, thoughtful, creative, calm, and independent. The visual identity follows the same principle: distinctive enough to have character, restrained enough to keep attention on the content.
 
 ## Design
 
@@ -64,6 +68,6 @@ For contributors and future maintenance, the priority is to keep the publishing 
 
 ## Philosophy
 
-> **Curious by nature. Useful by design. Universal by intent.**
+> **Understand deeply. Use wisely. Create freely.**
 
-C.U.U is a small independent space for learning, making sense of things, and sharing what is worth keeping.
+U.U.C is a small independent space for learning, making sense of things, applying what is useful, and creating what is worth keeping.
