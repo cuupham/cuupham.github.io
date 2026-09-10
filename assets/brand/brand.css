@@ -1,14 +1,13 @@
 @import url('/assets/css/header-controls.css');
 
-/* C.U.U brand tokens — the single source of truth for brand identity. */
+/* U.U.C brand tokens — the single source of truth for brand identity. */
 
 :root {
-  /* Fallback identity color for text/UI surfaces; the canonical mark is gradient SVG. */
-  --brand-primary: #4d46d8;
+  /* Temporary identity palette; final logo artwork will be approved separately. */
+  --brand-primary: #5f55d9;
   --brand-gradient-start: #7c5cff;
-  --brand-gradient-mid: #4d8dff;
-  --brand-gradient-accent: #22c7b7;
-  --brand-gradient-end: #9be15d;
+  --brand-gradient-mid: #5f9bff;
+  --brand-gradient-end: #43d9ff;
   --brand-mark-size: 30px;
   --brand-gap: 10px;
   --brand-wordmark-size: 1.08rem;
