@@ -1,6 +1,4 @@
 @import url('/assets/css/header-controls.css');
-@import url('/assets/css/design-tokens.css');
-@import url('/assets/css/article.css');
 
 /* U.U.C brand component. Values live in the design-token SSOT. */
 .brand { display:inline-flex; align-items:center; gap:var(--brand-gap); min-width:max-content; color:var(--text-primary); font-size:inherit; letter-spacing:normal; }
