@@ -2,10 +2,18 @@
   const STORAGE = Object.freeze({ lang: 'cuu-lang', theme: 'cuu-theme' });
   const supportedLanguages = Object.freeze(['en', 'vi']);
   const supportedThemes = Object.freeze(['light', 'dark', 'system']);
+  const PRIMARY_NAVIGATION = Object.freeze([
+    Object.freeze({ key: 'home', href: '/' }),
+    Object.freeze({ key: 'articles', href: '/articles/' }),
+    Object.freeze({ key: 'topics', href: '/topics/' }),
+    Object.freeze({ key: 'archive', href: '/archive/' }),
+    Object.freeze({ key: 'tags', href: '/tags/' }),
+    Object.freeze({ key: 'about', href: '/about.html' })
+  ]);
 
   const translations = {
     en: {
-      home: 'Home', topics: 'Topics', articles: 'Articles', archive: 'Archive', tags: 'Tags', about: 'About', language: 'Language', theme: 'Theme', light: 'Light', dark: 'Dark', system: 'System',
+      home: 'Home', topics: 'Topics', articles: 'Articles', archive: 'Archive', tags: 'Tags', about: 'About', language: 'Language', theme: 'Theme', light: 'Light', dark: 'Dark', system: 'System', primaryNavigation: 'Primary',
       skip: 'Skip to content', brandLabel: 'Home', heroEyebrow: 'A space for ideas', heroTitle: 'Ideas worth<br><em>sharing.</em>', heroLead: 'Knowledge, experiments, stories, games and things worth exploring — collected in one place.',
       exploreTopics: 'Explore topics', explore: 'Explore', viewAll: 'View all', featured: 'Featured', selectedReading: 'Selected reading', latest: 'Latest', allArticles: 'All articles',
       technology: 'Technology', technologyDesc: 'Software, systems, tools and the ideas behind them.', ai: 'AI', aiDesc: 'Artificial intelligence, experiments, workflows and practical lessons.', programming: 'Programming', programmingDesc: 'Engineering notes, patterns, architecture and development.', games: 'Games', gamesDesc: 'Games worth playing, understanding and talking about.', manga: 'Manga & Comics', mangaDesc: 'Stories, recommendations, reviews and collections.', novels: 'Novels', novelsDesc: 'Books and stories worth reading and remembering.', music: 'Music', musicDesc: 'Albums, artists, discoveries and listening notes.',
@@ -16,7 +24,7 @@
       pageTitleHome: 'Ideas worth sharing.', pageTitleTopics: 'Topics — Ideas worth sharing.', pageTitleArticles: 'Articles — Ideas worth sharing.', pageTitleArchive: 'Archive — Ideas worth sharing.', pageTitleTags: 'Tags — Ideas worth sharing.', pageTitleAbout: 'About — Ideas worth sharing.', pageTitleWelcome: 'Welcome to the archive — Ideas worth sharing.', pageTitleTechnology: 'Technology — Ideas worth sharing.', pageTitleAi: 'AI — Ideas worth sharing.', pageTitleProgramming: 'Programming — Ideas worth sharing.', pageTitleGames: 'Games — Ideas worth sharing.', pageTitleManga: 'Manga & Comics — Ideas worth sharing.', pageTitleNovels: 'Novels — Ideas worth sharing.', pageTitleMusic: 'Music — Ideas worth sharing.', pageTitleMetaTag: 'meta — Tags — Ideas worth sharing.', pageTitleWebsiteTag: 'website — Tags — Ideas worth sharing.'
     },
     vi: {
-      home: 'Trang chủ', topics: 'Chủ đề', articles: 'Bài viết', archive: 'Lưu trữ', tags: 'Thẻ', about: 'Giới thiệu', language: 'Ngôn ngữ', theme: 'Giao diện', light: 'Sáng', dark: 'Tối', system: 'Theo hệ thống',
+      home: 'Trang chủ', topics: 'Chủ đề', articles: 'Bài viết', archive: 'Lưu trữ', tags: 'Thẻ', about: 'Giới thiệu', language: 'Ngôn ngữ', theme: 'Giao diện', light: 'Sáng', dark: 'Tối', system: 'Theo hệ thống', primaryNavigation: 'Chính',
       skip: 'Đến nội dung', brandLabel: 'Trang chủ', heroEyebrow: 'Một không gian cho ý tưởng', heroTitle: 'Những điều đáng<br><em>chia sẻ.</em>', heroLead: 'Kiến thức, thử nghiệm, câu chuyện, trò chơi và những điều đáng khám phá — được tập hợp tại một nơi.',
       exploreTopics: 'Khám phá chủ đề', explore: 'Khám phá', viewAll: 'Xem tất cả', featured: 'Nổi bật', selectedReading: 'Bài đọc chọn lọc', latest: 'Mới nhất', allArticles: 'Tất cả bài viết',
       technology: 'Công nghệ', technologyDesc: 'Phần mềm, hệ thống, công cụ và những ý tưởng phía sau chúng.', ai: 'AI', aiDesc: 'Trí tuệ nhân tạo, thử nghiệm, quy trình và kinh nghiệm thực tế.', programming: 'Lập trình', programmingDesc: 'Ghi chú kỹ thuật, pattern, kiến trúc và phát triển phần mềm.', games: 'Trò chơi', gamesDesc: 'Những trò chơi đáng chơi, tìm hiểu và bàn luận.', manga: 'Manga & Comics', mangaDesc: 'Câu chuyện, đề xuất, đánh giá và bộ sưu tập.', novels: 'Tiểu thuyết', novelsDesc: 'Những cuốn sách và câu chuyện đáng đọc và ghi nhớ.', music: 'Âm nhạc', musicDesc: 'Album, nghệ sĩ, khám phá mới và ghi chú nghe nhạc.',
@@ -42,6 +50,35 @@
     const value = getStored(STORAGE.theme, 'system');
     return supportedThemes.includes(value) ? value : 'system';
   };
+
+  const normalizePath = (path) => {
+    const normalized = path.replace(/\/+$/, '');
+    return normalized || '/';
+  };
+
+  const isNavigationItemActive = (href, pathname) => {
+    const current = normalizePath(pathname);
+    const target = normalizePath(href);
+    return target === '/' ? current === '/' : current === target || current.startsWith(`${target}/`);
+  };
+
+  function renderPrimaryNavigation() {
+    document.querySelectorAll('.site-header nav').forEach((nav) => {
+      nav.dataset.i18nAria = 'primaryNavigation';
+      const fragment = document.createDocumentFragment();
+      const currentPath = window.location.pathname;
+
+      PRIMARY_NAVIGATION.forEach(({ key, href }) => {
+        const link = document.createElement('a');
+        link.href = href;
+        link.dataset.i18n = key;
+        if (isNavigationItemActive(href, currentPath)) link.setAttribute('aria-current', 'page');
+        fragment.appendChild(link);
+      });
+
+      nav.replaceChildren(fragment);
+    });
+  }
 
   function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
@@ -150,6 +187,7 @@
   }
 
   function init() {
+    renderPrimaryNavigation();
     applyTheme(getTheme());
     createControls();
     applyLanguage(getLanguage());
