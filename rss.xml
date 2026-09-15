@@ -15,13 +15,5 @@
       <category>Novels</category>
       <category>Sword Art Online</category>
     </item>
-    <item>
-      <title>Welcome to the archive</title>
-      <link>https://cuupham.github.io/articles/welcome/</link>
-      <guid isPermaLink="true">https://cuupham.github.io/articles/welcome/</guid>
-      <description>Why this space exists and how the content is organized.</description>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 +0000</pubDate>
-      <category>Technology</category>
-    </item>
   </channel>
 </rss>
