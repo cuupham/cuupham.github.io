@@ -13,7 +13,7 @@
 
   const translations = {
     en: {
-      home: 'Home', topics: 'Topics', articles: 'Articles', archive: 'Archive', tags: 'Tags', about: 'About', language: 'Language', theme: 'Theme', light: 'Light', dark: 'Dark', system: 'System', primaryNavigation: 'Primary',
+      home: 'Home', topics: 'Topics', articles: 'Articles', archive: 'Archive', tags: 'Tags', about: 'About', language: 'Language', theme: 'Theme', light: 'Light', dark: 'Dark', system: 'System', primaryNavigation: 'Primary', english: 'English', vietnamese: 'Vietnamese',
       skip: 'Skip to content', brandLabel: 'Home', heroEyebrow: 'A space for ideas', heroTitle: 'Ideas worth<br><em>sharing.</em>', heroLead: 'Knowledge, experiments, stories, games and things worth exploring — collected in one place.',
       exploreTopics: 'Explore topics', explore: 'Explore', viewAll: 'View all', featured: 'Featured', selectedReading: 'Selected reading', latest: 'Latest', allArticles: 'All articles',
       technology: 'Technology', technologyDesc: 'Software, systems, tools and the ideas behind them.', ai: 'AI', aiDesc: 'Artificial intelligence, experiments, workflows and practical lessons.', programming: 'Programming', programmingDesc: 'Engineering notes, patterns, architecture and development.', games: 'Games', gamesDesc: 'Games worth playing, understanding and talking about.', manga: 'Manga & Comics', mangaDesc: 'Stories, recommendations, reviews and collections.', novels: 'Novels', novelsDesc: 'Books and stories worth reading and remembering.', music: 'Music', musicDesc: 'Albums, artists, discoveries and listening notes.',
@@ -24,7 +24,7 @@
       pageTitleHome: 'Ideas worth sharing.', pageTitleTopics: 'Topics — Ideas worth sharing.', pageTitleArticles: 'Articles — Ideas worth sharing.', pageTitleArchive: 'Archive — Ideas worth sharing.', pageTitleTags: 'Tags — Ideas worth sharing.', pageTitleAbout: 'About — Ideas worth sharing.', pageTitleWelcome: 'Welcome to the archive — Ideas worth sharing.', pageTitleTechnology: 'Technology — Ideas worth sharing.', pageTitleAi: 'AI — Ideas worth sharing.', pageTitleProgramming: 'Programming — Ideas worth sharing.', pageTitleGames: 'Games — Ideas worth sharing.', pageTitleManga: 'Manga & Comics — Ideas worth sharing.', pageTitleNovels: 'Novels — Ideas worth sharing.', pageTitleMusic: 'Music — Ideas worth sharing.', pageTitleMetaTag: 'meta — Tags — Ideas worth sharing.', pageTitleWebsiteTag: 'website — Tags — Ideas worth sharing.'
     },
     vi: {
-      home: 'Trang chủ', topics: 'Chủ đề', articles: 'Bài viết', archive: 'Lưu trữ', tags: 'Thẻ', about: 'Giới thiệu', language: 'Ngôn ngữ', theme: 'Giao diện', light: 'Sáng', dark: 'Tối', system: 'Theo hệ thống', primaryNavigation: 'Chính',
+      home: 'Trang chủ', topics: 'Chủ đề', articles: 'Bài viết', archive: 'Lưu trữ', tags: 'Thẻ', about: 'Giới thiệu', language: 'Ngôn ngữ', theme: 'Giao diện', light: 'Sáng', dark: 'Tối', system: 'Theo hệ thống', primaryNavigation: 'Chính', english: 'Tiếng Anh', vietnamese: 'Tiếng Việt',
       skip: 'Đến nội dung', brandLabel: 'Trang chủ', heroEyebrow: 'Một không gian cho ý tưởng', heroTitle: 'Những điều đáng<br><em>chia sẻ.</em>', heroLead: 'Kiến thức, thử nghiệm, câu chuyện, trò chơi và những điều đáng khám phá — được tập hợp tại một nơi.',
       exploreTopics: 'Khám phá chủ đề', explore: 'Khám phá', viewAll: 'Xem tất cả', featured: 'Nổi bật', selectedReading: 'Bài đọc chọn lọc', latest: 'Mới nhất', allArticles: 'Tất cả bài viết',
       technology: 'Công nghệ', technologyDesc: 'Phần mềm, hệ thống, công cụ và những ý tưởng phía sau chúng.', ai: 'AI', aiDesc: 'Trí tuệ nhân tạo, thử nghiệm, quy trình và kinh nghiệm thực tế.', programming: 'Lập trình', programmingDesc: 'Ghi chú kỹ thuật, pattern, kiến trúc và phát triển phần mềm.', games: 'Trò chơi', gamesDesc: 'Những trò chơi đáng chơi, tìm hiểu và bàn luận.', manga: 'Manga & Comics', mangaDesc: 'Câu chuyện, đề xuất, đánh giá và bộ sưu tập.', novels: 'Tiểu thuyết', novelsDesc: 'Những cuốn sách và câu chuyện đáng đọc và ghi nhớ.', music: 'Âm nhạc', musicDesc: 'Album, nghệ sĩ, khám phá mới và ghi chú nghe nhạc.',
@@ -80,6 +80,32 @@
     });
   }
 
+  function renderArticleLanguage() {
+    const article = document.querySelector('.article');
+    if (!article) return;
+
+    const contentLanguage = String(article.getAttribute('lang') || document.documentElement.lang || 'en').toLowerCase().split('-')[0];
+    if (!supportedLanguages.includes(contentLanguage)) return;
+
+    const uiLanguage = getLanguage();
+    const t = translations[uiLanguage];
+    const languageName = contentLanguage === 'vi' ? t.vietnamese : t.english;
+
+    article.lang = contentLanguage;
+    article.dataset.contentLanguage = contentLanguage;
+
+    let label = article.querySelector('.article-language');
+    if (!label) {
+      label = document.createElement('span');
+      label.className = 'type article-language';
+      article.querySelector('.article-header')?.prepend(label);
+    }
+    if (!label) return;
+
+    label.textContent = `${t.language} · ${languageName}`;
+    label.setAttribute('aria-label', `${t.language}: ${languageName}`);
+  }
+
   function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme === 'system' ? '' : theme;
@@ -97,7 +123,7 @@
 
   function applyLanguage(lang) {
     const t = translations[lang];
-    document.documentElement.lang = lang;
+    if (!document.querySelector('.article')) document.documentElement.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.dataset.i18n;
       if (t[key] !== undefined) el.textContent = t[key];
@@ -125,6 +151,7 @@
       el.textContent = new Intl.DateTimeFormat(lang, { year: 'numeric', month: style, day: 'numeric' }).format(date);
     });
     updateControlLabels(lang);
+    renderArticleLanguage();
   }
 
   function updateControlLabels(lang) {
