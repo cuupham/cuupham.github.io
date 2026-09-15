@@ -62,6 +62,13 @@
     return target === '/' ? current === '/' : current === target || current.startsWith(`${target}/`);
   };
 
+  const getContentLanguage = (article) => {
+    const value = String(article?.getAttribute('lang') || document.documentElement.lang || 'en').toLowerCase().split('-')[0];
+    return supportedLanguages.includes(value) ? value : null;
+  };
+
+  const getLocalizedLanguageName = (language, translationsForUi) => language === 'vi' ? translationsForUi.vietnamese : translationsForUi.english;
+
   function renderPrimaryNavigation() {
     document.querySelectorAll('.site-header nav').forEach((nav) => {
       nav.dataset.i18nAria = 'primaryNavigation';
@@ -84,15 +91,16 @@
     const article = document.querySelector('.article');
     if (!article) return;
 
-    const contentLanguage = String(article.getAttribute('lang') || document.documentElement.lang || 'en').toLowerCase().split('-')[0];
-    if (!supportedLanguages.includes(contentLanguage)) return;
+    const contentLanguage = getContentLanguage(article);
+    if (!contentLanguage) return;
 
     const uiLanguage = getLanguage();
-    const t = translations[uiLanguage];
-    const languageName = contentLanguage === 'vi' ? t.vietnamese : t.english;
+    const translationsForUi = translations[uiLanguage];
+    const languageName = getLocalizedLanguageName(contentLanguage, translationsForUi);
 
     article.lang = contentLanguage;
     article.dataset.contentLanguage = contentLanguage;
+    article.querySelectorAll('.article-header > .type:not(.article-language)').forEach((element) => element.remove());
 
     let label = article.querySelector('.article-language');
     if (!label) {
@@ -102,8 +110,32 @@
     }
     if (!label) return;
 
-    label.textContent = `${t.language} · ${languageName}`;
-    label.setAttribute('aria-label', `${t.language}: ${languageName}`);
+    label.textContent = languageName;
+    label.lang = contentLanguage;
+    label.setAttribute('aria-label', languageName);
+  }
+
+  function renderArticleListLanguages() {
+    const uiLanguage = getLanguage();
+    const translationsForUi = translations[uiLanguage];
+
+    document.querySelectorAll('.article-row[data-content-language]').forEach((row) => {
+      const contentLanguage = String(row.dataset.contentLanguage || '').toLowerCase().split('-')[0];
+      if (!supportedLanguages.includes(contentLanguage)) return;
+
+      let label = row.querySelector('.article-language');
+      if (!label) {
+        label = document.createElement('span');
+        label.className = 'type article-language';
+        const type = row.querySelector('.type');
+        type?.insertAdjacentElement('afterend', label);
+      }
+      if (!label) return;
+
+      label.textContent = `· ${getLocalizedLanguageName(contentLanguage, translationsForUi)}`;
+      label.lang = contentLanguage;
+      label.setAttribute('aria-label', getLocalizedLanguageName(contentLanguage, translationsForUi));
+    });
   }
 
   function applyTheme(theme) {
@@ -152,6 +184,7 @@
     });
     updateControlLabels(lang);
     renderArticleLanguage();
+    renderArticleListLanguages();
   }
 
   function updateControlLabels(lang) {
