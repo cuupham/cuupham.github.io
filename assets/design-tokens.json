@@ -1,6 +1,6 @@
 {
   "name": "U.U.C Design Tokens",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "source": "assets/design-tokens.json",
   "layers": {
     "primitive": {
