@@ -1,0 +1,13 @@
+<p>Một hệ thống agent thường có model, bộ nhớ hoặc trạng thái, tool interfaces và một vòng lặp điều phối. Model quyết định bước tiếp theo; hệ thống thực thi và trả kết quả lại cho model.</p>
+
+<h2>Agent gồm những gì?</h2>
+<p>Một agent thường kết hợp model, trạng thái, công cụ và một cơ chế điều phối để biến suy luận thành hành động có thể kiểm soát.</p>
+
+<h2>Tại sao tool quan trọng?</h2>
+<p>Model tự thân chỉ có tri thức trong context. Tool có thể cung cấp web search, database, filesystem, API hoặc môi trường chạy code. Nhờ đó agent có thể tác động lên thế giới bên ngoài.</p>
+
+<h2>Rủi ro nằm ở hành động</h2>
+<p>Quyền truy cập quá rộng có thể biến lỗi suy luận thành lỗi hệ thống. Tool cần permission rõ ràng, validation, logging và giới hạn tác động. Những hành động không thể đảo ngược nên có bước xác nhận.</p>
+
+<h2>Agent tốt không nhất thiết phức tạp</h2>
+<p>Bắt đầu bằng workflow tuyến tính và chỉ thêm vòng lặp khi nó tạo giá trị. Một hệ thống dễ quan sát, dễ test và có failure boundary rõ ràng thường đáng tin hơn một agent “tự chủ” nhưng khó kiểm soát.</p>

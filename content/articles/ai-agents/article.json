@@ -1,0 +1,11 @@
+{
+  "slug": "ai-agents",
+  "title": "AI Agent: Khi mô hình ngôn ngữ bắt đầu biết sử dụng công cụ",
+  "description": "Agent không chỉ trả lời. Nó quan sát trạng thái, chọn hành động, dùng công cụ và đánh giá kết quả.",
+  "topic": "ai",
+  "tags": ["ai", "agents", "llm"],
+  "publishedAt": "2026-09-15",
+  "updatedAt": "2026-09-15",
+  "publishedLabel": "15 tháng 9, 2026",
+  "language": "vi"
+}
