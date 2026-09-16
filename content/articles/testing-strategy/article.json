@@ -1,0 +1,16 @@
+{
+  "slug": "testing-strategy",
+  "title": "Testing Strategy: Test đúng lớp thay vì test mọi thứ",
+  "description": "Chiến lược testing thực tế: phân lớp unit, integration và end-to-end test để cân bằng độ tin cậy, tốc độ và chi phí bảo trì.",
+  "lead": "Một hệ thống đáng tin cậy cần nhiều lớp kiểm chứng, nhưng không phải mọi logic đều cần end-to-end test. Chiến lược tốt là đặt mỗi loại test vào đúng ranh giới của nó.",
+  "topic": "programming",
+  "tags": [
+    "testing",
+    "software-engineering",
+    "quality"
+  ],
+  "publishedAt": "2026-09-15",
+  "updatedAt": "2026-09-15",
+  "publishedLabel": "15 tháng 9, 2026",
+  "language": "vi"
+}

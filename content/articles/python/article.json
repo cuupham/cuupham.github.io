@@ -1,0 +1,16 @@
+{
+  "slug": "python",
+  "title": "Python — Từ khởi nguồn đến hệ sinh thái hiện đại",
+  "description": "Python từ khởi nguồn đến hệ sinh thái hiện đại: lịch sử phát triển, cách Python thay đổi qua các thế hệ và những nguyên tắc nên dùng khi xây phần mềm hôm nay.",
+  "lead": "Python bắt đầu như một dự án ngôn ngữ nhỏ, rồi dần trở thành một trong những hệ sinh thái lập trình có ảnh hưởng nhất. Muốn hiểu Python hôm nay, cần nhìn cả vào lịch sử đã tạo nên cách nó được thiết kế và sử dụng.",
+  "topic": "programming",
+  "tags": [
+    "python",
+    "programming",
+    "software-engineering"
+  ],
+  "publishedAt": "2026-09-15",
+  "updatedAt": "2026-09-15",
+  "publishedLabel": "15 tháng 9, 2026",
+  "language": "vi"
+}

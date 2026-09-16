@@ -1,0 +1,12 @@
+{
+  "slug": "api-design",
+  "title": "API Design: Thiết kế contract trước khi viết controller",
+  "description": "Các nguyên tắc thiết kế API dễ dùng, ổn định và có khả năng tiến hóa.",
+  "lead": "",
+  "topic": "programming",
+  "tags": [],
+  "publishedAt": "2026-09-15",
+  "updatedAt": "2026-09-15",
+  "publishedLabel": "Sep 15, 2026",
+  "language": "vi"
+}
