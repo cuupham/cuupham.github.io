@@ -1,34 +1,24 @@
 # Content model
 
-U.U.C separates editorial content from page presentation.
+U.U.C separates editorial content from page presentation and generates every content index at build time.
 
-Each migrated article lives in its own directory:
+## Article source
+
+Each article lives in its own directory:
 
 ```text
 content/articles/<slug>/
-├── article.json   # metadata and taxonomy
+├── article.json   # metadata, taxonomy and publication data
 └── content.html   # semantic article body
 ```
 
-## `article.json`
+`article.json` requires `slug`, `title`, `description`, `topic`, and `publishedAt`. Optional fields include `updatedAt`, `publishedLabel`, `language`, and `tags`.
 
-Required fields:
+`content.html` contains semantic editorial markup such as headings, paragraphs, lists, links, figures, tables and code blocks. It must not contain the site header, footer, SEO shell or page-level styles.
 
-- `slug`
-- `title`
-- `description`
-- `topic`
-- `publishedAt`
+## Taxonomy
 
-Optional fields include `updatedAt`, `publishedLabel`, `language`, and `tags`.
-
-The slug must match the article directory name. Tags are an array of strings.
-
-## `content.html`
-
-Use semantic HTML for the article body: headings, paragraphs, lists, links, figures, tables, code blocks, and other content elements supported by the design system.
-
-Do not duplicate the site header, footer, metadata shell, or page-level styles here. Those belong to `templates/` and `assets/`.
+Topics are defined in `content/topics.json`. Article, archive, topic and tag listings are generated from article metadata; there is no hand-maintained article index.
 
 ## Build
 
@@ -39,4 +29,16 @@ python scripts/validate_content.py
 python scripts/build.py
 ```
 
-The builder writes the deployable static site to `_site/`. Articles without a migrated source remain available through their existing static HTML files, which makes migration incremental and keeps existing URLs stable.
+The builder creates `_site/`, including:
+
+```text
+_site/
+├── articles/<slug>/index.html
+├── archive/index.html
+├── topics/index.html
+├── topics/<slug>/index.html
+├── tags/index.html
+└── tags/<slug>/index.html
+```
+
+Generated pages are deployment output, not source content. New editorial work should only modify `content/`, `templates/`, or the design system under `assets/`.
