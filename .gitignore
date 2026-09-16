@@ -1,0 +1,10 @@
+# Static build output
+_site/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local tooling
+.pytest_cache/
+.venv/
