@@ -58,7 +58,7 @@ Content is organized around a small number of concepts:
 - **Tags** — lightweight cross-topic labels for discovery.
 - **Archive** — chronological access to published work.
 
-Migrated articles now separate content from presentation:
+Migrated articles now separate editorial content from page presentation:
 
 ```text
 content/articles/<slug>/
@@ -66,11 +66,11 @@ content/articles/<slug>/
 └── content.html   # semantic article body
 ```
 
-The shared article shell lives in `templates/article.html`; site-wide styling remains under `assets/`. Existing article HTML remains deployable during the incremental migration.
+The article shell is rendered from shared templates during the build. Site-wide styling remains under `assets/`. All existing articles are migrated through the same source model; generated HTML is build output rather than source content.
 
 ## Publishing
 
-The repository uses a lightweight, dependency-free Python build step. `scripts/validate_content.py` checks migrated article sources, then `scripts/build.py` produces a static `_site/` directory. GitHub Actions deploys that generated site to GitHub Pages.
+The repository uses a lightweight, dependency-free Python build step. `scripts/validate_content.py` validates article sources, then `scripts/build.py` produces a static `_site/` directory. GitHub Actions deploys that generated site to GitHub Pages.
 
 Run locally:
 
@@ -79,7 +79,9 @@ python scripts/validate_content.py
 python scripts/build.py
 ```
 
-The migration is incremental: a content directory containing both `article.json` and `content.html` is generated from the shared template; articles that have not yet been migrated continue to use their existing static HTML until their turn.
+New articles are added under `content/articles/<slug>/` and are rendered into the existing `/articles/<slug>/` URL during the build.
+
+For contributors and future maintenance, the priority is to keep the publishing process understandable, the markup semantic, and the visual system centralized rather than duplicated across pages.
 
 ## Philosophy
 
