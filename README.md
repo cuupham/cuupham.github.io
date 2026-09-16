@@ -18,7 +18,7 @@ The site is intentionally content-first. It is not a portfolio template or a pro
 - **Responsive by default** — works across desktop and mobile layouts.
 - **Accessible foundation** — semantic HTML, keyboard-friendly interactions, visible focus states, and reduced-motion support.
 - **Progressive enhancement** — modern browser features enhance the experience without making the content dependent on a framework runtime.
-- **Static publishing** — fast, simple, and easy to host.
+- **Static publishing** — source content is validated and built into deployable HTML before GitHub Pages deployment.
 
 ## Brand
 
@@ -58,13 +58,28 @@ Content is organized around a small number of concepts:
 - **Tags** — lightweight cross-topic labels for discovery.
 - **Archive** — chronological access to published work.
 
-The taxonomy is intentionally simple. Topics provide context; tags provide connections.
+Migrated articles now separate content from presentation:
+
+```text
+content/articles/<slug>/
+├── article.json   # metadata and taxonomy
+└── content.html   # semantic article body
+```
+
+The shared article shell lives in `templates/article.html`; site-wide styling remains under `assets/`. Existing article HTML remains deployable during the incremental migration.
 
 ## Publishing
 
-Publishing is intentionally straightforward: content is written as semantic HTML and committed to the repository. There is no build pipeline required to turn the source into a deployable site.
+The repository uses a lightweight, dependency-free Python build step. `scripts/validate_content.py` checks migrated article sources, then `scripts/build.py` produces a static `_site/` directory. GitHub Actions deploys that generated site to GitHub Pages.
 
-For contributors and future maintenance, the priority is to keep the publishing process understandable, the markup semantic, and the visual system centralized rather than duplicated across pages.
+Run locally:
+
+```bash
+python scripts/validate_content.py
+python scripts/build.py
+```
+
+The migration is incremental: a content directory containing both `article.json` and `content.html` is generated from the shared template; articles that have not yet been migrated continue to use their existing static HTML until their turn.
 
 ## Philosophy
 
