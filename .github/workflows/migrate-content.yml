@@ -3,6 +3,7 @@ name: Migrate legacy article sources
 on:
   push:
     branches:
+      - main
       - refactor/content-driven-full-migration
   pull_request:
     branches:
