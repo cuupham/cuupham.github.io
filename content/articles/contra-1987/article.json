@@ -1,0 +1,16 @@
+{
+  "slug": "contra-1987",
+  "title": "Contra (1987) — Bài học về game design và lập trình từ một tượng đài run-and-gun",
+  "description": "Contra (1987) nhìn từ góc độ game design và lập trình: run-and-gun, level design, co-op, constraint phần cứng và những bài học còn giá trị trong năm 2026.",
+  "lead": "Nhìn Contra không chỉ như một game hành động kinh điển, mà như một case study về gameplay loop, level design, co-op và cách constraint phần cứng có thể định hình cả trải nghiệm.",
+  "topic": "games",
+  "tags": [
+    "contra",
+    "run-and-gun",
+    "retro-games"
+  ],
+  "publishedAt": "2026-09-15",
+  "updatedAt": "2026-09-15",
+  "publishedLabel": "15 tháng 9, 2026",
+  "language": "vi"
+}

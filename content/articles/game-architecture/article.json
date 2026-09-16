@@ -1,0 +1,12 @@
+{
+  "slug": "game-architecture",
+  "title": "Game Architecture: Tổ chức một trò chơi để nó còn thay đổi được",
+  "description": "Kiến trúc game và cách tổ chức gameplay, rendering, input và state.",
+  "lead": "",
+  "topic": "games",
+  "tags": [],
+  "publishedAt": "2026-09-15",
+  "updatedAt": "2026-09-15",
+  "publishedLabel": "Sep 15, 2026",
+  "language": "vi"
+}
