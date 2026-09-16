@@ -91,7 +91,7 @@ def migrate(slug: str) -> bool:
         og.get("og:title") or (title_match.group(1) if title_match else slug)
     )
     published_at = (
-        meta.get("article:published_time")
+        og.get("article:published_time")
         or ld.get("datePublished")
         or (html.unescape(date_match.group(1).strip()) if date_match else "")
     )
@@ -99,7 +99,7 @@ def migrate(slug: str) -> bool:
     topic = (
         topic_match.group(1).strip()
         if topic_match
-        else clean_text(meta.get("article:section") or ld.get("articleSection") or "general")
+        else clean_text(og.get("article:section") or ld.get("articleSection") or "general")
         .lower()
         .replace(" ", "-")
     )
