@@ -165,4 +165,3 @@ export async function inspectAssets(root: string, posts: readonly SourcePost[], 
   }
   return graph;
 }
-
