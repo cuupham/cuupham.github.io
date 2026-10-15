@@ -1,0 +1,31 @@
+name: Check CPM
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: cpm-check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Assert checkout has no persisted authentication
+        shell: bash
+        run: |
+          if git config --get-regexp 'http\..*extraheader|credential\..*helper|credential\.helper' >/dev/null 2>&1; then
+            echo 'Unexpected persisted Git authentication' >&2
+            exit 1
+          fi
+      - run: npm ci
+      - run: npm run verify
