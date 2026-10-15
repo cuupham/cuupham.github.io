@@ -80,7 +80,11 @@ Phase 3 đã port mock B thành production UI, thêm artifact gates và hoàn t�
 `npm run verify` cuối exit 0: 97 tests passed/1 privilege skip, check không lỗi/cảnh báo/hint,
 production zero-content artifact 4 HTML/16 files. Xem [báo cáo Phase 2](./reports/2026-10-15-phase-02-implementation.md)
 và [Phase 3 + phần local Phase 4](./reports/2026-10-15-phase-03-implementation.md).
-Phase 4 còn PR workflow thực, secret boundary, remote rollback ref, environment enforcement, owner-approved
+Phase 4 còn remote rollback ref, environment enforcement, owner-approved
 source switch/deploy và live acceptance. Owner chọn chờ Pages live mới chốt budget. Không cần hỏi lại UI/contract/budget local.
-Owner đã cho phép commit/push nhánh và mở PR để kiểm CI ngày 2026-10-15. Đang thực hiện bước này;
-chưa đổi provider. Không merge app vào main khi Pages vẫn legacy main/root.
+Owner đã cho phép commit/push nhánh và mở PR để kiểm CI ngày 2026-10-15.
+[PR #1](https://github.com/cuupham/cuupham.github.io/pull/1) đã mở dạng draft;
+[CI thật](https://github.com/cuupham/cuupham.github.io/actions/runs/38713942819) pass: 98 tests, zero skips,
+check 0 diagnostics và artifact 4 HTML/16 files. Token thực chỉ Contents/Metadata read, checkout auth assertion pass.
+Owner credential xác nhận repository/environment secrets = 0, personal owner không có org-secret inheritance.
+HTTP 403 trước đó do dùng account không có quyền repo. Chưa đổi provider; không merge app vào main khi Pages vẫn legacy main/root.

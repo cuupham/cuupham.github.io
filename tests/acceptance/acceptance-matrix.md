@@ -15,12 +15,13 @@ Hướng giao diện B và technical contract đã được owner duyệt. Produ
 | Fixture isolation | OS-temp marker + paths; production checker/release manifest reject fixture; release checkout phải clean |
 | Verify fail propagation | Sandbox cố tình có unit fail: verify exit 1, không chạy artifact suite/final build; dist sentinel còn nguyên |
 | CI workflow syntax/security contract | actionlint 1.7.12 pass (không shellcheck/pyflakes); Bash syntax + embedded Python parse pass; job permissions/trigger contract tests pass |
-| PR job thực | **Pending** — chưa push/PR; secrets API HTTP 403, chưa chứng minh repository/org-secret boundary |
+| PR job thực | **Pass** — [run 38713942819](https://github.com/cuupham/cuupham.github.io/actions/runs/38713942819), Ubuntu 24.04; 94 unit + 4 artifact/workflow pass, zero skips; token Contents/Metadata read only, checkout auth assertion pass |
+| Secrets boundary tại thời điểm kiểm | Owner API: repository/environment secrets = 0; personal owner không có org secrets kế thừa; không phải fork-run proof |
 | Browser local | Xem [BrowserOS checklist](browserclaw-checklist.md); không thay live HTTP/real-device proof |
 | Performance budget | Owner chọn **chờ Pages live rồi chốt**; số đo local không có pass budget |
 | Provider/source migration | **Pending approval** — vẫn legacy main/root; chưa merge app vào main |
 | Exact remote rollback branch/enforcement | **Pending** — safe commit tree đã đọc; branch riêng, rights, protected environment chưa thiết lập/verify |
-| Accepted-main SHA/artifact approval/deploy | **Pending** — source đang local dirty/untracked; không có immutable accepted release SHA hay run receipt thật |
+| Accepted-main SHA/artifact approval/deploy | **Pending** — source đã commit/push trong PR draft #1; chưa accepted main/release SHA hoặc deploy artifact receipt |
 | Live routes/404/refresh | **Pending** — chưa có CPM release trên Pages |
 | Live thêm/gỡ bài thật | **Pending** — cần bài thật và owner cho phép publish/gỡ; không dùng fixture công khai thay thế |
 
@@ -30,5 +31,5 @@ Chuỗi cuối `npm run verify` exit 0: check 0 errors/warnings/hints, unit 93 p
 artifact/workflow 4 pass; production artifact 4 HTML/16 files. Actionlint trên workflow cuối exit 0.
 Xem [báo cáo triển khai](../../plans/2026-10-14-no-issue-cpm-static-v1/reports/2026-10-15-phase-03-implementation.md).
 
-Không đổi provider, enable flag/environment, commit/push hoặc tạo deployment trong lượt local này.
+Owner đã cho phép commit/push và mở PR #1; CI thật pass. Không đổi provider, enable flag/environment, merge hoặc tạo deployment.
 [Runbook](../../docs/publishing-and-rollback.md) ghi sequence có approval và rollback boundary.

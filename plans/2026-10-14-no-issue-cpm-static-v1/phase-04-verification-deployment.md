@@ -106,3 +106,15 @@ remote tree chỉ README. Secrets API 403; github-pages environment chưa có re
 Workflow mới fail closed khi thiếu owner enforcement. Chưa có remote rollback branch được verify,
 chưa push/PR/chạy CI thật, chưa owner-approved source switch/deployment hoặc live lifecycle.
 Vì các điều kiện trên, Phase 4 và overall v1 vẫn chưa nghiệm thu hoàn tất.
+
+## PR verification — 2026-10-15
+
+Owner đã cho phép commit/push nhánh và tạo PR. [PR #1](https://github.com/cuupham/cuupham.github.io/pull/1)
+giữ draft, chưa merge. [Check CPM run 38713942819](https://github.com/cuupham/cuupham.github.io/actions/runs/38713942819)
+trên commit `0d75b819cc7fcd9f1119ae199d8464a4f6ba1e18` pass: npm ci audit 0, check 0 diagnostics,
+94 unit + 4 artifact/workflow tests pass, không skip; production artifact 4 HTML/16 files.
+Ubuntu runner log xác nhận GITHUB_TOKEN chỉ Contents/Metadata read; checkout persisted-auth assertion pass.
+
+Đọc API bằng owner credential xác nhận repository/environment secrets = 0; owner type User nên không có
+organization secrets kế thừa. 403 cũ do account `gh` không có quyền repo. Account mặc định không bị đổi.
+Đây là same-repository PR run, chưa phải fork execution rehearsal. Deploy ordering/provider/live lifecycle vẫn pending.

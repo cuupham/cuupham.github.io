@@ -6,15 +6,19 @@ Source nội dung và URL theo [hợp đồng kỹ thuật](cpm-v1-technical-con
 ## Trạng thái đã xác minh ngày 2026-10-15
 
 - Repository `cuupham/cuupham.github.io`, Pages `https://cuupham.github.io/`, HTTPS enforced.
-- Pages vẫn là **legacy**, source `main` + `/`; không custom 404. Không có workflow CPM trên remote.
+- Pages vẫn là **legacy**, source `main` + `/`; không custom 404. Workflow CPM có trên nhánh PR #1, chưa có trên main.
 - Main và last successful legacy Pages build cùng commit `65d7a15fbf756be6260d4a0363d0955b5bf0ef99`.
   Tree remote tại commit đó chỉ chứa `README.md`; commit là ứng viên legacy rollback sạch, không chứa app/drafts.
 - **Chưa có remote rollback branch riêng được tạo/verify.** Commit còn reachable qua remote main hiện tại;
   không trỏ legacy lại vào main sau khi main chứa app.
-- Rulesets API trả `[]`. Secrets API trả HTTP 403; không suy ra secrets bằng 0 hoặc PR boundary đã nghiệm thu.
+- Rulesets API trả `[]`. Đọc bằng tài khoản owner xác nhận repository secrets = 0, environment secrets = 0;
+  owner là tài khoản cá nhân nên không có organization secrets kế thừa. Actions enabled, allowed actions = all.
+  Lỗi HTTP 403 trước đó do `gh` đang dùng tài khoản khác; không phải bằng chứng về secret configuration.
+  Khi có nhiều tài khoản, dùng credential owner cho đúng command mà không đổi tài khoản mặc định của user.
 - Environment `github-pages` hiện chỉ có branch policy, **chưa có required reviewer**; deploy authorize job mới
   sẽ từ chối cho đến khi owner-only approval được cấu hình và kiểm chứng.
-- Chưa đổi provider, bật release flag, commit/push/merge app hoặc deploy CPM. Những thao tác đó cần owner cho phép.
+- Owner đã cho phép commit/push nhánh và mở [PR #1](https://github.com/cuupham/cuupham.github.io/pull/1) để kiểm CI.
+  PR giữ draft. Chưa đổi provider, bật release flag, merge app hoặc deploy CPM; các bước đó cần approval riêng.
 
 Refresh tất cả giá trị trên trước thao tác. Snapshot này không thay bằng chứng live tại lúc phát hành.
 
