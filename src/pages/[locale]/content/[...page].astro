@@ -1,0 +1,28 @@
+---
+import { locales } from '../../../lib/locales';
+import { siteContent } from '../../../lib/site-content';
+import { routePath } from '../../../lib/routes';
+import { PAGE_SIZE } from '../../../lib/content-contract';
+import BaseLayout from '../../../layouts/base-layout.astro';
+import ContentList from '../../../components/content-list.astro';
+export async function getStaticPaths() {
+  const { posts } = await siteContent();
+  return locales.flatMap((locale) => Array.from({length: Math.ceil(posts.length / PAGE_SIZE)}, (_, index) => ({params: {locale: locale.segment, page: index === 0 ? undefined : `page/${index + 1}`}, props: {locale, pageNumber: index + 1}})));
+}
+const { locale, pageNumber } = Astro.props;
+const { posts, routes } = await siteContent();
+const totalPages = Math.ceil(posts.length / PAGE_SIZE);
+---
+<BaseLayout locale={locale} routes={routes} context={{kind: 'list', page: pageNumber}} title={`${locale.messages.content} — CPM`} description={locale.messages.listDescription} hasPosts={posts.length > 0}>
+  <main id="main" class="shell content-page">
+    <header class="page-intro"><p class="eyebrow">CPM</p><h1>{locale.messages.content}</h1><p>{locale.messages.listDescription}</p></header>
+    <div class="list-heading"><h2>{locale.messages.allPosts}</h2></div>
+    <ContentList posts={posts.slice((pageNumber - 1) * PAGE_SIZE, pageNumber * PAGE_SIZE)} locale={locale} />
+    {totalPages > 1 && <nav class="pagination" aria-label={locale.messages.pagination}>
+      <div>{pageNumber > 1 && <a rel="prev" href={routePath(locale.segment, {kind: 'list', page: pageNumber - 1})} aria-label={locale.messages.previous}>←</a>}
+        {Array.from({length: totalPages}, (_, index) => index + 1).map((number) => number === pageNumber ? <span aria-current="page">{number}</span> : <a href={routePath(locale.segment, {kind: 'list', page: number})}>{number}</a>)}
+        {pageNumber < totalPages && <a rel="next" href={routePath(locale.segment, {kind: 'list', page: pageNumber + 1})} aria-label={locale.messages.next}>→</a>}
+      </div><span>{pageNumber} / {totalPages}</span>
+    </nav>}
+  </main>
+</BaseLayout>

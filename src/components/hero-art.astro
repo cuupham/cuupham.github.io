@@ -1,0 +1,9 @@
+---
+import { Image } from 'astro:assets';
+import male from '../assets/artwork/hero-creator.png';
+import female from '../assets/artwork/hero-creator-female.png';
+---
+<div class="keyart" aria-hidden="true">
+  <Image class="char male" layout="none" src={male} alt="" widths={[400, 640, 800]} sizes="(max-width: 520px) 75vw, (max-width: 820px) 440px, 540px" width={800} format="webp" quality={82} loading="eager" fetchpriority="high" />
+  <Image class="char female" layout="none" src={female} alt="" widths={[400, 640, 800]} sizes="(max-width: 520px) 75vw, (max-width: 820px) 440px, 540px" width={800} format="webp" quality={82} loading="eager" fetchpriority="high" />
+</div>

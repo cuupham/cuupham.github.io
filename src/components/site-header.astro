@@ -1,0 +1,16 @@
+---
+import type { UiLocale } from '../lib/locales';
+import { routePath, type Context, type Route } from '../lib/routes';
+import LocaleSelect from './locale-select.astro';
+interface Props { locale: UiLocale; routes: Route[]; context: Context; hasPosts: boolean; notFound?: boolean }
+const { locale, routes, context, hasPosts, notFound = false } = Astro.props;
+---
+<header class="header"><div class="nav shell">
+  <a class="brand" href={routePath(locale.segment, {kind: 'home'})} aria-label={`CPM — ${locale.messages.home}`}><b>CPM</b></a>
+  <nav class="links" aria-label={locale.messages.navigation}>
+    <a href={routePath(locale.segment, {kind: 'home'})} aria-current={!notFound && context.kind === 'home' ? 'page' : undefined}>{locale.messages.home}</a>
+    {hasPosts && <a href={routePath(locale.segment, {kind: 'list', page: 1})} aria-current={!notFound && context.kind === 'list' ? 'page' : undefined}>{locale.messages.content}</a>}
+    <a href="https://github.com/cuupham" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </nav>
+  <div class="actions"><LocaleSelect locale={locale} routes={routes} context={context} /></div>
+</div></header>

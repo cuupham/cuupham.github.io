@@ -1,0 +1,9 @@
+---
+import { linkFor } from '../lib/render-assets';
+interface Props { href: string; title?: string }
+const { href, title } = Astro.props;
+const post = Astro.locals.post;
+if (!post) throw new Error('Content link requires article context');
+const url = await linkFor(post, href);
+---
+<a href={url} title={title} target={url.startsWith('https://') ? '_blank' : undefined} rel={url.startsWith('https://') ? 'noopener noreferrer' : undefined}><slot /></a>

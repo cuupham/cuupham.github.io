@@ -1,0 +1,40 @@
+---
+import { locales, defaultLocale, type UiLocale } from '../lib/locales';
+import { routePath, counterpart, type Route, type Context } from '../lib/routes';
+import { SITE } from '../lib/content-contract';
+import SiteHeader from '../components/site-header.astro';
+import SiteFooter from '../components/site-footer.astro';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import '../styles/home.css';
+import '../styles/content.css';
+interface Props { locale: UiLocale; routes: Route[]; context: Context; title: string; description?: string; hasPosts: boolean; notFound?: boolean }
+const { locale, routes, context, title, description, hasPosts, notFound = false } = Astro.props;
+declare const __CPM_FIXTURE__: boolean;
+const canonical = notFound ? undefined : new URL(routePath(context.kind === 'detail' ? defaultLocale.segment : locale.segment, context), SITE).href;
+---
+<!doctype html>
+<html lang={locale.language} data-theme="champagne">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {notFound && <meta name="robots" content="noindex" />}
+    {__CPM_FIXTURE__ && <meta name="cpm-fixture" content="isolated-acceptance-only" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    {!notFound && locales.map((other) => <link rel="alternate" hreflang={other.language} href={new URL(counterpart(routes, other.segment, context), SITE)} />)}
+    <meta property="og:title" content={title} /><meta property="og:type" content={context.kind === 'detail' ? 'article' : 'website'} />
+    {description && <meta property="og:description" content={description} />}
+    {canonical && <meta property="og:url" content={canonical} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet" />
+    <noscript><style>.locale-control,[data-load-embed]{display:none!important}</style></noscript>
+  </head>
+  <body id="top">
+    <a class="skip" href="#main">{locale.messages.skip}</a>
+    <SiteHeader locale={locale} routes={routes} context={context} hasPosts={hasPosts} notFound={notFound} />
+    <slot />
+    <SiteFooter locale={locale} />
+    <script>import '../scripts/locale-select';</script>
+  </body>
+</html>

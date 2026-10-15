@@ -1,0 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import { imageFor, mediaFor, optimizedImage } from '../lib/render-assets';
+import type { Post } from '../lib/site-content';
+import type { UiLocale } from '../lib/locales';
+interface Props { post: Post; locale: UiLocale }
+const { post, locale } = Astro.props;
+const gallery = await Promise.all((post.data.gallery ?? []).map(async (item) => ({ ...item, src: await imageFor(post, item.image) })));
+const media = await Promise.all((post.data.media ?? []).map(async (item) => item.kind === 'embed' ? item : ({ ...item, url: await mediaFor(post, item.src), posterUrl: item.poster ? (await optimizedImage(post, item.poster)).src : undefined })));
+---
+{gallery.length > 0 && <div class="gallery">{gallery.map((image) => <figure><Image src={image.src} alt={image.alt} width={960} widths={[320, 640, 960]} sizes="(max-width: 520px) 50vw, 480px" format="webp" loading="lazy" />{image.caption && <figcaption>{image.caption}</figcaption>}</figure>)}</div>}
+{media.map((item) => item.kind === 'embed' ? <div class="embed-box" lang={locale.language}>
+  <button class="cta" type="button" data-load-embed={item.url} data-frame-title={item.title}>{locale.messages.loadEmbed}</button>
+  <p><a href={item.url} target="_blank" rel="noopener noreferrer">{locale.messages.source}: {item.title} ↗</a></p>
+</div> : <figure class="local-media">
+  {item.kind === 'video' ? <video controls preload="none" playsinline aria-label={item.title} src={item.url} poster={item.posterUrl}></video> : <audio controls preload="none" aria-label={item.title} src={item.url}></audio>}
+  {item.caption && <figcaption>{item.caption}</figcaption>}
+</figure>)}

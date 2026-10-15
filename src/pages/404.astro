@@ -1,0 +1,11 @@
+---
+import { defaultLocale, locales } from '../lib/locales';
+import { siteContent } from '../lib/site-content';
+import BaseLayout from '../layouts/base-layout.astro';
+const { posts, routes } = await siteContent();
+---
+<BaseLayout locale={defaultLocale} routes={routes} context={{kind: 'home'}} title={`404 — ${defaultLocale.messages.notFound}`} hasPosts={posts.length > 0} notFound>
+  <main id="main" class="shell content-page"><header class="page-intro"><p class="eyebrow">404</p><h1>{defaultLocale.messages.notFound}</h1></header>
+    <nav class="breadcrumbs" aria-label={defaultLocale.messages.home}>{locales.map((locale) => <a href={`/${locale.segment}/`} lang={locale.language}>{locale.label} — {locale.messages.home}</a>)}</nav>
+  </main>
+</BaseLayout>

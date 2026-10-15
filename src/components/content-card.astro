@@ -1,0 +1,21 @@
+---
+import { Image } from 'astro:assets';
+import { languageLabel, type UiLocale } from '../lib/locales';
+import { formatDate } from '../lib/content-contract';
+import { routePath } from '../lib/routes';
+import { imageFor } from '../lib/render-assets';
+import type { Post } from '../lib/site-content';
+interface Props { post: Post; locale: UiLocale }
+const { post, locale } = Astro.props;
+const cover = post.data.cover ? await imageFor(post, post.data.cover.image) : undefined;
+const href = routePath(locale.segment, {kind: 'detail', id: post.id});
+---
+<article class:list={['content-entry', {'has-image': !!cover}]} lang={post.data.language} data-post-id={post.id}>
+  {cover && post.data.cover && <Image class="entry-image" src={cover} alt={post.data.cover.alt} width={640} widths={[320, 640]} sizes="(max-width: 520px) 100vw, 320px" format="webp" loading="lazy" />}
+  <div class="entry-copy">
+    <div class="entry-meta" lang={locale.language}><time datetime={post.data.publishedAt}>{formatDate(post.data.publishedAt, locale.language)}</time><span>{locale.messages.articleLanguage}: {languageLabel(post.data.language, locale.language)}</span></div>
+    <h3><a href={href}>{post.data.title}</a></h3>
+    {post.data.description && <p>{post.data.description}</p>}
+    <a class="entry-link" href={href} lang={locale.language}>{locale.messages.read}<span aria-hidden="true">↗</span></a>
+  </div>
+</article>

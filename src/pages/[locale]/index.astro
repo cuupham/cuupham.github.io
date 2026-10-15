@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import { locales } from '../../lib/locales';
+import { siteContent } from '../../lib/site-content';
+import { LATEST_COUNT } from '../../lib/content-contract';
+import { routePath } from '../../lib/routes';
+import BaseLayout from '../../layouts/base-layout.astro';
+import HeroArt from '../../components/hero-art.astro';
+import ContentList from '../../components/content-list.astro';
+import collection from '../../assets/artwork/collection-observatory.png';
+export function getStaticPaths() { return locales.map((locale) => ({params: {locale: locale.segment}, props: {locale}})); }
+const { locale } = Astro.props;
+const { posts, routes } = await siteContent();
+const text = locale.messages;
+---
+<BaseLayout locale={locale} routes={routes} context={{kind: 'home'}} title="CPM — Independent Digital Creator" description={text.homeDescription} hasPosts={posts.length > 0}>
+  <main id="main">
+    <section class="hero"><div class="shell"><div class="copy">
+      <p class="eyebrow">Independent Digital Creator</p><h1 class="title">CPM<span>Creative Signal</span></h1>
+      <p class="tagline">{text.tagline}</p><p class="desc">{text.introduction}</p>
+      <div class="hero-actions"><a class="cta" href={posts.length ? '#latest' : '#about'}>{posts.length ? text.content : text.about}<span aria-hidden="true">↓</span></a></div>
+    </div><HeroArt /></div></section>
+    {posts.length > 0 && <section class="recent" id="latest"><div class="shell">
+      <div class="section-heading"><h2>{text.latest}</h2><a class="quiet-link" href={routePath(locale.segment, {kind: 'list', page: 1})}>{text.all}<span aria-hidden="true">↗</span></a></div>
+      <ContentList posts={posts.slice(0, LATEST_COUNT)} locale={locale} />
+    </div></section>}
+    <section class="about" id="about"><div class="shell"><div class="about-copy">
+      <p class="kicker">{text.about} CPM</p><h2>{text.aboutFirst}<br />{text.aboutSecond}</h2><p>{text.aboutBody}</p>
+    </div><figure class="about-art"><Image src={collection} alt="" width={960} widths={[480, 640, 960]} sizes="(max-width: 520px) 100vw, 50vw" format="webp" loading="lazy" /><figcaption>CPM / PERSONAL COLLECTION</figcaption></figure></div></section>
+  </main>
+</BaseLayout>

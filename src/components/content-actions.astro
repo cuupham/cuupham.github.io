@@ -1,0 +1,10 @@
+---
+import type { Post } from '../lib/site-content';
+import type { UiLocale } from '../lib/locales';
+interface Props { post: Post; locale: UiLocale }
+const { post, locale } = Astro.props;
+const actions = post.data.actions ?? [];
+---
+{actions.length > 0 && <div class="article-action" lang={locale.language}>
+  {actions.map((action) => <a class="cta cta--secondary" href={action.href} target={action.href.startsWith('https://') ? '_blank' : undefined} rel={action.href.startsWith('https://') ? 'noopener noreferrer' : undefined}>{action.label}<span aria-hidden="true">↗</span></a>)}
+</div>}
