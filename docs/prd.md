@@ -1,6 +1,6 @@
 # PRD — CPM Personal GitHub Pages
 
-**Trạng thái:** Đã cập nhật theo validation/red team và quyết định chủ sở hữu — chưa triển khai
+**Trạng thái:** Đã duyệt
 **Ngày:** 2026-10-14
 **Đối tượng:** Chủ sở hữu sản phẩm và các agent triển khai
 **Phạm vi tài liệu:** Ý định sản phẩm, quyết định đã chốt, yêu cầu v1 và tiêu chí nghiệm thu
@@ -19,20 +19,10 @@ khả năng mở rộng nội dung đa ngôn ngữ và các đường dẫn th�
 
 ## 2. Bối cảnh và bằng chứng hiện tại
 
-Mock hiện tại là tham chiếu trực quan và nội dung cho home, không phải cam kết về kiến trúc sản xuất:
-
-- [README mock](../mockups/cpm-portfolio/README.md) mô tả prototype HTML mở trực tiếp, fallback khi tắt JavaScript,
-  native select và các vùng dùng chung.
-- [Mock home](../mockups/cpm-portfolio/index.html) thể hiện hero CPM, manifesto, collection overview,
-  liên kết GitHub và footer tối giản.
-- [Design tokens](../mockups/cpm-portfolio/shared/tokens.css) là bằng chứng tham chiếu cho màu, typography,
-  khoảng cách, breakpoint, gutter và motion hiện tại.
-- [Shared components](../mockups/cpm-portfolio/shared/components.css) là bằng chứng tham chiếu cho focus,
-  button, select, label, panel, artwork, footer link và reduced motion hiện tại.
-
-Prototype hiện có nội dung mẫu và hình ảnh minh họa; chưa có sản phẩm, bài viết hoặc dữ liệu phát hành thật.
-Responsive, deploy trực tiếp, route detail khi refresh, chất lượng accessibility và hiệu năng chưa được chứng minh
-bởi mock này; các điểm đó là yêu cầu cần nghiệm thu của sản phẩm.
+Production UI dùng [design tokens](../src/styles/tokens.css), các component Astro trong `src/components/`,
+layout trong `src/layouts/` và route pages trong `src/pages/`. Hợp đồng route/schema/SEO nằm trong
+[hợp đồng kỹ thuật](cpm-v1-technical-contract.md); các script build và artifact là nguồn kiểm tra thực thi.
+Reference fixture chỉ là tài liệu local, không thuộc source publish hoặc artifact.
 
 ## 3. Định vị, người dùng và giọng điệu
 
@@ -96,7 +86,7 @@ Schema có một nguồn dùng chung cho kiểm tra nội dung, danh sách, deta
 - Ngày đăng là metadata, không phải lịch hẹn giờ. V1 không có scheduler.
 - Bài thuộc tập nội dung của website được đưa lên sau build/deploy thành công, không tự ẩn hoặc chờ đến ngày ghi trong file.
 - Loại file nháp trước khi tính số bài, sắp xếp hoặc chọn bài mới nhất; không lọc theo ngôn ngữ giao diện.
-- Định dạng ngày, chuẩn hóa timezone và chiều tie-break theo ID cần được quy định nhất quán trong schema/plan kỹ thuật;
+- Định dạng ngày, chuẩn hóa timezone và chiều tie-break theo ID phải nhất quán trong schema và [hợp đồng kỹ thuật](cpm-v1-technical-contract.md);
   không xem đây là tính năng hẹn giờ.
 
 ### Cách chủ sở hữu thêm bài
@@ -162,7 +152,7 @@ External embed là khả năng tùy chọn; tải khi cần và cân nhắc priv
 - Dùng native `<select>` có accessible label, không dùng hai nút VI/EN hoặc chuỗi mã ngôn ngữ trong footer.
 - Registry ngôn ngữ giao diện và dictionary UI dùng chung; thêm ngôn ngữ không nhân bản danh sách trong từng template.
 - Dữ liệu bài chứa mã ngôn ngữ nội dung, không hardcode nhãn “tiếng Việt” cho tất cả bài.
-- Chuyển giao diện qua route static hoặc cách tổ chức URL đã chốt trong plan, luôn giữ cùng ID bài.
+- Chuyển giao diện qua route static đã chốt trong [hợp đồng kỹ thuật](cpm-v1-technical-contract.md), luôn giữ cùng ID bài.
 - Đã chốt prefix cả VI `/vi/` và EN `/en/`; root `/` dẫn về VI mặc định bằng HTML redirect có link thật. Danh sách/detail/pagination nằm dưới prefix tương ứng; không sinh root content aliases.
 - Khi JavaScript tắt, nội dung và link chính vẫn hoạt động; cung cấp liên kết đổi giao diện thật trong fallback.
   Không coi select đổi giá trị là đã điều hướng nếu chưa có hành vi tương ứng.
@@ -173,7 +163,7 @@ Document dùng ngôn ngữ giao diện; phần nội dung bài khai báo ngôn n
 Tiêu đề, mô tả và nội dung bài không bị gắn nhãn như bản dịch EN chỉ vì giao diện chuyển EN.
 Metadata lấy từ nội dung thật; mô tả có thể lấy từ mô tả ngắn nếu có hoặc đoạn trích bài theo quy tắc chung.
 Canonical và alternate phải trỏ route có thật và phân biệt biến thể giao diện với bản dịch nội dung;
-quy tắc URL/SEO cụ thể cần được chốt trong plan kỹ thuật.
+  quy tắc URL/SEO cụ thể nằm trong [hợp đồng kỹ thuật](cpm-v1-technical-contract.md).
 
 ## 7. Hệ thống hình ảnh và giao diện
 
@@ -205,8 +195,7 @@ quy tắc URL/SEO cụ thể cần được chốt trong plan kỹ thuật.
 - Customizable `base-select` chỉ là progressive enhancement trong browser hỗ trợ; browser khác dùng native fallback.
 - Không dùng background autoplay video.
 
-Layout phải được kiểm tra ở viewport 375, 768, 1440 px và landscape tương ứng; mock hiện tại chưa được xem là
-bằng chứng responsive hoàn chỉnh.
+Layout phải được kiểm tra ở viewport mobile, tablet, desktop và landscape; production acceptance dùng browser evidence theo runbook.
 
 ## 8. Biên giới kỹ thuật sản phẩm
 
@@ -217,18 +206,14 @@ bằng chứng responsive hoàn chỉnh.
 - Không có CMS, backend hoặc database trong v1.
 - Layout/component Astro dùng chung là SSOT; design tokens, schema, locale registry và action URL lấy từ data,
   không hardcode lặp trong từng page.
-- HTML+JS fallback của mock là prototype; không phải yêu cầu phải giữ nguyên như production architecture.
+- HTML+JS fallback của thiết kế tham chiếu không phải yêu cầu phải giữ nguyên như production architecture.
 
-### Đề xuất kỹ thuật cần owner/implementation review
+### Ràng buộc implementation hiện hành
 
-- Trường dữ liệu bắt buộc ở mục 5 đã chốt; tên field trong code, thư mục nội dung và cấu trúc route chưa phải exact implementation đã chốt.
-- Route có thể phân biệt ngôn ngữ giao diện, nhưng detail luôn giữ cùng ID/ngôn ngữ bài khi chuyển giao diện.
-  Tên thư mục, schema executable và cách tạo slug từ ID cần chốt trong plan triển khai.
-- Build nên fail hoặc báo lỗi rõ cho data invalid, link external/local không hợp lệ và reference asset không tồn tại.
-  Cách fail cụ thể là quyết định engineering, nhưng không được bỏ qua lỗi silently.
-  Phải phân biệt URL sai cấu trúc, route nội bộ sai và asset thiếu với đích external tạm thời không truy cập được.
-  Kiểm tra mạng external không được làm build phụ thuộc cứng vào việc mọi dịch vụ ngoài đều luôn online;
-  link thực cần được mở kiểm tra khi nghiệm thu nội dung.
+- Trường dữ liệu, thư mục nguồn, schema executable và route production được triển khai theo
+  [hợp đồng kỹ thuật](cpm-v1-technical-contract.md), với schema tại `src/lib/content-contract.ts` và routes tại `src/lib/routes.ts`.
+- Build fail rõ cho data invalid, link external/local không hợp lệ và reference asset không tồn tại qua
+  `scripts/check-content.mjs`, `scripts/build.mjs` và artifact checks. External outage không là dependency cứng của build.
 
 ## 9. SEO, deploy và vận hành nội dung
 
@@ -240,8 +225,8 @@ bằng chứng responsive hoàn chỉnh.
 - 404 phải là page thật, có điều hướng hữu ích và không giả dạng content detail.
 - Ảnh được nén, có kích thước/nguồn responsive phù hợp mobile/desktop; ảnh dưới fold tải khi cần.
   Đặt kích thước hoặc aspect ratio để hạn chế nhảy bố cục. Font ngoài có fallback local/system.
-- GitHub Actions chỉ là pipeline build/deploy static theo cấu hình được duyệt; PRD không ghi nhận nó đã chạy thành công.
-- Release cần có bằng chứng source/artifact đã được chủ sở hữu chấp nhận; push vào nhánh triển khai tự nó không thay thế review. Cơ chế enforcement được xác nhận trước khi bật auto-deploy.
+- GitHub Actions là pipeline build/deploy static theo cấu hình được duyệt; release phải gắn source SHA và artifact approval.
+- Release cần có bằng chứng source/artifact đã được chủ sở hữu chấp nhận; push vào nhánh triển khai tự nó không thay thế review. Environment owner-only và manual release approval là boundary hiện hành.
 - Link GitHub hoặc release chỉ xuất hiện khi là link thật và đúng ngữ cảnh; không dùng username block để thay nội dung.
 
 ## 10. Tiêu chí nghiệm thu
@@ -297,18 +282,17 @@ bằng chứng responsive hoàn chỉnh.
 - Khi nghiệm thu, ghi dung lượng ảnh thực tải và thời gian tải ở mobile/desktop, kèm viewport,
   điều kiện mạng/thiết bị và cách đo. Không dùng kích thước source file để thay cho bytes thực tải.
 
-Chưa áp ngưỡng MB/giây cứng hoặc LCP gate trước khi đo và thống nhất môi trường.
-Mọi ngân sách cụ thể cần được chốt trong plan kỹ thuật sau đo ban đầu.
-Kết quả thực nằm trong artifact kiểm thử, không ghi PRD như đã có điểm số hoặc số đo đạt chuẩn.
+Budget lab hiện hành là same-origin decoded bytes ≤300,000 và median lab LCP ≤2,500 ms dưới profile đã ghi trong
+runbook. Đây là ngưỡng lab được owner ủy quyền chọn theo best practice 2026; không phải field/Core Web Vitals p75,
+Lighthouse hay cold-font claim.
 
-## 12. Các chi tiết còn cần thiết kế và lập plan
+## 12. Các điểm maintainer cần giữ
 
-1. Mock danh sách/detail và mock mobile, gồm cách trình bày media; số lượng đã chốt là tối đa 3 bài mới trên home và 12 bài/trang danh sách với phân trang static.
-2. Slug ổn định theo ID và canonical/alternate trên cấu trúc URL đã chốt `/vi/`, `/en/`; root dùng HTML redirect về VI mặc định.
-3. Tên field/schema executable, nguồn nội dung và nơi chứa file nháp/asset nháp để đáp ứng hợp đồng đã chốt.
-4. Các MDX component/import cần dùng thực tế; mỗi component được review trước khi sử dụng.
-5. Nơi host từng binary/release và URL thật tương ứng khi có sản phẩm.
-6. Định dạng ngày/timezone/tie-break nhất quán và môi trường/ngân sách hiệu năng sau đo.
+1. Giữ tối đa 3 bài mới trên home, 12 bài/trang và route prefix `/vi/`, `/en/` như hợp đồng kỹ thuật.
+2. Giữ source boundary, schema, URL validator, SEO wrapper và artifact gate qua các nguồn executable hiện hành.
+3. Chỉ thêm MDX component/import khi source được review; không đưa fixture, nháp hoặc asset riêng nháp vào publish.
+4. Binary/release chỉ được link khi có URL thật và ngữ cảnh rõ ràng.
+5. Lifecycle gỡ bài phải hoàn tất bằng artifact/deploy thứ hai và hậu kiểm route cũ trước khi gọi v1 đã nghiệm thu.
 
 Các điểm trên là chi tiết triển khai, không mở lại mô hình ngôn ngữ giao diện độc lập ngôn ngữ bài,
 không lọc danh sách khi đổi VI/EN, không trang quản trị/CMS/backend v1, không scheduler,
@@ -324,15 +308,7 @@ API, workflow hoặc deploy hiện tại đã được live verify:
 - [GitHub Pages overview](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
 - [MDN Customizable select](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Customizable_select)
 
-## 14. Trạng thái review và bước tiếp theo
+## 14. Tài liệu triển khai
 
-Các quyết định sản phẩm qua validation/red team đã được chủ sở hữu review từng phát hiện và cập nhật vào PRD.
-[Báo cáo review và câu trả lời](../plans/reports/2026-10-14-prd-validation-red-team.md) giữ lịch sử các phương án,
-gồm cả đề xuất ban đầu về lọc bài theo locale đã bị thay thế; PRD này là nguồn yêu cầu hiện hành.
-
-Đã tạo [implementation plan CPM v1](../plans/2026-10-14-no-issue-cpm-static-v1/plan.md) gồm 4 phase; phase đầu review mock danh sách/detail/mobile và hợp đồng kỹ thuật đề xuất.
-Chưa có schema executable hoặc bằng chứng nghiệm thu/deploy; plan và tài liệu này không chứng minh sản phẩm đã hoàn tất.
-
-Theo phản hồi mới, đã dựng [mock A — Trung tính](../mockups/cpm-portfolio/home-mobile.html) và
-[mock B — Champagne](../mockups/cpm-portfolio/champagne/home-mobile.html) để review hình ảnh/layout.
-Đây là artifact so sánh, chưa đóng gate Phase 1 hoặc tự xác nhận technical contract.
+[Hợp đồng kỹ thuật](cpm-v1-technical-contract.md) cụ thể hóa schema, routes và các bất biến của sản phẩm.
+[Hướng dẫn phát hành](publishing-and-rollback.md) quy định source/artifact approval, rollback và kiểm tra sau deploy.
