@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: "Nghiệm thu và chuyển Pages sang Actions"
-status: pending
+status: in-progress
 priority: P2
 effort: 10h
 dependencies: [3]
@@ -93,7 +93,13 @@ After baseline, propose bytes/LCP budget to owner. It becomes blocking only afte
 - [ ] Owner-approved Actions source + accepted-main deploy produce clean live artifact; previous state recoverable.
 - [ ] Real add/remove lifecycle passes live, or stays explicitly pending and overall v1 is not called accepted.
 
-## Local progress — 2026-10-15
+## Current status — 2026-10-16
+
+Phase 4 đang tiếp tục. CI head `64e2bbf0d8911266ad992127e2509387fc74cb65` và run [38714258649](https://github.com/cuupham/cuupham.github.io/actions/runs/38714258649) đã pass; PR #1 vẫn là draft. Remote rollback ref `pages-legacy-safe` đã được tạo và re-GET xác minh trỏ tới safe SHA `65d7a15fbf756be6260d4a0363d0955b5bf0ef99`, tree chỉ có `README.md`. Environment `github-pages` đã có required reviewer duy nhất là owner, `prevent_self_review=false` cho repository một owner và chỉ cho main. Pages vẫn legacy main/root; source switch, merge, release flag, artifact review/approval, deploy, live acceptance và lifecycle bài thật còn pending. Xem [báo cáo chuẩn bị phát hành](./reports/2026-10-16-release-preparation.md) cho snapshot/receipt hiện tại.
+
+## Historical local progress — 2026-10-15
+
+Snapshot lịch sử dưới đây được ghi nhận trước các thay đổi provider ngày 2026-10-16 và đã được supersede bởi [current status](#current-status--2026-10-16).
 
 Đã viết check/deploy workflows, artifact receipt guard, acceptance scripts và
 [publishing/rollback runbook](../../docs/publishing-and-rollback.md). `npm ci`, final `npm run verify`,

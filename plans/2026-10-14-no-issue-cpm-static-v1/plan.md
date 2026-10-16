@@ -42,10 +42,10 @@ Draft nằm ngoài loader và mọi public dependency root; ngôn ngữ UI chỉ
 
 | # | Phase | Trạng thái | Phụ thuộc | Effort (ước tính) |
 |---|---|---|---|---|
-| 1 | [Chốt hợp đồng và mock review](./phase-01-start.md) | Pending | — | 5h |
-| 2 | [Astro, content contract và locale routes](./phase-02-astro-content-locale.md) | Pending | Phase 1 được owner duyệt | 12h |
-| 3 | [Pages, assets và shared UI](./phase-03-pages-assets-ui.md) | Pending | Phase 2 xanh | 16h |
-| 4 | [Nghiệm thu và chuyển Pages sang Actions](./phase-04-verification-deployment.md) | Pending | Phase 3 xanh; owner duyệt provider/publish | 10h |
+| 1 | [Chốt hợp đồng và mock review](./phase-01-start.md) | Done | — | 5h |
+| 2 | [Astro, content contract và locale routes](./phase-02-astro-content-locale.md) | Done | Phase 1 được owner duyệt | 12h |
+| 3 | [Pages, assets và shared UI](./phase-03-pages-assets-ui.md) | Done | Phase 2 xanh | 16h |
+| 4 | [Nghiệm thu và chuyển Pages sang Actions](./phase-04-verification-deployment.md) | In progress | Phase 3 xanh; owner duyệt provider/publish | 10h |
 
 ## Tiêu chí hoàn tất toàn plan
 
@@ -67,7 +67,7 @@ Mỗi phase có rollback riêng. Release giữ snapshot cấu hình/artifact/com
 
 ## Validation Log và Red Team Review
 
-Owner đã xác nhận 3/12 và duyệt áp dụng 14 finding (10 High, 4 Medium); chi tiết/propagation trong [review log](./reports/plan-review.md). Các phase đã bổ sung raw-HTML policy, media emission, locale/language checks, independent oracle, `verify`, fixture isolation, deploy authorization/order và exact rollback target. Status các phase vẫn pending; đây là kế hoạch thực thi, chưa phải bằng chứng runtime.
+Owner đã xác nhận 3/12 và duyệt áp dụng 14 finding (10 High, 4 Medium); chi tiết/propagation trong [review log](./reports/plan-review.md). Các phase đã bổ sung raw-HTML policy, media emission, locale/language checks, independent oracle, `verify`, fixture isolation, deploy authorization/order và exact rollback target. Bảng phase phản ánh trạng thái hiện tại; đây là kế hoạch thực thi, chưa phải bằng chứng runtime.
 
 Lượt [validate/red-team 2026-10-15](./reports/2026-10-15-validation-red-team.md): owner chốt prefix VI/EN và duyệt cả 6 finding mới (2 High, 4 Medium); đã propagate. Ngày bài vẫn date-only proposal khi chưa có câu trả lời; runtime chưa được triển khai/verify.
 
@@ -84,7 +84,9 @@ Phase 4 còn remote rollback ref, environment enforcement, owner-approved
 source switch/deploy và live acceptance. Owner chọn chờ Pages live mới chốt budget. Không cần hỏi lại UI/contract/budget local.
 Owner đã cho phép commit/push nhánh và mở PR để kiểm CI ngày 2026-10-15.
 [PR #1](https://github.com/cuupham/cuupham.github.io/pull/1) đã mở dạng draft;
-[CI thật](https://github.com/cuupham/cuupham.github.io/actions/runs/38713942819) pass: 98 tests, zero skips,
-check 0 diagnostics và artifact 4 HTML/16 files. Token thực chỉ Contents/Metadata read, checkout auth assertion pass.
+[CI head hiện tại](https://github.com/cuupham/cuupham.github.io/actions/runs/38714258649) pass trên commit `64e2bbf0d8911266ad992127e2509387fc74cb65`.
+Token thực chỉ Contents/Metadata read, checkout auth assertion pass.
 Owner credential xác nhận repository/environment secrets = 0, personal owner không có org-secret inheritance.
 HTTP 403 trước đó do dùng account không có quyền repo. Chưa đổi provider; không merge app vào main khi Pages vẫn legacy main/root.
+
+Trạng thái hiện tại và receipt chuẩn bị phát hành ngày 2026-10-16 nằm trong [báo cáo release-preparation](./reports/2026-10-16-release-preparation.md). Phase 1–3 đã hoàn tất theo checklist/handoff; Phase 4 đang tiếp tục. Remote rollback ref và owner-only environment enforcement đã được xác minh, còn source switch, merge, release flag, artifact approval, deploy và live acceptance vẫn pending.

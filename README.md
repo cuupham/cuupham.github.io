@@ -23,8 +23,8 @@ Dùng Node theo [.node-version](.node-version), sau đó `npm ci`.
 - `npm run preview`: xem output build tại `http://127.0.0.1:4321`.
 
 Bài thật nằm ở `src/content/posts/<id>.md|mdx`; [mẫu bài](content-templates/post.md) không thuộc tập publish.
-Nháp và asset riêng của nháp nằm ở `drafts/`. Repo chưa có bài thật; production có home B champagne và 404,
-không tạo list/detail khi tập bài rỗng. Không upload toàn repository lên Pages; chỉ `dist/` sau các gate.
+Nháp và asset riêng của nháp nằm ở `drafts/`. Khi tập bài rỗng, production chỉ có home B champagne và 404,
+không tạo list/detail. Không upload toàn repository lên Pages; chỉ `dist/` sau các gate.
 
 [Phát hành và rollback](docs/publishing-and-rollback.md) mô tả fixture preview, CI, source switch, exact SHA/artifact approval
 và phần live còn pending. Pages hiện vẫn legacy main/root; chưa merge app vào nguồn đó.

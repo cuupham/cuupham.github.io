@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: "Chốt hợp đồng và mock review"
-status: pending
+status: completed
 priority: P2
 effort: 5h
 dependencies: []
@@ -107,6 +107,10 @@ Fixture được ghi rõ mock-only: một card/article đủ field cộng các v
 - [x] 3 latest/12 per page xuất hiện đúng như quyết định owner; không có page-1 duplicate.
 - [x] Route collision/canonical, nested shapes và asset rules được mô tả cụ thể trong technical contract; proposal ngày/excerpt vẫn chờ duyệt.
 - [x] Không có public product/content claim mới.
+
+## Current status — 2026-10-16
+
+Phase 1 đã hoàn tất theo checklist và handoff: mock B và technical contract đã được owner chấp nhận, gate đã đóng. Các execution log bên dưới ghi lại trạng thái tại thời điểm từng lượt chạy.
 
 ## Execution log — 2026-10-15
 

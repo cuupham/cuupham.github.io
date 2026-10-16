@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: "Astro, content contract và locale routes"
-status: pending
+status: completed
 priority: P2
 effort: 12h
 dependencies: [1]
@@ -88,6 +88,10 @@ Scaffold Astro static và biến contract đã duyệt thành một pipeline duy
 - [x] Zero-content build succeeds without public list/detail routes or fake content.
 - [x] Draft files/assets have no loader or public dependency path.
 - [x] Build cannot bypass required content invariants.
+
+## Current status — 2026-10-16
+
+Phase 2 đã hoàn tất theo checklist và handoff. Astro/content/locale pipeline và các kiểm tra local đã xanh; bằng chứng chi tiết nằm trong [báo cáo implementation](./reports/2026-10-15-phase-02-implementation.md). Các execution log bên dưới là lịch sử, không thay thế trạng thái release hiện tại.
 
 ## Execution log — 2026-10-15
 

@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: "Pages, assets và shared UI"
-status: pending
+status: completed
 priority: P2
 effort: 16h
 dependencies: [2]
@@ -87,6 +87,10 @@ Pages ask route registry for real paths → load same sorted entries → layouts
 - [x] UI locale changes wrapper only; article identity/language/title/body and order stay stable.
 - [x] 3 latest/12 per page, optional UI, no-JS, 404 and SEO follow approved contract.
 - [x] Production source contains no fake published content.
+
+## Current status — 2026-10-16
+
+Phase 3 đã hoàn tất theo checklist và handoff. Pages/assets/shared UI và local artifact gates đã xanh; bằng chứng chi tiết nằm trong [báo cáo implementation](./reports/2026-10-15-phase-03-implementation.md). Browser/local evidence không thay thế live deployment evidence của Phase 4.
 
 ## Execution log — 2026-10-15
 
