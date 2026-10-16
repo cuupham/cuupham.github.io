@@ -113,12 +113,20 @@ describe('independent site artifact oracle', () => {
     } finally { await f.cleanup(); }
   }, 240000);
 
-  it('detects stale routes, missing fragments, fixture leakage and incorrect canonical metadata in output', async () => {
+  it('detects stale routes, hidden paths, missing fragments, fixture leakage and incorrect canonical metadata in output', async () => {
     const f = await createWorkspace();
     try {
       await seedPosts(f, 1);
       const result = await command(f.root, ['--import', 'tsx', path.join(f.root, 'scripts/build.mjs')]);
       expect(result.code, result.output).toBe(0);
+      for (const relative of ['.nojekyll', '_astro/.hidden.txt', '.github/config.json', '.well-known/entry.txt']) {
+        const hidden = await f.write(`dist/${relative}`, 'must not be silently omitted from the Pages upload');
+        await expect(checkArtifact(f.root)).rejects.toThrow('Hidden artifact path');
+        await fs.unlink(hidden);
+        if (relative.startsWith('.github/') || relative.startsWith('.well-known/')) {
+          await fs.rmdir(path.dirname(hidden));
+        }
+      }
       const target = path.join(f.root, 'dist/en/content/cpm-acceptance-fixture-01/index.html');
       const original = await fs.readFile(target, 'utf8');
       await fs.writeFile(target, original.replace('rel="canonical"', 'rel="incorrect"'));

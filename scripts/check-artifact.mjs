@@ -49,6 +49,7 @@ export async function checkArtifact(root, { output = path.join(root, 'dist') } =
   async function walk(folder) {
     for (const entry of await fs.readdir(folder)) {
       const file = path.join(folder, entry);
+      assert(!entry.startsWith('.'), `Hidden artifact path: ${path.relative(output, file)}`);
       const stat = await fs.lstat(file);
       assert(!stat.isSymbolicLink(), `Artifact contains symlink: ${file}`);
       if (stat.isDirectory()) await walk(file);
