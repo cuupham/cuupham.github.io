@@ -6,3 +6,9 @@ coverage/
 .env.*
 !.env.example
 *.tsbuildinfo
+
+# Local planning, design review, unpublished content and acceptance evidence.
+/plans/
+/mockups/
+/drafts/
+/tests/acceptance/*.md

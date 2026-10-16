@@ -1,10 +1,9 @@
 # CPM v1 — Hợp đồng kỹ thuật
 
-**Ngày:** 2026-10-15. **Trạng thái:** owner đã chọn mock B champagne và trả lời “Đồng ý hợp đồng đề xuất, tiếp tục Phase 2”. Gate Phase 1 đã đóng.
+**Ngày:** 2026-10-15. **Trạng thái:** Đã duyệt technical contract và hướng giao diện B champagne.
 
-[PRD](prd.md) là nguồn yêu cầu sản phẩm. [Plan](../plans/2026-10-14-no-issue-cpm-static-v1/plan.md)
-là nguồn thực thi. Tài liệu này cụ thể hóa các quyết định đã duyệt. Kết quả triển khai/kiểm tra được ghi riêng
-trong plan; việc duyệt hợp đồng không chứng minh build, test hoặc deploy đã thành công.
+[PRD](prd.md) là nguồn yêu cầu sản phẩm. Source, scripts, workflows và release runbook là nguồn thực thi.
+Tài liệu này cụ thể hóa các quyết định đã duyệt; việc duyệt hợp đồng không thay thế build, test hoặc deploy evidence.
 
 ## 1. Trạng thái quyết định
 
@@ -12,12 +11,12 @@ trong plan; việc duyệt hợp đồng không chứng minh build, test hoặc 
 |---|---|
 | VI/EN cùng tập bài; ngôn ngữ bài độc lập UI | Đã duyệt |
 | Prefix `/vi/`, `/en/`; home 3 bài mới, list 12 bài/trang | Đã duyệt |
-| Quy tắc nháp, URL, MDX, raw HTML, SEO wrappers và source/artifact approval | Đã duyệt trong các log review của plan |
+| Quy tắc nháp, URL, MDX, raw HTML, SEO wrappers và source/artifact approval | Đã duyệt trong hợp đồng này và runbook |
 | Tên field, đường dẫn nguồn và exact shape dưới đây | Đã duyệt ngày 2026-10-15 |
 | Ngày chỉ nhận `YYYY-MM-DD`, UTC để so sánh/format, ID ASCII tăng dần khi cùng ngày | Đã duyệt ngày 2026-10-15 |
 | SEO excerpt tối đa 160 Unicode code points từ prose thật, fallback title khi không có prose | Đã duyệt ngày 2026-10-15 |
-| Hướng giao diện mock B champagne | Owner chọn ngày 2026-10-15; không thay thế nghiệm thu responsive production |
-| Ngưỡng hiệu năng, provider/source switch và lần publish đầu | Gate Phase 4, không phải quyết định cần để dựng mock |
+| Hướng giao diện B champagne | Owner chọn ngày 2026-10-15; không thay thế nghiệm thu responsive production |
+| Lab performance budget | Same-origin decoded ≤300,000 bytes và median lab LCP ≤2,500 ms dưới profile runbook; không phải field/Core Web Vitals p75 |
 
 ## 2. URL và context
 
@@ -38,7 +37,7 @@ Locale registry có đúng một default `vi`; tất cả locale đều có pref
 - 13 bài: 12 ở trang đầu, 1 ở trang hai. Page vượt số trang hoặc không tồn tại phải trả 404.
 - Chuyển UI giữ page kind, ID, số trang; fragment được giữ nếu tồn tại trên counterpart. Không về home thay cho context.
 - Select native chỉ enhance điều hướng. Khi không có JS, anchor tới counterpart thật vẫn hoạt động.
-- Các file `content-detail-sample-N.html` trong mock chỉ dùng để review các variant. Production dùng các URL detail riêng ở trên.
+- Production dùng các URL detail riêng ở trên; route pages và locale registry là source of truth.
 
 ## 3. Nguồn và schema
 
@@ -106,7 +105,7 @@ source boundary và order; không tạo schema riêng cho list/detail/SEO. Thi�
   Đây là ngày lịch, không phải thời điểm đăng bài trong timezone địa phương.
 - Xếp `publishedAt` giảm dần, cùng ngày thì ASCII ID tăng dần. Không dùng locale-dependent collation cho ID.
 - Ngày tương lai vẫn hiện sau deploy thành công. Không scheduler, không tự lọc theo đồng hồ.
-- UI VI/EN được format khác nhau nhưng cùng ngày và cùng order. Owner đã xác nhận quy tắc này trong gate Phase 1.
+- UI VI/EN được format khác nhau nhưng cùng ngày và cùng order. Đây là contract hiện hành.
 
 ## 5. URL, Markdown/MDX và asset graph
 
@@ -148,7 +147,7 @@ Card không tự lấy SEO excerpt để điền mô tả optional còn thiếu.
 
 ## 7. Build và nghiệm thu đích
 
-Phase 2/3 tạo `verify`: check → unit → isolated artifact scenarios → clean production build cuối.
+Production `verify` chạy: check → unit → isolated artifact scenarios → clean production build cuối.
 Build luôn đi qua raw preflight → referenced-media manifest → clean đúng output đã validate → Astro → artifact check.
 Fixture/browser output ở OS temp, có sentinel; không ghi vào production content hoặc production `dist/`.
 
@@ -158,27 +157,19 @@ thêm rồi gỡ bài cuối trên cùng workspace để bắt stale files. Expe
 
 Browser acceptance kiểm tra 375/768/1440 và landscape, keyboard/focus/no-JS/reduced-motion/native select,
 hero desktop đủ chân và mobile rõ hai mặt. Artifact không thay cho live HTTP 404 proof.
-Performance ghi bytes/timing thực và môi trường; numeric budget chốt sau baseline.
+Performance ghi bytes/timing thực và môi trường; áp dụng budget và profile đo trong runbook phát hành.
 
-Triển khai theo [Phase 4](../plans/2026-10-14-no-issue-cpm-static-v1/phase-04-verification-deployment.md):
+Triển khai theo [runbook phát hành và rollback](publishing-and-rollback.md):
 refresh provider state và exact rollback ref trước source switch; PR checks read-only; manual approved first release;
 approved immutable SHA gắn artifact digest; deploy quyền riêng và concurrency không hủy run đang deploy.
-Không coi branch push là bằng chứng review. Chưa có provider/source mutation hoặc publication từ tài liệu này.
+Không coi branch push là bằng chứng review. Mọi release phải theo runbook.
 
 ## 8. Review artifact và gate
 
-Feedback hình ảnh mới: owner yêu cầu bỏ cyan và badge ngũ giác CPM; mock đã dùng wordmark chữ,
-đã tiếp tục sửa theo nghiên cứu thành hai bản [trung tính](../mockups/cpm-portfolio/home-mobile.html) và
-[nhấn champagne](../mockups/cpm-portfolio/champagne/home-mobile.html) trên cùng layout mới.
-Hai bản thay thế thử nghiệm lavender ở review pages. Sau đề xuất chọn B, owner trả lời “ok theo đề xuất”:
-chốt B với champagne `#c8ad7f` cho nút chính và chi tiết nhỏ, heading/body ivory trên navy than.
-B là tham chiếu triển khai; kết quả kiểm tra mock không thay thế nghiệm thu responsive production.
+Hướng giao diện B champagne đã được owner chọn; production source of truth là
+`src/styles/tokens.css`, `src/styles/home.css`, `src/components/hero-art.astro`, layouts và route pages.
+Không coi design reference hoặc fixture là production evidence.
 
-- [Danh sách B](../mockups/cpm-portfolio/champagne/content-list.html), [trang hai B](../mockups/cpm-portfolio/champagne/content-list-page-2.html).
-- [Detail đầy đủ B](../mockups/cpm-portfolio/champagne/content-detail.html), [detail tối thiểu B](../mockups/cpm-portfolio/champagne/content-detail-sample-2.html).
-- [Home responsive B có tối đa 3 bài mẫu](../mockups/cpm-portfolio/champagne/home-mobile.html).
-- [Hướng dẫn và giới hạn mock](../mockups/cpm-portfolio/README.md).
-
-Hướng giao diện B và hợp đồng cụ thể (tên field/source/shape, ngày, excerpt) đã được owner xác nhận.
-Gate Phase 1 đóng ngày 2026-10-15; Phase 2 được phép triển khai. Nghiệm thu UI production và publish
-vẫn theo các kiểm tra/gate ở Phase 3/4, không suy ra từ việc duyệt mock.
+- `scripts/check-content.mjs`, `scripts/build.mjs`, `scripts/check-artifact.mjs` là các executable gate.
+- `tests/unit/` và `tests/artifact/` giữ các negative/positive invariants; expected route sets không lấy lại từ production generator.
+- Artifact approval phải gắn immutable source SHA, run, inventory và digest; live HTTP/404 checks vẫn cần sau deploy.
