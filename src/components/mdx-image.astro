@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { imageFor } from '../lib/render-assets';
+interface Props { src: string | ImageMetadata; alt: string }
+const { src, alt } = Astro.props;
+if (!alt?.trim()) throw new Error('Content image requires meaningful alt text');
+const post = Astro.locals.post;
+if (!post) throw new Error('Content image requires article context');
+const image = typeof src === 'string' ? await imageFor(post, src) : src;
+---
+<Image src={image} alt={alt} width={960} widths={[320, 640, 960]} sizes="(max-width: 960px) 100vw, 960px" format="webp" loading="lazy" />

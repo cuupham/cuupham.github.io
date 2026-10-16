@@ -1,0 +1,24 @@
+:root {
+  color-scheme: dark;
+  --n: #11131a; --n2: #191c24; --raised: #1e222b;
+  --ink: #202128; --paper: #f1eee7; --white: #fff;
+  --muted: #b9b8b2; --accent: #c8ad7f; --violet: #9282dc;
+  --coral: #ed958c; --gold: #c8ad7f; --line: #ffffff24;
+  --paper-muted: #5c5b60;
+  --select-border: color-mix(in srgb, var(--accent) 28%, transparent);
+  --select-hover: color-mix(in srgb, var(--accent) 8%, var(--n2));
+  --select-selected: color-mix(in srgb, var(--accent) 14%, var(--n2));
+  --select-shadow: 0 12px 32px color-mix(in srgb, var(--n) 75%, transparent);
+  --display: "Chakra Petch", "Be Vietnam Pro", sans-serif;
+  --body: "Be Vietnam Pro", sans-serif;
+  --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
+  --space-lg: 24px; --space-xl: 32px; --space-2xl: 48px;
+  --space-3xl: 64px; --space-4xl: 96px;
+  --radius: 4px; --duration: 180ms;
+  --ease: cubic-bezier(.22,1,.36,1);
+  --gutter: 36px; --content-width: 1200px;
+  --page: min(var(--content-width), calc(100% - var(--gutter) * 2));
+}
+@media(max-width:1120px){:root{--gutter:22px}}
+@media(max-width:820px){:root{--gutter:18px}}
+@media(max-width:520px){:root{--gutter:14px}}

@@ -1,0 +1,41 @@
+{
+  "name": "cpm-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "24.18.0", "npm": ">=11 <12" },
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1 --port 4321",
+    "check:content": "tsx scripts/check-content.mjs",
+    "check": "npm run check:content && astro check",
+    "test:unit": "vitest run tests/unit",
+    "test:artifact": "vitest run tests/artifact",
+    "acceptance:fixture": "tsx scripts/acceptance-fixture.mjs",
+    "preview:acceptance": "tsx scripts/preview-acceptance.mjs",
+    "build": "tsx scripts/build.mjs",
+    "verify": "npm run check && npm run test:unit && npm run test:artifact && npm run build",
+    "preview": "astro preview --host 127.0.0.1 --port 4321"
+  },
+  "dependencies": {
+    "astro": "7.3.8",
+    "bcp-47": "2.1.1",
+    "@astrojs/mdx": "8.0.3",
+    "@astrojs/markdown-remark": "7.3.2",
+    "yaml": "2.9.1",
+    "unified": "11.0.5",
+    "remark-parse": "11.0.0",
+    "remark-mdx": "3.1.1",
+    "unist-util-visit": "5.1.0",
+    "postcss": "8.5.30",
+    "postcss-value-parser": "4.2.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@types/node": "24.10.1",
+    "parse5": "8.0.1",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "vitest": "5.0.4"
+  }
+}

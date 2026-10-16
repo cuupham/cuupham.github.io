@@ -1,0 +1,16 @@
+---
+import { locales, type UiLocale } from '../lib/locales';
+import { counterpart, type Context, type Route } from '../lib/routes';
+interface Props { locale: UiLocale; routes: Route[]; context: Context }
+const { locale, routes, context } = Astro.props;
+---
+<div class="locale-control">
+  <label class="lang"><span class="sr-only">{locale.messages.language}</span>
+    <select data-locale-select aria-label={locale.messages.language}>
+      {locales.map((other) => <option value={other.segment} lang={other.language} data-href={counterpart(routes, other.segment, context)} selected={other.segment === locale.segment}>{other.label}</option>)}
+    </select>
+  </label>
+</div>
+<noscript><nav class="locale-fallback" aria-label={locale.messages.language}>
+  {locales.filter((other) => other.segment !== locale.segment).map((other) => <a data-locale-link href={counterpart(routes, other.segment, context)} lang={other.language} hreflang={other.language}>{other.label}</a>)}
+</nav></noscript>

@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import { locales, languageLabel } from '../../../lib/locales';
+import { siteContent, description } from '../../../lib/site-content';
+import { routePath } from '../../../lib/routes';
+import { formatDate } from '../../../lib/content-contract';
+import { imageFor } from '../../../lib/render-assets';
+import { renderMarkdown } from '../../../lib/render-markdown';
+import BaseLayout from '../../../layouts/base-layout.astro';
+import MediaGallery from '../../../components/media-gallery.astro';
+import ContentActions from '../../../components/content-actions.astro';
+import MdxImage from '../../../components/mdx-image.astro';
+import MdxLink from '../../../components/mdx-link.astro';
+export async function getStaticPaths() {
+  const { posts } = await siteContent();
+  return locales.flatMap((locale) => posts.map((post) => ({params: {locale: locale.segment, id: post.id}, props: {locale, post}})));
+}
+const { locale, post } = Astro.props;
+const { routes } = await siteContent();
+Astro.locals.post = post;
+const mdx = post.filePath?.endsWith('.mdx');
+const Content = mdx ? (await render(post)).Content : undefined;
+const html = mdx ? undefined : await renderMarkdown(post);
+const cover = post.data.cover ? await imageFor(post, post.data.cover.image) : undefined;
+const list = routePath(locale.segment, {kind: 'list', page: 1});
+---
+<BaseLayout locale={locale} routes={routes} context={{kind: 'detail', id: post.id}} title={`${post.data.title} — CPM`} description={description(post)} hasPosts={true}>
+  <main id="main" class="shell content-page"><article class="article-view" lang={post.data.language} data-post-id={post.id}>
+    <nav class="breadcrumbs" lang={locale.language} aria-label={locale.messages.breadcrumbs}><a href={routePath(locale.segment, {kind: 'home'})}>{locale.messages.home}</a><span aria-hidden="true">/</span><a href={list}>{locale.messages.content}</a></nav>
+    <header class="article-heading"><div class="entry-meta" lang={locale.language}>
+      <time datetime={post.data.publishedAt}>{formatDate(post.data.publishedAt, locale.language)}</time><span>{locale.messages.articleLanguage}: {languageLabel(post.data.language, locale.language)}</span>
+      {post.data.updatedAt && <span>{locale.messages.updated}: <time datetime={post.data.updatedAt}>{formatDate(post.data.updatedAt, locale.language)}</time></span>}
+    </div><h1>{post.data.title}</h1>{post.data.description && <p class="dek">{post.data.description}</p>}
+      {(post.data.platform || post.data.version) && <p class="entry-meta">{[post.data.platform, post.data.version].filter(Boolean).join(' · ')}</p>}
+    </header>
+    <div class="article-body">
+      {cover && post.data.cover && <figure><Image src={cover} alt={post.data.cover.alt} width={960} widths={[320, 640, 960]} sizes="(max-width: 960px) 100vw, 960px" format="webp" loading="eager" />{post.data.cover.caption && <figcaption>{post.data.cover.caption}</figcaption>}</figure>}
+      <div class="prose">{Content ? <Content components={{img: MdxImage, a: MdxLink, h1: 'h2'}} /> : <Fragment set:html={html} />}</div>
+      <MediaGallery post={post} locale={locale} /><ContentActions post={post} locale={locale} />
+      <a class="back-to-list" href={list} lang={locale.language}>← {locale.messages.back}</a>
+    </div>
+  </article></main>
+</BaseLayout>

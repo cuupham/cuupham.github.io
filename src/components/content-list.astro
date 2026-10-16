@@ -1,0 +1,8 @@
+---
+import ContentCard from './content-card.astro';
+import type { UiLocale } from '../lib/locales';
+import type { Post } from '../lib/site-content';
+interface Props { posts: Post[]; locale: UiLocale }
+const { posts, locale } = Astro.props;
+---
+<div class="content-grid">{posts.map((post) => <ContentCard post={post} locale={locale} />)}</div>

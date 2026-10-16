@@ -1,0 +1,17 @@
+export default {
+  home: 'Trang chủ', content: 'Góc chia sẻ', about: 'Giới thiệu',
+  language: 'Ngôn ngữ', skip: 'Đến nội dung', previous: 'Trang trước',
+  next: 'Trang sau', published: 'Ngày đăng', updated: 'Cập nhật',
+  articleLanguage: 'Ngôn ngữ bài', back: 'Về danh sách',
+  loadEmbed: 'Tải nội dung nhúng', source: 'Mở nguồn',
+  notFound: 'Không tìm thấy trang', homeDescription: 'Không gian chia sẻ của CPM.',
+  tagline: 'Tạo nên từ mã lệnh, khung hình và sự tò mò.',
+  introduction: 'Một không gian cá nhân để tôi chia sẻ những sản phẩm, trải nghiệm và điều mình thấy thú vị.',
+  aboutFirst: 'Thấy thú vị.', aboutSecond: 'Thì chia sẻ.',
+  aboutBody: 'Không cần cùng một chủ đề hay một hình thức. Đây là nơi tôi lưu lại những điều mình muốn chia sẻ, theo cách của mình.',
+  latest: 'Mới chia sẻ', all: 'Xem tất cả', read: 'Đọc bài', top: 'Về đầu trang',
+  listDescription: 'Những ghi chép, trải nghiệm và điều tôi muốn chia sẻ.',
+  pagination: 'Phân trang', navigation: 'Điều hướng chính', footer: 'Liên kết cuối trang',
+  allPosts: 'Tất cả bài',
+  breadcrumbs: 'Đường dẫn',
+};

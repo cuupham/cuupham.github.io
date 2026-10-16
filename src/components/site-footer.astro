@@ -1,0 +1,8 @@
+---
+import type { UiLocale } from '../lib/locales';
+interface Props { locale: UiLocale }
+const { locale } = Astro.props;
+---
+<footer class="site-footer"><div class="shell"><span>CPM / Independent Digital Creator</span>
+  <nav aria-label={locale.messages.footer}><a href="#top">{locale.messages.top} ↑</a><a href="https://github.com/cuupham" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+</div></footer>

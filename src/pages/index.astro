@@ -1,0 +1,17 @@
+---
+import { defaultLocale } from '../lib/locales';
+import { SITE } from '../lib/content-contract';
+const target = `/${defaultLocale.segment}/`;
+---
+<!doctype html>
+<html lang={defaultLocale.language}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <link rel="canonical" href={new URL(target, SITE)} />
+    <title>CPM</title>
+  </head>
+  <body><a href={target}>{defaultLocale.messages.home}</a></body>
+</html>
