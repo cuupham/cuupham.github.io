@@ -27,4 +27,5 @@ Nháp và asset riêng của nháp nằm ở `drafts/`. Khi tập bài rỗng, p
 không tạo list/detail. Không upload toàn repository lên Pages; chỉ `dist/` sau các gate.
 
 [Phát hành và rollback](docs/publishing-and-rollback.md) mô tả fixture preview, CI, source switch, exact SHA/artifact approval
-và phần live còn pending. Pages hiện vẫn legacy main/root; chưa merge app vào nguồn đó.
+và phần live còn pending. Pages đã chuyển sang Actions; source đã merge vào main.
+[Release đầu](plans/2026-10-14-no-issue-cpm-static-v1/reports/2026-10-16-first-release.md) đang chờ owner duyệt đúng artifact đã build.

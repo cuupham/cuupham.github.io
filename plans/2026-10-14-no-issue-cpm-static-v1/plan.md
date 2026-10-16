@@ -4,7 +4,7 @@ description: "Triển khai CPM thành site Astro tĩnh trung thực với nội 
 status: in-progress
 priority: P2
 effort: 43h
-branch: codex/anime-portfolio-concept
+branch: codex/content-lifecycle
 tags: [feature, frontend, infra]
 blockedBy: []
 blocks: []
@@ -50,9 +50,9 @@ Draft nằm ngoài loader và mọi public dependency root; ngôn ngữ UI chỉ
 ## Tiêu chí hoàn tất toàn plan
 
 - [x] Owner duyệt contract và mock list/detail/mobile trước production UI.
-- [ ] Unit/content/artifact gates chứng minh zero-content, first-content, locale parity, collision, draft isolation, URL/asset validation và clean deletion.
-- [ ] BrowserClaw chứng minh keyboard/no-JS/responsive/route thật; số đo hiệu năng được ghi trước khi đề xuất budget.
-- [ ] PR checks không secret/quyền deploy; deploy chỉ từ source main đã chấp nhận và artifact mới tạo sạch.
+- [x] Unit/content/artifact gates chứng minh zero-content, first-content, locale parity, collision, draft isolation, URL/asset validation và clean deletion.
+- [x] BrowserOS live evidence chứng minh keyboard/no-JS/responsive/route thật; số đo hiệu năng được ghi và budget lab được owner ủy quyền chọn theo best practice.
+- [x] PR checks không secret/quyền deploy; deploy chỉ từ source main đã chấp nhận và artifact mới tạo sạch.
 - [ ] Nếu chưa có bài thật được owner cho phép publish rồi gỡ, giữ lifecycle live ở trạng thái pending và không tuyên bố v1 đã nghiệm thu.
 
 ## Rollback tổng
@@ -80,13 +80,14 @@ Phase 3 đã port mock B thành production UI, thêm artifact gates và hoàn t�
 `npm run verify` cuối exit 0: 97 tests passed/1 privilege skip, check không lỗi/cảnh báo/hint,
 production zero-content artifact 4 HTML/16 files. Xem [báo cáo Phase 2](./reports/2026-10-15-phase-02-implementation.md)
 và [Phase 3 + phần local Phase 4](./reports/2026-10-15-phase-03-implementation.md).
-Phase 4 còn remote rollback ref, environment enforcement, owner-approved
-source switch/deploy và live acceptance. Owner chọn chờ Pages live mới chốt budget. Không cần hỏi lại UI/contract/budget local.
+Phase 4 đã có remote rollback ref, environment enforcement, owner-approved source switch/deploy và first-release live evidence. Budget lab đã được owner ủy quyền chọn theo best practice; field/Core Web Vitals budget vẫn không được suy ra từ lab. Không cần hỏi lại UI/contract/budget local.
 Owner đã cho phép commit/push nhánh và mở PR để kiểm CI ngày 2026-10-15.
 [PR #1](https://github.com/cuupham/cuupham.github.io/pull/1) đã mở dạng draft;
 [CI head hiện tại](https://github.com/cuupham/cuupham.github.io/actions/runs/38714258649) pass trên commit `64e2bbf0d8911266ad992127e2509387fc74cb65`.
 Token thực chỉ Contents/Metadata read, checkout auth assertion pass.
 Owner credential xác nhận repository/environment secrets = 0, personal owner không có org-secret inheritance.
-HTTP 403 trước đó do dùng account không có quyền repo. Chưa đổi provider; không merge app vào main khi Pages vẫn legacy main/root.
+HTTP 403 trước đó do dùng account không có quyền repo. Đây là snapshot handoff trước migration; trạng thái source/deploy hiện hành nằm trong first-release và live-acceptance receipts bên dưới.
 
-Trạng thái hiện tại và receipt chuẩn bị phát hành ngày 2026-10-16 nằm trong [báo cáo release-preparation](./reports/2026-10-16-release-preparation.md). Phase 1–3 đã hoàn tất theo checklist/handoff; Phase 4 đang tiếp tục. Remote rollback ref và owner-only environment enforcement đã được xác minh, còn source switch, merge, release flag, artifact approval, deploy và live acceptance vẫn pending.
+Trạng thái hiện tại và receipt live ngày 2026-10-16 nằm trong [báo cáo live acceptance](./reports/2026-10-16-live-acceptance.md). Phase 1–3 đã hoàn tất; Phase 4 vẫn tiếp tục vì lifecycle gỡ bài cần artifact/deploy thứ hai. Remote rollback ref, owner-only environment enforcement, source switch, merge, artifact approval, deploy và first live acceptance đã được xác minh.
+
+Update sau migration: Pages đã xác nhận Actions trước khi PR #1 merge; main `57db88e` và post-merge CI đã xanh. Release run `38832467016` build xong; artifact `12017767426` đã được owner duyệt, deploy `7108166463` thành công và live root/locale/404/browser/performance evidence đã ghi nhận. [First-release receipt](./reports/2026-10-16-first-release.md) và [live-acceptance receipt](./reports/2026-10-16-live-acceptance.md) là bằng chứng hiện hành. Gỡ bài và deploy/hậu kiểm lần hai vẫn pending.

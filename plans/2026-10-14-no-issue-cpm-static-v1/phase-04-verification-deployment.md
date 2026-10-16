@@ -86,16 +86,18 @@ After baseline, propose bytes/LCP budget to owner. It becomes blocking only afte
 
 ## Success criteria
 
-- [ ] Local and unprivileged PR gates pass through same non-bypassable build path.
-- [ ] Fixture artifact không thể vào upload; deploy ordering và intended/live SHA khớp; unit failure chặn required check.
-- [ ] Exact rollback ref/source đã verify trước first switch; first artifact approval và accepted-source enforcement có bằng chứng.
-- [ ] BrowserClaw/accessibility/performance evidence complete; any budget owner-approved.
-- [ ] Owner-approved Actions source + accepted-main deploy produce clean live artifact; previous state recoverable.
+- [x] Local and unprivileged PR gates pass through same non-bypassable build path.
+- [x] Fixture artifact không thể vào upload; deploy ordering và intended/live SHA khớp; unit failure chặn required check.
+- [x] Exact rollback ref/source đã verify trước first switch; first artifact approval và accepted-source enforcement có bằng chứng.
+- [x] BrowserOS live route/keyboard/no-JS/responsive/performance evidence complete within accepted scope; lab budget được owner ủy quyền chọn, không suy ra field/Core Web Vitals pass.
+- [x] Owner-approved Actions source + accepted-main deploy produce clean live artifact; previous state recoverable.
 - [ ] Real add/remove lifecycle passes live, or stays explicitly pending and overall v1 is not called accepted.
 
 ## Current status — 2026-10-16
 
-Phase 4 đang tiếp tục. CI head `64e2bbf0d8911266ad992127e2509387fc74cb65` và run [38714258649](https://github.com/cuupham/cuupham.github.io/actions/runs/38714258649) đã pass; PR #1 vẫn là draft. Remote rollback ref `pages-legacy-safe` đã được tạo và re-GET xác minh trỏ tới safe SHA `65d7a15fbf756be6260d4a0363d0955b5bf0ef99`, tree chỉ có `README.md`. Environment `github-pages` đã có required reviewer duy nhất là owner, `prevent_self_review=false` cho repository một owner và chỉ cho main. Pages vẫn legacy main/root; source switch, merge, release flag, artifact review/approval, deploy, live acceptance và lifecycle bài thật còn pending. Xem [báo cáo chuẩn bị phát hành](./reports/2026-10-16-release-preparation.md) cho snapshot/receipt hiện tại.
+Latest: Pages đã chuyển sang Actions trước merge PR #1, post-merge CI trên main `57db88e` pass 98 tests/zero skips. Release run `38832467016` built artifact `12017767426`; owner duyệt đúng digest và deployment `7108166463` success. BrowserOS live acceptance và performance evidence đã ghi nhận; xem [first-release receipt](./reports/2026-10-16-first-release.md) và [live-acceptance receipt](./reports/2026-10-16-live-acceptance.md). Phần historical bên dưới là snapshot chuẩn bị trước source switch.
+
+Phase 4 đang tiếp tục vì source change đã staging để gỡ bài thật và cần artifact approval/deploy/hậu kiểm lần hai. Rollback ref, owner-only environment, Actions source, accepted-main artifact approval, deployment and first live acceptance đã được xác minh. Xem [live-acceptance receipt](./reports/2026-10-16-live-acceptance.md) cho route/browser/performance evidence.
 
 ## Historical local progress — 2026-10-15
 

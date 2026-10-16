@@ -6,7 +6,7 @@ Source nội dung và URL theo [hợp đồng kỹ thuật](cpm-v1-technical-con
 ## Trạng thái đã xác minh ngày 2026-10-16
 
 - Repository `cuupham/cuupham.github.io`, Pages `https://cuupham.github.io/`, HTTPS enforced.
-- Pages vẫn là **legacy**, source `main` + `/`; không custom 404. Workflow CPM có trên nhánh PR #1, chưa có trên main.
+- Pages đã chuyển sang **GitHub Actions** trước khi PR #1 merge; main accepted SHA là `57db88e69b68315763e54bcf663cfc051be86f31`. Pages URL, HTTPS enforcement và custom 404 đều đã kiểm tra live.
 - Remote ref `pages-legacy-safe` đã được tạo và re-GET xác minh trỏ đúng `65d7a15fbf756be6260d4a0363d0955b5bf0ef99`.
   Tree remote tại ref đó chỉ chứa `README.md`; đây là rollback target sạch đã verify, không chứa app/drafts.
 - Rulesets API trả `[]`. Đọc bằng tài khoản owner xác nhận repository secrets = 0, environment secrets = 0;
@@ -15,11 +15,10 @@ Source nội dung và URL theo [hợp đồng kỹ thuật](cpm-v1-technical-con
   Khi có nhiều tài khoản, dùng credential owner cho đúng command mà không đổi tài khoản mặc định của user.
 - Environment `github-pages` đã cấu hình required reviewer duy nhất là owner, `prevent_self_review=false`,
   single-owner repository và custom branch policy chỉ cho `main`; enforcement đã được kiểm chứng.
-- Owner đã cho phép migration/merge/release steps, commit/push nhánh và mở [PR #1](https://github.com/cuupham/cuupham.github.io/pull/1) để kiểm CI.
-  PR vẫn draft. CI head `64e2bbf0d8911266ad992127e2509387fc74cb65` trên [run 38714258649](https://github.com/cuupham/cuupham.github.io/actions/runs/38714258649) đã pass.
-  Chưa đổi provider, merge app, bật release flag, tạo/duyệt production artifact, deploy CPM hoặc có live acceptance.
+- [PR #1](https://github.com/cuupham/cuupham.github.io/pull/1) đã merge; post-merge [CI run 38832348016](https://github.com/cuupham/cuupham.github.io/actions/runs/38832348016) pass. Release [run 38832467016](https://github.com/cuupham/cuupham.github.io/actions/runs/38832467016) đã build artifact được owner duyệt và deploy thành công.
+- Exact Pages artifact `12017767426`, digest `sha256:0d2bbc63402dab68d76b914443fca73e4ddc25e614e607e4a65e076fbdf4bcd7`, source SHA `57db88e69b68315763e54bcf663cfc051be86f31`; deployment `7108166463` thành công. Root/locale/404/live browser evidence nằm trong [live-acceptance receipt](../plans/2026-10-14-no-issue-cpm-static-v1/reports/2026-10-16-live-acceptance.md).
 
-Refresh tất cả giá trị trên trước thao tác. Snapshot đầy đủ receipt nằm trong [báo cáo chuẩn bị phát hành](../plans/2026-10-14-no-issue-cpm-static-v1/reports/2026-10-16-release-preparation.md); báo cáo không thay bằng chứng live tại lúc phát hành.
+Refresh tất cả giá trị trên trước thao tác. Receipt first release nằm trong [báo cáo first release](../plans/2026-10-14-no-issue-cpm-static-v1/reports/2026-10-16-first-release.md); live observations nằm trong [báo cáo live acceptance](../plans/2026-10-14-no-issue-cpm-static-v1/reports/2026-10-16-live-acceptance.md).
 
 ## Viết và kiểm tra bài
 
@@ -27,7 +26,7 @@ Refresh tất cả giá trị trên trước thao tác. Snapshot đầy đủ re
 2. Đặt file tại `src/content/posts/<id>.md|mdx`, assets tại `src/assets/`. Nháp ở `drafts/`, không để ở `public/`.
 3. MDX và danh sách imported components được review như code. Không coi static asset graph là sandbox.
 4. `npm ci`, `npm run verify`. Xem local bằng `npm run preview`. Không public fixture để giả nội dung thật.
-5. Review diff và source SHA. Không merge app vào legacy main/root vì source/drafts có thể bị pass-through.
+5. Review diff và source SHA. Khi Pages còn legacy main/root thì không merge app vì source/drafts có thể bị pass-through; sau khi Actions source được xác minh, merge chỉ theo sequence owner-approved.
 
 ## Xem acceptance fixture
 
@@ -40,9 +39,9 @@ Trước start, kiểm tra port 4321/PID/root; reuse đúng instance hoặc dừ
 Khi xong, dừng server, gỡ junction `node_modules` của workspace tạm trước khi cleanup đúng thư mục tạm đã xác minh.
 Build production cuối cùng phải qua `npm run verify` sau các lượt fixture/browser.
 
-## Chuyển legacy sang Actions — owner authorization đã ghi nhận; artifact review vẫn bắt buộc
+## Chuyển legacy sang Actions — first release đã hoàn tất
 
-Thực hiện theo thứ tự; các mutation provider/source/release còn lại chưa chạy. Rollback ref và environment enforcement đã được ghi nhận ở snapshot trên.
+Các bước migration/source switch, merge, release flag, exact artifact approval và protected deploy đã hoàn tất cho first release. Các release sau vẫn phải dùng cùng thứ tự và xác minh lại state.
 
 1. Xác minh quyền/secret boundary với owner hoặc token có quyền đọc phù hợp. Repo/org secrets không được inject
    vào job chạy source PR chưa được chấp nhận. `.github/workflows/check.yml` chỉ có contents read,
@@ -52,15 +51,12 @@ Thực hiện theo thứ tự; các mutation provider/source/release còn lại 
    Xác nhận operator có quyền restore.
 3. Trước switch, xác minh lại remote rollback ref và tree không chứa app/drafts/mock/docs pass-through. Nếu proof
    không còn đúng, **không switch**. Receipt tạo/re-GET hiện tại nằm trong báo cáo chuẩn bị phát hành.
-4. Owner cho phép đổi Pages source từ legacy sang GitHub Actions (`build_type=workflow`). Xác minh provider trả
-   workflow trước khi merge app/workflows vào main. Source switch có thể tạo khoảng trống tạm trước release đầu;
-   chọn thời điểm phù hợp, giữ rollback branch/permissions sẵn sàng.
-5. Merge source đã review vào main sau source switch. Deploy workflow chỉ dispatch thủ công, không trigger push.
-6. Cấu hình environment `github-pages`: required reviewer duy nhất là user owner, branch policy chỉ cho main
-   (hoặc protected main tương ứng). Xác minh enforcement, branch controls và secrets; sau approval mới đặt
-   repository variable `CPM_PAGES_RELEASE_ENABLED=true`. Flag mặc định chưa có thì workflow không chạy release.
+4. Trước mỗi release, xác minh Pages source là Actions và provider trả workflow. Deploy workflow chỉ dispatch thủ công, không trigger push.
+5. Merge source đã review vào main, rồi dispatch release từ trusted main với exact accepted SHA.
+6. Xác minh environment `github-pages`: required reviewer duy nhất là owner, branch policy chỉ cho main
+   (hoặc protected main tương ứng), cùng secrets/approval state; repository variable `CPM_PAGES_RELEASE_ENABLED=true` chỉ bật cho release có owner-approved artifact.
 
-Không xem việc push/merge main hoặc flag là artifact approval. Release flag chưa bật và chưa được phép bật auto-deploy.
+Không xem việc push/merge main hoặc flag là artifact approval. Release flag đã bật cho first release sau exact artifact approval; auto-deploy vẫn tắt.
 
 ## Release đã chấp nhận
 
@@ -75,7 +71,8 @@ Không xem việc push/merge main hoặc flag là artifact approval. Release fla
 5. Deploy/rollback dùng chung serialized group, `cancel-in-progress: false`. Không giả queue FIFO; run mới không tự
    hủy deploy đang chạy. Không rebuild hoặc thay artifact sau owner approval.
 6. Đối chiếu deployment actual SHA/artifact/run với receipt. Kiểm tra `/` trả 200 HTML redirect + anchor `/vi/`,
-   `/vi/`, `/en/`, 404/SEO/route refresh. Artifact pass không thay bằng chứng HTTP trên Pages.
+   `/vi/`, `/en/`, 404/SEO/route refresh. Artifact pass không thay bằng chứng HTTP trên Pages. First release
+   đã có các bằng chứng này; lần release kế tiếp phải ghi receipt mới.
 
 ## Rollback
 
@@ -86,14 +83,13 @@ Không xem việc push/merge main hoặc flag là artifact approval. Release fla
   ancestor đã chấp nhận nhưng vẫn build/verify, tạo receipt mới và đòi owner artifact approval.
 - Revalidate latest intent sau approval. Reject/cancel các pending approvals sai ý định trước khi resume release;
   không hủy job đang deploy. Ghi SHA target riêng, deployment/run/digest và hậu kiểm HTTP.
-- Không có live rehearsal/rollback proof trong lượt local này. Remote rollback branch, owner permission,
-  environment enforcement và provider receipt vẫn cần được chứng minh trước first switch.
+- Không có live rollback rehearsal trong first release. Remote rollback branch, owner permission, environment
+  enforcement và provider receipt đã được chứng minh; rollback vẫn là thao tác có chủ đích cần receipt riêng.
 
 ## Nghiệm thu còn mở
 
-Owner chọn **chờ số đo Pages live rồi mới chốt budget** ngày 2026-10-15. Số đo local là baseline tham khảo,
-không phải pass budget hoặc Pages performance. Kiểm tra live thêm → deploy → gỡ → deploy chỉ với bài thật
-owner cho phép. Nếu chưa có bài/approval, lifecycle giữ pending và không gọi toàn v1 là đã nghiệm thu.
+Owner đã ủy quyền chọn budget theo best practice 2026. Với profile lab đã ghi trong [live-acceptance receipt](../plans/2026-10-14-no-issue-cpm-static-v1/reports/2026-10-16-live-acceptance.md), budget accepted là same-origin decoded bytes ≤300,000 và median lab LCP ≤2,500 ms; đây không phải field/Core Web Vitals p75, Lighthouse hay cold-font proof. First release baseline 224,914 bytes và median LCP 592 ms đạt budget lab này.
+Kiểm tra live thêm → deploy → gỡ → deploy chỉ với bài thật owner cho phép. Lần deploy gỡ bài và hậu kiểm route cũ vẫn pending; overall v1 chưa gọi là nghiệm thu.
 
 Tham chiếu: [deploy-pages](https://github.com/actions/deploy-pages),
 [upload-pages-artifact](https://github.com/actions/upload-pages-artifact),

@@ -52,3 +52,29 @@ The checked-in runbook snapshot predates live setup. The controller supplied new
 
 - Does the tester's targeted artifact run, followed by the required full `npm run verify`, pass on the exact remediated tree?
 - Will the release operator preserve evidence of the already verified rollback ref/tree, Pages legacy state, environment reviewer/self-review policy, and main-only branch policy in the first-migration receipt before changing Pages source?
+
+## Lifecycle removal review — second release
+
+### Scope and verdict
+
+- Reviewed branch `codex/content-lifecycle` at `57db88e69b68315763e54bcf663cfc051be86f31` with the staged source diff limited to deletion of `src/content/posts/gioi-thieu-cpm.md`.
+- The controller reports that first release run `38832467016` deployed explicitly owner-approved artifact `12017767426`, and the genuine post's VI/EN list/detail routes returned 200 before removal. That live evidence was supplied by the controller and was not independently repeated in this source-only review.
+- **Source verdict: APPROVED.** The deletion is the intended second half of the authorized real add/remove lifecycle. It introduces no workflow, shared-code, schema, asset, or permission change and has no actionable source concern.
+
+### Evidence
+
+- `src/lib/content-source.ts:6-39` derives the published inventory solely from files under `src/content/posts`; deleting the only post produces an empty inventory.
+- `src/lib/routes.ts:15-31` always emits locale home routes, emits list pages only for `ceil(ids.length / PAGE_SIZE)`, and emits detail routes only for existing IDs. With zero IDs, `/vi/content/`, `/en/content/`, and both former `gioi-thieu-cpm` detail routes are absent from the route registry.
+- `src/pages/[locale]/content/[...page].astro:8-10` and `[id].astro:15-18` use the same empty post collection for static paths, so Astro generates neither list nor detail pages. `src/pages/[locale]/index.astro:21-26` retains the zero-content home and omits its latest-content section and list link.
+- `scripts/build.mjs:16-24` cleans the validated `dist/` directory before Astro builds. `scripts/check-artifact.mjs:44-78` computes the exact expected route set from the post inventory and rejects unexpected stale HTML. Therefore the former list/detail files cannot survive a successful clean artifact check.
+- `tests/artifact/site-artifact.test.ts:31-55,93-99` independently defines the zero-content expectation as `index.html`, `404.html`, `vi/index.html`, and `en/index.html`; its remove-last scenario seeds stale output, rebuilds, and asserts the same four-page set plus removal of content-only assets.
+- `git diff --cached --check` passed for the staged deletion.
+
+### Release boundary
+
+Source approval does not prove the expected `4 HTML / 16 files` artifact or live deletion. The second release still requires the normal clean verification, exact receipt/artifact review and explicit owner approval. After deployment, both former detail wrappers and `/vi/content/` plus `/en/content/` must return HTTP 404, while `/`, `/vi/`, `/en/`, and `/404.html` retain their expected behavior. Preserve those live responses with the deployment/run/artifact receipt before calling the real lifecycle complete.
+
+### Unresolved questions
+
+- Did CI/build produce exactly `4 HTML / 16 files` from this deletion-only source revision with no stale list/detail routes?
+- After explicit approval and second deployment, do all four former content routes return live HTTP 404 while the home routes remain healthy?
